@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --ios-bg: #f2f2f7;
+  --ios-card: rgba(255, 255, 255, 0.7);
+  --ios-label: #000000;
+  --ios-secondary-label: #8e8e93;
+  --ios-separator: rgba(60, 60, 67, 0.36);
+  --ios-nav-bg: rgba(255, 255, 255, 0.85);
+  --ios-blue: #007aff;
+  --ios-red: #ff3b30;
+  --ios-green: #34c759;
+}
+
+@theme {
+  --color-ios-bg: var(--ios-bg);
+  --color-ios-card: var(--ios-card);
+  --color-ios-label: var(--ios-label);
+  --color-ios-secondary-label: var(--ios-secondary-label);
+  --color-ios-blue: var(--ios-blue);
+  --color-ios-red: var(--ios-red);
+  --color-ios-green: var(--ios-green);
+  --color-ios-separator: var(--ios-separator);
+  
+  --radius-ios: 24px;
+  --radius-ios-sm: 12px;
+  
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-jakarta bg-ios-bg text-ios-label antialiased;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl border-ios-separator;
+    background-color: var(--ios-nav-bg);
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-xl border border-white/20 shadow-lg;
+    background-color: var(--ios-card);
+  }
+  
+  .squircle {
+    border-radius: 24% / 24%;
+  }
+
+  .ios-title {
+    @apply text-[40px] font-extrabold tracking-tight leading-tight;
+  }
+  
+  .ios-headline {
+    @apply text-[24px] font-bold tracking-tight;
+  }
+  
+  .ios-body {
+    @apply text-[17px] leading-relaxed;
+  }
+  
+  .ios-caption {
+    @apply text-[13px] font-semibold text-ios-secondary-label uppercase tracking-widest;
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
