@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Church } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
+import logoImg from '../assets/church/logo.jpg';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,8 +35,8 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <div className="w-10 h-10 rounded-xl bg-ios-blue flex items-center justify-center text-white shadow-lg shadow-ios-blue/20">
-            <Church size={24} />
+          <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-ios-blue/20">
+            <img src={logoImg} alt="RICGCW Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-xl font-black tracking-tight text-ios-label">RICGCW</span>
         </Link>

@@ -5,6 +5,7 @@ import MediaHub from '../sections/MediaHub';
 import Events from '../sections/Events';
 import Connect from '../sections/Connect';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const Home = () => {
   return (
@@ -20,10 +21,7 @@ const Home = () => {
         <Connect />
       </main>
 
-      <footer className="py-12 px-6 text-center border-t border-ios-separator/10 bg-white/50 backdrop-blur-md">
-        <p className="ios-caption">© 2026 Rhema Inner Court Gospel Church. All rights reserved.</p>
-        <p className="text-[10px] font-bold uppercase tracking-widest mt-2 opacity-30">Overseer Rev. Nicholas Dobeng</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
