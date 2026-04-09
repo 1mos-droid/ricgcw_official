@@ -75,8 +75,8 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="ios-title md:text-[72px] mb-8"
           >
-            Inner Court Gospel <br className="hidden md:block" /> 
-            <span className="text-ios-blue">Church (Worldwide)</span>
+            Rhema Inner Court <br className="hidden md:block" /> 
+            <span className="text-ios-blue">Gospel Church (Worldwide)</span>
           </motion.h1>
 
           <motion.p 

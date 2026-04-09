@@ -32,8 +32,8 @@ const About = () => {
             <div className="flex flex-col gap-2">
               <span className="ios-caption text-ios-blue">Our Identity</span>
               <h1 className="text-3xl font-black text-ios-label leading-tight">
-                INNER COURT GOSPEL CHURCH <br />
-                <span className="text-ios-blue">(WORLDWIDE) (ICGCW)</span>
+                RHEMA INNER COURT GOSPEL CHURCH <br />
+                <span className="text-ios-blue">(WORLDWIDE) (RICGCW)</span>
               </h1>
             </div>
 
@@ -76,7 +76,7 @@ const About = () => {
 
             <div className="pt-8 border-t border-ios-separator/20">
               <p className="ios-body text-ios-secondary-label text-lg">
-                ICGCW was founded with a singular vision: to create a spiritual haven where every individual can experience the transformative power of God's presence.
+                RICGCW was founded with a singular vision: to create a spiritual haven where every individual can experience the transformative power of God's presence.
               </p>
             </div>
 

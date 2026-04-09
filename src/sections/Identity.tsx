@@ -41,6 +41,7 @@ const Identity = () => {
   ];
 
   const definitions = [
+    { term: 'Rhema (ῥῆμα)', definition: 'A Greek term used in the New Testament referring to a specific, "spoken word" or utterance from God, rather than the general, written word (logos). It implies a personal, timely, or "quickened" message that the Holy Spirit applies directly to a believer\'s situation.' },
     { term: 'Inner', definition: 'Inside or closer to the inside of the body. Located or occurring within or closer to a center. Close to the center of power: the inner cabinet.' },
     { term: 'Court', definition: 'A tribunal presided over by a judge, judges, or magistrate in civil and criminal cases.' },
     { term: 'Gospel', definition: 'Glad tidings; especially, the good news concerning Christ, the kingdom of God, and salvation.' },
@@ -74,7 +75,7 @@ const Identity = () => {
             <h2 className="ios-title font-black">Culture of <br />Loyalty.</h2>
             <div className="glass-card p-8 rounded-[32px] border-none shadow-xl bg-white/80">
               <p className="ios-body text-ios-label text-lg font-medium leading-relaxed italic">
-                "ICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too, so we the members don't speak evil things and will not allow anybody from within or outside to speak evil about them. Internally (inside the church) or externally (outside the church). This is the way we ICGCW members think and do our things as a LOYAL PEOPLE, not a disloyal people."
+                "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too, so we the members don't speak evil things and will not allow anybody from within or outside to speak evil about them. Internally (inside the church) or externally (outside the church). This is the way we RICGCW members think and do our things as a LOYAL PEOPLE, not a disloyal people."
               </p>
             </div>
           </motion.div>
@@ -110,11 +111,11 @@ const Identity = () => {
             </div>
             <h2 className="ios-title">Understanding Our Name.</h2>
             <p className="ios-body text-ios-secondary-label max-w-2xl mx-auto">
-              The name "Inner Court Gospel Church" is rooted in deep biblical truth and the architecture of the Tabernacle.
+              The name "Rhema Inner Court Gospel Church" is rooted in deep biblical truth and the architecture of the Tabernacle.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             {definitions.map((item, index) => (
               <motion.div
                 key={item.term}

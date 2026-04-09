@@ -1,6 +1,15 @@
 # Changelog
 
-All notable changes to the ICGCW Official Website will be documented in this file.
+All notable changes to the RICGCW Official Website will be documented in this file.
+
+## [1.1.1] - 2026-04-09
+
+### Added
+- Definition of **Rhema (ῥῆμα)**: explaining it as a specific, personal "spoken word" from God.
+
+### Changed
+- Rebranded back to **Rhema Inner Court Gospel Church (Worldwide) (RICGCW)**.
+- Updated all assets and configurations to reflect the RICGCW identity.
 
 ## [1.1.0] - 2026-04-09
 

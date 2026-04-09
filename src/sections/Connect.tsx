@@ -41,7 +41,7 @@ const Connect = () => {
                 </div>
                 <div>
                   <p className="text-xs text-ios-secondary-label font-bold uppercase tracking-widest mb-1">Email Us</p>
-                  <p className="font-bold text-lg">contact@icgcw.org</p>
+                  <p className="font-bold text-lg">contact@ricgcw.org</p>
                 </div>
               </div>
 
