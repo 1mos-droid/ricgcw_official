@@ -52,15 +52,19 @@ const About = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-black/10 grayscale-[0.2] hover:grayscale-0 transition-all duration-700">
-              <img 
+            <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-black/10 transition-all duration-700">
+              <motion.img 
                 src={pastorsImg} 
                 alt="Church Pastors"
+                initial={{ scale: 1.1, filter: 'grayscale(20%)' }}
+                whileInView={{ scale: 1, filter: 'grayscale(0%)' }}
+                transition={{ duration: 1.2 }}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -99,12 +103,15 @@ const About = () => {
                 className="glass-card p-4 rounded-[40px] group border-none shadow-xl hover:shadow-2xl transition-all duration-500"
               >
                 <div className="aspect-[3/4] rounded-[32px] overflow-hidden mb-6 relative">
-                  <img 
+                  <motion.img 
                     src={leader.img} 
                     alt={leader.name} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 1.05 }}
+                    transition={{ duration: 0.7 }}
+                    className="w-full h-full object-cover" 
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 pointer-events-none">
                     <Sparkles className="text-white w-6 h-6" />
                   </div>
                 </div>

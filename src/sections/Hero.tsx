@@ -97,13 +97,13 @@ const Hero = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="relative hidden lg:block"
+          className="relative w-full mt-12 lg:mt-0"
         >
-          <div className="glass p-4 rounded-[40px] shadow-2xl border-white/40 rotate-3 hover:rotate-0 transition-transform duration-700 h-[600px] w-full max-w-[450px] mx-auto overflow-hidden">
-            <div className="relative h-full w-full rounded-[32px] overflow-hidden">
+          <div className="glass p-3 md:p-4 rounded-[32px] md:rounded-[40px] shadow-2xl border-white/40 lg:rotate-3 hover:rotate-0 transition-transform duration-700 h-[400px] md:h-[600px] w-full max-w-[450px] mx-auto overflow-hidden">
+            <div className="relative h-full w-full rounded-[24px] md:rounded-[32px] overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentIndex}
@@ -125,10 +125,10 @@ const Hero = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="absolute -bottom-6 -right-6 glass px-6 py-4 rounded-2xl shadow-xl border-white/40"
+                className="absolute -bottom-4 md:-bottom-6 -right-4 md:-right-6 glass px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl shadow-xl border-white/40"
               >
-                <p className="text-[10px] font-black uppercase tracking-widest text-ios-blue mb-1">{images[currentIndex].title}</p>
-                <p className="font-bold text-lg">{images[currentIndex].subtitle}</p>
+                <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-ios-blue mb-1">{images[currentIndex].title}</p>
+                <p className="font-bold text-base md:text-lg">{images[currentIndex].subtitle}</p>
               </motion.div>
             </AnimatePresence>
           </div>

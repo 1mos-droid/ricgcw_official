@@ -86,17 +86,21 @@ const Sponsorship = () => {
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ delay: 0.4 + i * 0.1 }}
                 className="glass-card overflow-hidden group rounded-[32px] border-none shadow-xl hover:shadow-2xl transition-all duration-500"
               >
                 <div className="aspect-video relative overflow-hidden">
-                  <img 
+                  <motion.img 
                     src={project.image} 
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 1.05 }}
+                    transition={{ duration: 0.7 }}
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-4 left-4 glass px-3 py-1 rounded-full">
+                  <div className="absolute top-4 left-4 glass px-3 py-1 rounded-full pointer-events-none">
                     <span className="text-[10px] font-black uppercase tracking-widest text-ios-label">{project.category}</span>
                   </div>
                 </div>

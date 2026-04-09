@@ -41,9 +41,15 @@ const Ministries = () => {
               viewport={{ once: true }}
               className="glass-card group p-8 rounded-[32px] hover:shadow-2xl hover:shadow-ios-blue/10 transition-all duration-500"
             >
-              <div className={`w-14 h-14 rounded-2xl ${m.color} flex items-center justify-center text-white mb-6 shadow-lg rotate-3 group-hover:rotate-0 transition-transform duration-500`}>
+              <motion.div 
+                initial={{ rotate: 10, scale: 0.9 }}
+                whileInView={{ rotate: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 + 0.2 }}
+                className={`w-14 h-14 rounded-2xl ${m.color} flex items-center justify-center text-white mb-6 shadow-lg`}
+              >
                 <m.icon size={28} />
-              </div>
+              </motion.div>
               <h3 className="ios-headline mb-3">{m.title}</h3>
               <p className="ios-body text-ios-secondary-label text-sm opacity-80 group-hover:opacity-100 transition-opacity">
                 {m.desc}
