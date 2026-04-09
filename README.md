@@ -1,6 +1,6 @@
-# RICGCW Official Church Website
+# ICGCW Official Church Website
 
-The official public-facing portfolio website for Rhema Inner Court Gospel Church (RICGCW). Designed with an innovative, high-fidelity iOS-inspired aesthetic to provide a modern and welcoming experience for visitors.
+The official public-facing portfolio website for Inner Court Gospel Church (Worldwide) (ICGCW). Designed with an innovative, high-fidelity iOS-inspired aesthetic to provide a modern and welcoming experience for visitors.
 
 ## ✨ Highlights
 

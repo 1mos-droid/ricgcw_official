@@ -1,5 +1,6 @@
 import Hero from '../sections/Hero';
 import About from '../sections/About';
+import Identity from '../sections/Identity';
 import Ministries from '../sections/Ministries';
 import MediaHub from '../sections/MediaHub';
 import Events from '../sections/Events';
@@ -15,6 +16,7 @@ const Home = () => {
       <main>
         <Hero />
         <About />
+        <Identity />
         <Ministries />
         <MediaHub />
         <Events />

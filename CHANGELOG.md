@@ -1,8 +1,24 @@
 # Changelog
 
-All notable changes to the RICGCW Official Website will be documented in this file.
+All notable changes to the ICGCW Official Website will be documented in this file.
 
-## [1.0.0] - 2026-04-07
+## [1.1.0] - 2026-04-09
+
+### Added
+- Comprehensive Church Identity section including Scriptural Foundation (Esther 5:1).
+- Motto, Slogan, and Vision statements.
+- Biblical Context and Definitions (Inner, Court, Gospel, Church).
+- Temple of Solomon historical context and related scriptures.
+- Symbolic Colors update with full spiritual meanings.
+- Ecclesiastical Authority section.
+
+### Changed
+- Rebranded from "Rhema Inner Court Gospel Church" (RICGCW) to "INNER COURT GOSPEL CHURCH (WORLDWIDE)" (ICGCW).
+- Updated all meta tags, titles, and email addresses to reflect new branding.
+- Fixed Gold color symbolic meaning.
+- Added Black to official church colors.
+
+## [1.0.0] - 2026-04-08
 
 ### Added
 - **Initial Launch**: Complete high-fidelity official website.

@@ -37,7 +37,7 @@ const Hero = () => {
             rotate: [0, 90, 0],
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-ios-blue/10 rounded-full blur-[120px]" 
+          className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-church-gold/15 rounded-full blur-[120px]" 
         />
         <motion.div 
           animate={{ 
@@ -45,7 +45,15 @@ const Hero = () => {
             x: [0, 50, 0],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-ios-red/5 rounded-full blur-[100px]" 
+          className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-church-lemon-green/10 rounded-full blur-[100px]" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            y: [0, -30, 0],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-church-deep-orange/5 rounded-full blur-[140px]" 
         />
       </div>
 
@@ -67,8 +75,8 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="ios-title md:text-[72px] mb-8"
           >
-            Rhema Inner Court <br className="hidden md:block" /> 
-            <span className="text-ios-blue">Gospel Church</span>
+            Inner Court Gospel <br className="hidden md:block" /> 
+            <span className="text-ios-blue">Church (Worldwide)</span>
           </motion.h1>
 
           <motion.p 

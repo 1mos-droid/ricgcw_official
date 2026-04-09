@@ -19,6 +19,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'About', href: isHome ? '#about' : '/#about' },
+    { name: 'Culture', href: isHome ? '#identity' : '/#identity' },
     { name: 'Ministries', href: isHome ? '#ministries' : '/#ministries' },
     { name: 'Media', href: isHome ? '#media' : '/#media' },
     { name: 'Events', href: isHome ? '#events' : '/#events' },
@@ -36,9 +37,9 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-ios-blue/20">
-            <img src={logoImg} alt="RICGCW Logo" className="w-full h-full object-cover" />
+            <img src={logoImg} alt="ICGCW Logo" className="w-full h-full object-cover" />
           </div>
-          <span className="text-xl font-black tracking-tight text-ios-label">RICGCW</span>
+          <span className="text-xl font-black tracking-tight text-ios-label">ICGCW</span>
         </Link>
 
         {/* Desktop Nav */}

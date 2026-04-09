@@ -10,6 +10,12 @@
   --ios-blue: #007aff;
   --ios-red: #ff3b30;
   --ios-green: #34c759;
+  
+  /* Church Colors */
+  --church-white: #ffffff;
+  --church-gold: #ffd700;
+  --church-deep-orange: #ff4500;
+  --church-lemon-green: #32cd32;
 }
 
 @theme {
@@ -21,6 +27,12 @@
   --color-ios-red: var(--ios-red);
   --color-ios-green: var(--ios-green);
   --color-ios-separator: var(--ios-separator);
+
+  /* Church Colors */
+  --color-church-white: var(--church-white);
+  --color-church-gold: var(--church-gold);
+  --color-church-deep-orange: var(--church-deep-orange);
+  --color-church-lemon-green: var(--church-lemon-green);
   
   --radius-ios: 24px;
   --radius-ios-sm: 12px;

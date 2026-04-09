@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Heart, Globe2, Sparkles } from 'lucide-react';
+import { ShieldCheck, Heart, Globe2, Sparkles, Star, Target, Quote, Gavel } from 'lucide-react';
 import pastorsImg from '../assets/church/all_church_pastors/IMG-20260301-WA0187.jpg';
 import overseerImg from '../assets/church/pastor/IMG-20260408-WA0061.jpg';
 import pastor2Img from '../assets/church/pastor/IMG-20260408-WA0062.jpg';
@@ -29,14 +29,56 @@ const About = () => {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <span className="ios-caption text-ios-blue">Our Foundation</span>
-            <h2 className="ios-title">Built on Faith, <br />Driven by Love.</h2>
-            <p className="ios-body text-ios-secondary-label text-lg">
-              Rhema Inner Court Gospel Church was founded with a singular vision: to create a spiritual haven where every individual can experience the transformative power of God's presence.
-            </p>
-            <p className="ios-body text-ios-secondary-label text-lg">
-              Under the leadership of Overseer Rev. Nicholas Dobeng, we have grown into a global family, united by our commitment to truth, service, and spiritual excellence.
-            </p>
+            <div className="flex flex-col gap-2">
+              <span className="ios-caption text-ios-blue">Our Identity</span>
+              <h1 className="text-3xl font-black text-ios-label leading-tight">
+                INNER COURT GOSPEL CHURCH <br />
+                <span className="text-ios-blue">(WORLDWIDE) (ICGCW)</span>
+              </h1>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-ios-red/10 flex-shrink-0 flex items-center justify-center text-ios-red">
+                  <Star size={20} />
+                </div>
+                <div>
+                  <h4 className="font-black text-ios-label text-sm uppercase tracking-widest">Scriptural Foundation</h4>
+                  <p className="text-ios-secondary-label mt-1 italic font-medium">"Now it came to pass on the third day, that Esther put on her royal apparel, and stood in the inner court of the king's house..." — Esther 5:1</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-ios-orange/10 flex-shrink-0 flex items-center justify-center text-ios-orange">
+                  <Quote size={20} />
+                </div>
+                <div>
+                  <h4 className="font-black text-ios-label text-sm uppercase tracking-widest">Motto & Slogan</h4>
+                  <p className="text-ios-secondary-label mt-1">
+                    <span className="font-bold text-ios-label">Motto:</span> Perfecting The Saints And Taking Territories, Where The Impossibilities Are Possible Through Jesus Christ.
+                  </p>
+                  <p className="text-ios-secondary-label mt-2">
+                    <span className="font-bold text-ios-label">Slogan:</span> Inner court – where sacrifices made to heaven!!!
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-ios-green/10 flex-shrink-0 flex items-center justify-center text-ios-green">
+                  <Target size={20} />
+                </div>
+                <div>
+                  <h4 className="font-black text-ios-label text-sm uppercase tracking-widest">Our Vision</h4>
+                  <p className="text-ios-secondary-label mt-1">To Reach Out To People; To Love The People; To Care For The People, Spiritual And Physical Needs.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-8 border-t border-ios-separator/20">
+              <p className="ios-body text-ios-secondary-label text-lg">
+                ICGCW was founded with a singular vision: to create a spiritual haven where every individual can experience the transformative power of God's presence.
+              </p>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-6 pt-8">
               {values.map((v) => (
@@ -84,6 +126,24 @@ const About = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Ecclesiastical Authority */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-12 rounded-[48px] border-none shadow-2xl bg-gradient-to-br from-ios-blue/5 to-white"
+        >
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <div className="w-16 h-16 rounded-[30%] bg-ios-blue/10 flex items-center justify-center text-ios-blue mx-auto">
+              <Gavel size={32} />
+            </div>
+            <h2 className="ios-headline text-3xl">Ecclesiastical Authority</h2>
+            <p className="ios-body text-ios-secondary-label text-xl leading-relaxed">
+              As a body of Christian believers, we hold to a shared creed and observe sacred rites, acknowledging a distinct ecclesiastical authority that guides our spiritual journey and governance, separate from worldly states.
+            </p>
+          </div>
+        </motion.div>
 
         {/* Leadership Section */}
         <div className="space-y-16">

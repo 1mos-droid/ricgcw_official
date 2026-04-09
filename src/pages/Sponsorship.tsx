@@ -150,8 +150,7 @@ const Sponsorship = () => {
                   Contact Missions Team
                   <ArrowRight size={20} />
                 </button>
-                <div className="text-ios-secondary-label font-bold uppercase tracking-widest text-xs">or email us at missions@ricgcw.org</div>
-              </div>
+                <div className="text-ios-secondary-label font-bold uppercase tracking-widest text-xs">or email us at missions@icgcw.org</div>              </div>
             </div>
           </motion.div>
         </div>
