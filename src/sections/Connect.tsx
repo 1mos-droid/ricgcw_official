@@ -41,7 +41,7 @@ const Connect = () => {
                 </div>
                 <div>
                   <p className="text-xs text-ios-secondary-label font-bold uppercase tracking-widest mb-1">Email Us</p>
-                  <p className="font-bold text-lg">contact@ricgcw.org</p>
+                  <p className="font-bold text-lg">innercourtch@gmail.com</p>
                 </div>
               </div>
 
@@ -51,7 +51,7 @@ const Connect = () => {
                 </div>
                 <div>
                   <p className="text-xs text-ios-secondary-label font-bold uppercase tracking-widest mb-1">Call Us</p>
-                  <p className="font-bold text-lg">+233 543 111 456</p>
+                  <p className="font-bold text-lg">+233 244 485 7403</p>
                 </div>
               </div>
             </div>
@@ -80,22 +80,26 @@ const Connect = () => {
             viewport={{ once: true }}
             className="glass-card p-10 rounded-[40px] border-none shadow-2xl relative"
           >
-            <form className="space-y-6">
+            <form 
+              action="https://formspree.io/f/xpqogleb"
+              method="POST"
+              className="space-y-6"
+            >
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-ios-secondary-label ml-1">Full Name</label>
-                  <input type="text" className="w-full h-14 bg-ios-bg rounded-2xl px-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all" placeholder="John Doe" />
+                  <input name="name" type="text" required className="w-full h-14 bg-ios-bg rounded-2xl px-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-ios-secondary-label ml-1">Email Address</label>
-                  <input type="email" className="w-full h-14 bg-ios-bg rounded-2xl px-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all" placeholder="john@example.com" />
+                  <input name="email" type="email" required className="w-full h-14 bg-ios-bg rounded-2xl px-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all" placeholder="john@example.com" />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-ios-secondary-label ml-1">Your Message</label>
-                <textarea className="w-full h-40 bg-ios-bg rounded-2xl p-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all resize-none" placeholder="How can we pray for you or help you?" />
+                <textarea name="message" required className="w-full h-40 bg-ios-bg rounded-2xl p-6 outline-none focus:ring-2 focus:ring-ios-blue/30 font-bold transition-all resize-none" placeholder="How can we pray for you or help you?" />
               </div>
-              <button className="w-full h-16 bg-ios-blue text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-ios-blue/20 active:scale-95 transition-all">
+              <button type="submit" className="w-full h-16 bg-ios-blue text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-ios-blue/20 active:scale-95 transition-all">
                 <Send size={20} />
                 Send Message
               </button>

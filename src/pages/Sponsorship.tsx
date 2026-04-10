@@ -146,11 +146,11 @@ const Sponsorship = () => {
                 Have a specific project or initiative you'd like to support? We welcome custom partnerships to further our mission.
               </p>
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                <button className="h-16 px-10 bg-ios-label text-white rounded-2xl font-black flex items-center justify-center gap-3 active:scale-95 transition-all">
+                <a href="mailto:innercourtch@gmail.com" className="h-16 px-10 bg-ios-label text-white rounded-2xl font-black flex items-center justify-center gap-3 active:scale-95 transition-all">
                   Contact Missions Team
                   <ArrowRight size={20} />
-                </button>
-                <div className="text-ios-secondary-label font-bold uppercase tracking-widest text-xs">or email us at missions@ricgcw.org</div>              </div>
+                </a>
+                <div className="text-ios-secondary-label font-bold uppercase tracking-widest text-xs">or email us at innercourtch@gmail.com</div>              </div>
             </div>
           </motion.div>
         </div>

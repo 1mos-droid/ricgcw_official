@@ -55,7 +55,7 @@ const About = () => {
                 <div>
                   <h4 className="font-black text-ios-label text-sm uppercase tracking-widest">Motto & Slogan</h4>
                   <p className="text-ios-secondary-label mt-1">
-                    <span className="font-bold text-ios-label">Motto:</span> Perfecting The Saints And Taking Territories, Where The Impossibilities Are Possible Through Jesus Christ.
+                    <span className="font-bold text-ios-label">Motto:</span> Perfecting the saints (Ephesians 4:12), Taking territories (Joshua 1:3), Where the impossibility becomes possible (Luke 1:37)
                   </p>
                   <p className="text-ios-secondary-label mt-2">
                     <span className="font-bold text-ios-label">Slogan:</span> Inner court – where sacrifices made to heaven!!!
@@ -100,14 +100,14 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-black/10 transition-all duration-700">
+            <div className="aspect-[4/3] rounded-[40px] overflow-hidden shadow-2xl shadow-black/10 transition-all duration-700 bg-black/5">
               <motion.img 
                 src={pastorsImg} 
                 alt="Church Pastors"
-                initial={{ scale: 1.1, filter: 'grayscale(20%)' }}
-                whileInView={{ scale: 1, filter: 'grayscale(0%)' }}
+                initial={{ scale: 1.05 }}
+                whileInView={{ scale: 1 }}
                 transition={{ duration: 1.2 }}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-4"
               />
             </div>
             <div className="absolute -bottom-10 -left-10 glass p-8 rounded-[32px] shadow-2xl max-w-xs border-white/40">

@@ -2,6 +2,11 @@
 
 All notable changes to the RICGCW Official Website will be documented in this file.
 
+## [1.1.2] - 2026-04-10
+
+### Changed
+- Updated Church Motto to the three-part version with scriptural references (Ephesians 4:12, Joshua 1:3, Luke 1:37).
+
 ## [1.1.1] - 2026-04-09
 
 ### Added
