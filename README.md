@@ -1,58 +1,56 @@
-# RICGCW Official Church Website
+# Aether Voyages — Cinematic Space-Travel Landing Page
 
-The official public-facing portfolio website for Rhema Inner Court Gospel Church (Worldwide) (RICGCW). Designed with an innovative, high-fidelity iOS-inspired aesthetic to provide a modern and welcoming experience for visitors.
+A premium, highly interactive single-page landing site featuring a shared liquid-glass design system, high-performance requestAnimationFrame-driven background video looping and crossfading, and fluid Framer Motion scroll and entrance animations.
 
 ## ✨ Highlights
 
-- **iOS Minimalist Design**: Premium UI featuring glassmorphism, 24px squircle cards, and SF Pro-style typography (Plus Jakarta Sans).
-- **Smooth Animations**: High-performance layout transitions and reveal animations using Framer Motion.
-- **Media Experience**: Integrated spiritual broadcast hub for Radio and YouTube ministrations.
-- **Dynamic Interaction**: Shareable "Daily Bread" verse widget and interactive community ministries grid.
-- **Responsive Layout**: Fully optimized for mobile, tablet, and desktop viewports.
+- **Cinematic Visuals**: Uses two full-height sections (Hero + Capabilities) driven by high-quality background videos.
+- **Custom JS Video Crossfading**: Fully custom `FadingVideo` component using direct `requestAnimationFrame` interpolation. Bypasses CSS transitions for seamless, performance-optimized opacity fading before the video loops.
+- **Liquid-Glass Design System**: Implements high-fidelity glassmorphism with two customized glass variants:
+  - `.liquid-glass`: Subtle backdrop blur and custom dual-gradient masking for outline borders. Used on navigation pills, stat chips, and capability cards.
+  - `.liquid-glass-strong`: Double-layered blur and heavier shadow depth, specifically optimized for primary calls-to-action (CTAs).
+- **Framer Motion Staggers**:
+  - **BlurText component**: Splits copy into words, triggering custom staggered keyframe blur and y-offset transitions when entering viewport (IntersectionObserver threshold: 10%).
+  - **Capabilities Grid**: Beautifully staggered scroll-reveal animations for columns.
+- **Professional SEO Best Practices**: Title, metadata descriptions, Open Graph protocol tags, accessibility-enhanced semantic markup, and descriptive IDs.
 
-## 🛠 Technical Stack
+## 🛠 Technical Stack (CDN-Only & Pinned)
 
-- **Framework**: React 19
-- **Build Tool**: Vite 8
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4
-- **Icons**: Lucide React
-- **Animations**: Framer Motion
+- **UI Framework**: React 18.3.1 (via CDN)
+- **Renderer**: ReactDOM 18.3.1 (via CDN)
+- **Styling Engine**: Tailwind CSS (via CDN)
+- **Animation Suite**: Framer Motion 11.11.17 (via CDN)
+- **Compilation**: Babel Standalone (via CDN)
 
-## 🚀 Setup & Installation
+## 🚀 Setup & Execution
 
-1.  **Clone the repository**:
-    ```bash
-    git clone <repository-url>
-    ```
-2.  **Navigate to project directory**:
-    ```bash
-    cd ricgcw_official
-    ```
-3.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-4.  **Start development server**:
-    ```bash
-    npm run dev
-    ```
-5.  **Build for production**:
-    ```bash
-    npm run build
-    ```
+1. **Install dependencies** (optional, for running standard scripts):
+   ```bash
+   npm install
+   ```
 
-## 🏗 Project Structure
+2. **Start Vite development server**:
+   ```bash
+   npm run dev
+   ```
+   This serves `index.html` statically. In-browser Babel standalone compiles all `<script type="text/babel">` files dynamically.
+
+3. **Build for production**:
+   ```bash
+   npm run build
+   ```
+   Compiles the project assets into `/dist` which can be served immediately as pure, lightweight static files.
+
+## 🏗 Directory Architecture
 
 ```text
-src/
-├── components/     # Global shared components (Navbar, Buttons)
-├── sections/       # Hero, About, Ministries, Media, Connect
-├── assets/         # Images, Logos, and brand assets
-├── context/        # Site-wide state management
-└── index.css       # Design system and Tailwind configuration
+public/
+└── components/
+    ├── FadingVideo.js     # requestAnimationFrame crossfade loop video player
+    ├── BlurText.js        # Staggered keyframe word-by-word blur loader
+    ├── Navbar.js          # Glassmorphic header and CTA
+    ├── Hero.js            # Hero content, Stats, and Partner space agencies
+    ├── Capabilities.js    # Staggered three-card capability grid
+    └── App.js             # Main React mounting node and list key error filter
+index.html                 # Pinned unpkg links, Tailwind configs, and glass styles
 ```
-
-## 📜 Documentation
-- See `CHANGELOG.md` for the version history and latest features.
-- See `.gemini/plans/official-church-website.md` for the architectural roadmap.
