@@ -1,161 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0b132b" />
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
     
     <!-- SEO Optimization -->
-    <title>Rhema Inner Court Gospel Church (Worldwide) | Official Website</title>
-    <meta name="description" content="Welcome to Rhema Inner Court Gospel Church (Worldwide). A community of believers dedicated to worship, transformation, and the global spread of the Gospel." />
-    
+    <title>Rhema Inner Court Gospel Church (Worldwide) | RICGCW Official</title>
+    <meta name="description" content="Welcome to Rhema Inner Court Gospel Church (Worldwide). A spirit-filled sanctuary of worship, transformation, taking territories, and perfecting the saints. 2026: Divine Manifestation." />
+    <meta name="keywords" content="Rhema Inner Court Gospel Church, RICGCW, Rev Nicholas Dobeng, Church in Accra Ghana, Mallam Church, Kokrobitey Church, Divine Manifestation, Touching Lives Worldwide" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ricgcw.org/" />
     <meta property="og:title" content="Rhema Inner Court Gospel Church (Worldwide)" />
-    <meta property="og:description" content="A community of believers dedicated to worship, transformation, and the global spread of the Gospel." />
+    <meta property="og:description" content="Touching Lives Worldwide — 2026 Divine Manifestation. Join us for transformative worship, healing, and empowering fellowship." />
     <meta property="og:image" content="/og-image.jpg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://ricgcw.org/" />
     <meta property="twitter:title" content="Rhema Inner Court Gospel Church (Worldwide)" />
-    <meta property="twitter:description" content="A community of believers dedicated to worship, transformation, and the global spread of the Gospel." />
+    <meta property="twitter:description" content="Touching Lives Worldwide — 2026 Divine Manifestation." />
     <meta property="twitter:image" content="/og-image.jpg" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- CDN Technology Stack (Pinned) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
-    <script>window.Motion = window.FramerMotion || window.Motion; window.FramerMotion = window.Motion;</script>
-
-    <!-- Custom Tailwind Configuration -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              heading: ["'Instrument Serif'", "serif"],
-              body: ["'Barlow'", "sans-serif"],
-            },
-            borderRadius: {
-              DEFAULT: "9999px",
-            }
-          }
-        }
-      }
-    </script>
-
-    <!-- Liquid-Glass CSS & Scrollbar resets -->
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #000;
-        overflow-x: hidden;
-      }
-      
-      /* Hide default scrollbars for fully cinematic focus */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #000;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 9999px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.3);
-      }
-
-      /* Liquid Glass Utilities */
-      .liquid-glass {
-        background: rgba(255,255,255,0.01);
-        background-blend-mode: luminosity;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        border: none;
-        box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .liquid-glass::before {
-        content: "";
-        position: absolute; inset: 0;
-        border-radius: inherit;
-        padding: 1.4px;
-        background: linear-gradient(180deg,
-          rgba(255,255,255,0.45) 0%,
-          rgba(255,255,255,0.15) 20%,
-          rgba(255,255,255,0) 40%,
-          rgba(255,255,255,0) 60%,
-          rgba(255,255,255,0.15) 80%,
-          rgba(255,255,255,0.45) 100%);
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-      }
-      
-      .liquid-glass-strong {
-        background: rgba(255,255,255,0.01);
-        background-blend-mode: luminosity;
-        backdrop-filter: blur(50px);
-        -webkit-backdrop-filter: blur(50px);
-        border: none;
-        box-shadow: 4px 4px 4px rgba(0,0,0,0.05), inset 0 1px 1px rgba(255,255,255,0.15);
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .liquid-glass-strong::before {
-        content: "";
-        position: absolute; inset: 0;
-        border-radius: inherit;
-        padding: 1.4px;
-        background: linear-gradient(180deg,
-          rgba(255,255,255,0.5) 0%,
-          rgba(255,255,255,0.2) 20%,
-          rgba(255,255,255,0) 40%,
-          rgba(255,255,255,0) 60%,
-          rgba(255,255,255,0.2) 80%,
-          rgba(255,255,255,0.5) 100%);
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-      }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-black text-white antialiased">
-    <!-- Main mounting point -->
+  <body class="bg-[#070c18] text-slate-100 antialiased selection:bg-amber-500/30 selection:text-amber-200">
     <div id="root"></div>
-
-    <!-- Visually hidden H1 for search engine indexing and accessibility compliance -->
-    <h1 class="sr-only">Rhema Inner Court Gospel Church (Worldwide) - Official Website</h1>
-
-    <!-- Loading Babel standalone external components -->
-    <script type="text/babel" src="/components/FadingVideo.js"></script>
-    <script type="text/babel" src="/components/BlurText.js"></script>
-    <script type="text/babel" src="/components/Navbar.js"></script>
-    <script type="text/babel" src="/components/Hero.js"></script>
-    <script type="text/babel" src="/components/Capabilities.js"></script>
-    <script type="text/babel" src="/components/App.js"></script>
-
-    <!-- Mount React application -->
-    <script type="text/babel">
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<window.App />);
-    </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

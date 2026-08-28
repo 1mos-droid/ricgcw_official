@@ -1,84 +1,119 @@
 @import "tailwindcss";
 
-:root {
-  --ios-bg: #f2f2f7;
-  --ios-card: rgba(255, 255, 255, 0.7);
-  --ios-label: #000000;
-  --ios-secondary-label: #8e8e93;
-  --ios-separator: rgba(60, 60, 67, 0.36);
-  --ios-nav-bg: rgba(255, 255, 255, 0.85);
-  --ios-blue: #007aff;
-  --ios-red: #ff3b30;
-  --ios-green: #34c759;
-  
-  /* Church Colors */
-  --church-white: #ffffff;
-  --church-gold: #ffd700;
-  --church-deep-orange: #ff4500;
-  --church-lemon-green: #32cd32;
-}
-
 @theme {
-  --color-ios-bg: var(--ios-bg);
-  --color-ios-card: var(--ios-card);
-  --color-ios-label: var(--ios-label);
-  --color-ios-secondary-label: var(--ios-secondary-label);
-  --color-ios-blue: var(--ios-blue);
-  --color-ios-red: var(--ios-red);
-  --color-ios-green: var(--ios-green);
-  --color-ios-separator: var(--ios-separator);
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-cinzel: "Cinzel", Georgia, serif;
 
-  /* Church Colors */
-  --color-church-white: var(--church-white);
-  --color-church-gold: var(--church-gold);
-  --color-church-deep-orange: var(--church-deep-orange);
-  --color-church-lemon-green: var(--church-lemon-green);
-  
-  --radius-ios: 24px;
-  --radius-ios-sm: 12px;
-  
-  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --color-sanctuary-950: #050811;
+  --color-sanctuary-900: #070c18;
+  --color-sanctuary-850: #0b132b;
+  --color-sanctuary-800: #101b38;
+  --color-sanctuary-700: #1c2a4f;
+  --color-sanctuary-600: #2a3c6c;
+
+  --color-gold-300: #fde68a;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-gold-700: #b45309;
+  --color-gold-champagne: #d4af37;
+
+  --color-flame-500: #ea580c;
+  --color-emerald-500: #10b981;
 }
 
 @layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
   body {
-    @apply font-jakarta bg-ios-bg text-ios-label antialiased;
+    font-family: var(--font-sans);
+    background-color: var(--color-sanctuary-900);
+    color: #f1f5f9;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #070c18;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.25);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.45);
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply backdrop-blur-xl border-ios-separator;
-    background-color: var(--ios-nav-bg);
+  .font-cinzel {
+    font-family: var(--font-cinzel);
   }
-  
-  .glass-card {
-    @apply backdrop-blur-xl border border-white/20 shadow-lg;
-    background-color: var(--ios-card);
-  }
-  
-  .squircle {
-    border-radius: 24% / 24%;
+  .font-serif {
+    font-family: var(--font-serif);
   }
 
-  .ios-title {
-    @apply text-[40px] font-extrabold tracking-tight leading-tight;
-  }
-  
-  .ios-headline {
-    @apply text-[24px] font-bold tracking-tight;
-  }
-  
-  .ios-body {
-    @apply text-[17px] leading-relaxed;
-  }
-  
-  .ios-caption {
-    @apply text-[13px] font-semibold text-ios-secondary-label uppercase tracking-widest;
+  /* Royal Glass Card */
+  .royal-glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
   }
 
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+  .royal-glass-gold {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+  }
+
+  .royal-glass-hover {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .royal-glass-hover:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Gold Shimmer Text */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #fff7d6 0%, #f59e0b 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-flame-gradient {
+    background: linear-gradient(135deg, #fed7aa 0%, #f97316 50%, #ea580c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Divine ambient lighting */
+  .ambient-glow-gold {
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 70%);
+  }
+
+  .ambient-glow-blue {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0) 70%);
+  }
+
+  .ambient-glow-orange {
+    background: radial-gradient(circle, rgba(234, 88, 12, 0.12) 0%, rgba(234, 88, 12, 0) 70%);
+  }
+
+  /* Background Grid Pattern */
+  .bg-sacred-pattern {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 }

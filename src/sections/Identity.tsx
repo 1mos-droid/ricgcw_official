@@ -1,222 +1,236 @@
-import { motion } from 'framer-motion';
-import { Shield, Palette, BookOpen, Scroll } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, Palette, BookOpen, Scroll, Sparkles, Check, ChevronRight } from 'lucide-react';
+import { CHURCH_COLORS } from '../data/churchData';
 
-const Identity = () => {
-  const colors = [
-    {
-      name: 'White',
-      hex: '#ffffff',
-      meanings: 'Light, Purity, Bride of Christ, Surrender, Joy, Angels',
-      textColor: 'text-ios-label',
-      borderColor: 'border-ios-separator'
-    },
-    {
-      name: 'Black',
-      hex: '#000000',
-      meanings: 'Death, Mourning, Sin, Judgment, Evil, Humility, Fear of God',
-      textColor: 'text-white',
-      borderColor: 'border-transparent'
-    },
-    {
-      name: 'Gold',
-      hex: '#ffd700',
-      meanings: 'Glory, Godhead, Refining Process, Kingship, Words of Wisdom, Truth, Knowledge, Faith, Anointing Oil',
-      textColor: 'text-ios-label',
-      borderColor: 'border-transparent'
-    },
-    {
-      name: 'Deep Orange',
-      hex: '#ff4500',
-      meanings: 'Warning, Change, Prophetic Ministry, Ambition, Harvest, Strength, Endurance',
-      textColor: 'text-white',
-      borderColor: 'border-transparent'
-    },
-    {
-      name: 'Lemon Green',
-      hex: '#32cd32',
-      meanings: 'Prosperity, New life and Growth, Fresh, Healing, Hope, Peace, Victory, Rest',
-      textColor: 'text-white',
-      borderColor: 'border-transparent'
-    }
-  ];
+export const Identity = () => {
+  const [selectedColor, setSelectedColor] = useState<typeof CHURCH_COLORS[0]>(CHURCH_COLORS[1]); // Gold default
 
   const definitions = [
-    { term: 'Rhema (ῥῆμα)', definition: 'A Greek term used in the New Testament referring to a specific, "spoken word" or utterance from God, rather than the general, written word (logos). It implies a personal, timely, or "quickened" message that the Holy Spirit applies directly to a believer\'s situation.' },
-    { term: 'Inner', definition: 'Inside or closer to the inside of the body. Located or occurring within or closer to a center. Close to the center of power: the inner cabinet.' },
-    { term: 'Court', definition: 'A tribunal presided over by a judge, judges, or magistrate in civil and criminal cases.' },
-    { term: 'Gospel', definition: 'Glad tidings; especially, the good news concerning Christ, the kingdom of God, and salvation.' },
-    { term: 'Church', definition: 'The collective body of Christians; Temple, house of worship, house of God, meeting-house. Body of Christians, ecclesiastical body.' }
+    {
+      term: 'Rhema (ῥῆμα)',
+      meaning: 'A Greek term in the New Testament referring to a specific, "spoken utterance" from God. A quickened, timely word applied directly by the Holy Spirit to transform a believer’s situation.',
+    },
+    {
+      term: 'Inner',
+      meaning: 'Inside and close to the divine center. Passing beyond the outer realm into intimate communion with the presence and majesty of the King of kings.',
+    },
+    {
+      term: 'Court',
+      meaning: 'A sacred assembly and royal throne-room where divine justice, covenants, prayers, and kingdom decrees are established.',
+    },
+    {
+      term: 'Gospel',
+      meaning: 'Glad tidings and good news concerning Jesus Christ, salvation, power, righteousness, and eternal life for all humanity.',
+    },
+    {
+      term: 'Church (Worldwide)',
+      meaning: 'The global body of consecrated believers; the royal priesthood called out of darkness to take territories across every nation.',
+    },
   ];
 
-  const templeElements = [
-    { title: 'The Great or Outer Court', ref: 'Jeremiah 19:14, 26:2', desc: 'Where people assembled to worship.' },
-    { title: 'The Inner Court', ref: '1 Kings 6:36', desc: 'A sacred space closer to the presence.' },
-    { title: 'The Court of the Priests', ref: '2 Chronicles 4:9', desc: 'Reserved for those serving in the sanctuary.' }
+  const templeCourts = [
+    {
+      title: 'The Great Outer Court',
+      scripture: 'Jeremiah 19:14, 26:2',
+      desc: 'Where the multitude assembled to praise, offer sacrifices, and witness the power of God.',
+    },
+    {
+      title: 'The Sacred Inner Court',
+      scripture: '1 Kings 6:36, Esther 5:1',
+      desc: 'The place of deeper intimacy, priestly revelation, and royal favor before the throne.',
+    },
+    {
+      title: 'The Court of the Priests',
+      scripture: '2 Chronicles 4:9',
+      desc: 'Reserved for holy service, continuous intercession, and holy consecration unto God.',
+    },
   ];
 
   return (
-    <section id="identity" className="py-32 px-6 bg-white/50">
-      <div className="max-w-7xl mx-auto space-y-32">
+    <section id="identity" className="relative py-28 px-4 sm:px-6 md:px-8 bg-slate-950 border-b border-amber-500/15 overflow-hidden">
+      {/* Ambient glowing orbs */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-600/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto space-y-28 relative z-10">
         
-        {/* Cultural Beliefs */}
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        {/* Culture of Loyalty */}
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 space-y-6"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-ios-blue/10 flex items-center justify-center text-ios-blue">
-                <Shield size={20} />
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
+                <Shield className="w-3.5 h-3.5" /> Church Culture
               </div>
-              <span className="ios-caption text-ios-blue">Our Culture</span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-white tracking-tight">
+                A Consecrated Culture of <br />
+                <span className="text-gold-gradient font-serif italic">Honor & Loyalty.</span>
+              </h2>
             </div>
-            <h2 className="ios-title font-black">Culture of <br />Loyalty.</h2>
-            <div className="glass-card p-8 rounded-[32px] border-none shadow-xl bg-white/80">
-              <p className="ios-body text-ios-label text-lg font-medium leading-relaxed italic">
-                "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too, so we the members don't speak evil things and will not allow anybody from within or outside to speak evil about them. Internally (inside the church) or externally (outside the church). This is the way we RICGCW members think and do our things as a LOYAL PEOPLE, not a disloyal people."
+
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-amber-500/30 shadow-2xl relative overflow-hidden space-y-4">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
+              <p className="text-sm sm:text-base text-slate-200 leading-relaxed italic font-serif">
+                "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too. We do not speak evil things and will not allow anybody from within or outside to speak evil about them — internally (inside the church) or externally (outside the church). This is the way we think and do our things as a LOYAL PEOPLE unto God."
+              </p>
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-amber-400 font-bold uppercase tracking-wider">
+                <span>Core Value: Honor & Protection</span>
+                <span>Proverbs 21:21</span>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-400 leading-relaxed">
+              We cultivate a godly atmosphere where mutual respect, spiritual covering, and sincere brotherly love preserve the peace and power of the Holy Spirit.
+            </p>
+          </motion.div>
+
+          {/* Visual Shield Box */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-5"
+          >
+            <div className="p-8 sm:p-12 rounded-[36px] bg-gradient-to-br from-amber-500/15 via-slate-900 to-slate-900 border border-amber-500/30 text-center space-y-6 shadow-2xl shadow-black">
+              <div className="w-24 h-24 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 flex items-center justify-center mx-auto shadow-2xl shadow-amber-500/20">
+                <Shield className="w-12 h-12 stroke-[2.2]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold font-serif text-white">Built on Covenant</h3>
+                <p className="text-xs text-amber-300 font-bold uppercase tracking-wider">1 Corinthians 13:7 • Hebrews 13:17</p>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                "Behold, how good and how pleasant it is for brethren to dwell together in unity! For there the Lord commanded the blessing..." (Psalm 133:1-3)
               </p>
             </div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-             <div className="aspect-square rounded-[40px] bg-gradient-to-br from-ios-blue/5 to-ios-blue/20 flex items-center justify-center p-12">
-                <div className="text-center space-y-6">
-                  <div className="w-24 h-24 rounded-[30%] bg-white shadow-2xl flex items-center justify-center mx-auto text-ios-blue">
-                    <Shield size={48} />
-                  </div>
-                  <h3 className="ios-headline">Built on Loyalty</h3>
-                  <p className="ios-body text-ios-secondary-label">
-                    We protect the integrity of our leadership and our family, both within and outside the walls of the church.
-                  </p>
-                </div>
-             </div>
-          </motion.div>
         </div>
 
-        {/* Biblical Context */}
-        <div className="space-y-16">
-          <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-ios-purple/10 flex items-center justify-center text-ios-purple">
-                <BookOpen size={20} />
-              </div>
-              <span className="ios-caption text-ios-purple">Biblical Context</span>
+        {/* Understanding Our Name */}
+        <div className="space-y-12">
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-widest">
+              <BookOpen className="w-3.5 h-3.5" /> Biblical Etymology
             </div>
-            <h2 className="ios-title">Understanding Our Name.</h2>
-            <p className="ios-body text-ios-secondary-label max-w-2xl mx-auto">
-              The name "Rhema Inner Court Gospel Church" is rooted in deep biblical truth and the architecture of the Tabernacle.
+            <h3 className="text-3xl sm:text-4xl font-bold font-serif text-white">Understanding Our Church Name</h3>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+              Every word in "Rhema Inner Court Gospel Church" carries profound theological and spiritual significance.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {definitions.map((item, index) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {definitions.map((item, idx) => (
               <motion.div
                 key={item.term}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card p-8 rounded-[32px] border-none shadow-lg bg-white/60"
+                transition={{ delay: idx * 0.1 }}
+                className="p-6 rounded-3xl bg-slate-900/80 border border-white/10 hover:border-amber-500/30 shadow-xl space-y-3 group transition-all"
               >
-                <h3 className="font-black text-2xl text-ios-blue mb-4">{item.term}</h3>
-                <p className="text-sm text-ios-secondary-label leading-relaxed">
-                  {item.definition}
-                </p>
+                <div className="w-8 h-8 rounded-xl bg-white/5 group-hover:bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
+                  0{idx + 1}
+                </div>
+                <h4 className="font-bold font-serif text-lg text-white group-hover:text-amber-300 transition-colors">
+                  {item.term}
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed">{item.meaning}</p>
               </motion.div>
             ))}
           </div>
+        </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 mt-12">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="glass-card p-10 rounded-[40px] border-none shadow-xl bg-gradient-to-br from-white to-ios-blue/5"
-            >
-              <div className="flex items-center gap-3 mb-8">
-                <Scroll className="text-ios-blue" size={24} />
-                <h3 className="ios-headline">The Concept of the Temple</h3>
-              </div>
-              <div className="space-y-6">
-                {templeElements.map((el, i) => (
-                  <div key={i} className="border-l-2 border-ios-blue/20 pl-6 py-2">
-                    <h4 className="font-black text-ios-label">{el.title}</h4>
-                    <p className="text-[10px] text-ios-blue font-bold uppercase tracking-widest mt-1">{el.ref}</p>
-                    <p className="text-sm text-ios-secondary-label mt-2">{el.desc}</p>
+        {/* Temple Concept & Scriptures */}
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-6 p-8 rounded-3xl bg-slate-900 border border-white/10 space-y-6">
+            <div className="flex items-center gap-3">
+              <Scroll className="w-6 h-6 text-amber-400" />
+              <h4 className="font-bold font-serif text-xl text-white">The Architecture of the Tabernacle</h4>
+            </div>
+            <div className="space-y-4">
+              {templeCourts.map((court, i) => (
+                <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <h5 className="font-bold text-sm text-white">{court.title}</h5>
+                    <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">
+                      {court.scripture}
+                    </span>
                   </div>
-                ))}
-              </div>
-            </motion.div>
+                  <p className="text-xs text-slate-400">{court.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex flex-col justify-center space-y-8"
-            >
-              <h3 className="ios-headline">Scriptural Foundations</h3>
-              <div className="flex flex-wrap gap-3">
-                {['Ezekiel 8:16', 'Matthew 27:51', 'Hebrews 4:14-16', 'Hebrews 10:19-20', 'Hebrews 8:13', 'Acts 17:24'].map((scripture) => (
-                  <span key={scripture} className="px-5 py-3 rounded-2xl bg-white shadow-sm text-sm font-bold text-ios-label border border-ios-separator/20">
-                    {scripture}
-                  </span>
-                ))}
-              </div>
-              <p className="ios-body text-ios-secondary-label italic">
-                "Our journey leads us from the outer court into the holy place, where we encounter the living God face to face."
-              </p>
-            </motion.div>
+          <div className="lg:col-span-6 space-y-6">
+            <h4 className="font-bold font-serif text-2xl text-white">Scriptural Pillars of Entrance</h4>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Through the torn veil of Christ Jesus (Matthew 27:51), we are granted bold access into the Holiest of all. We no longer worship from afar, but draw near with full assurance of faith.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {['Hebrews 4:16', 'Hebrews 10:19-20', 'Matthew 27:51', 'Ezekiel 8:16', 'Acts 17:24', '1 Peter 2:9'].map((ref) => (
+                <span key={ref} className="px-4 py-2 rounded-xl bg-slate-900 border border-amber-500/30 text-amber-300 font-mono text-xs font-bold shadow-sm">
+                  {ref}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Church Colors */}
-        <div className="space-y-16">
-          <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-ios-green/10 flex items-center justify-center text-ios-green">
-                <Palette size={20} />
-              </div>
-              <span className="ios-caption text-ios-green">Symbolism</span>
+        {/* Church Colors Symbolism */}
+        <div className="space-y-12">
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-widest">
+              <Palette className="w-3.5 h-3.5" /> Divine Symbolism
             </div>
-            <h2 className="ios-title">Our Church Colors.</h2>
-            <p className="ios-body text-ios-secondary-label max-w-2xl mx-auto">
-              Every color we use carries deep spiritual significance and reflects our journey of faith.
+            <h3 className="text-3xl sm:text-4xl font-bold font-serif text-white">Spiritual Meanings of Church Colors</h3>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+              Every color chosen in our ministry represents a specific revelation and biblical covenant.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {colors.map((color, index) => (
-              <motion.div
-                key={color.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="glass-card overflow-hidden rounded-[32px] border-none shadow-lg hover:shadow-2xl transition-all duration-500 group"
-              >
-                <div 
-                  className={`h-32 w-full ${color.borderColor} border-b relative`}
-                  style={{ backgroundColor: color.hex }}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {CHURCH_COLORS.map((col) => {
+              const isSelected = selectedColor.name === col.name;
+              return (
+                <div
+                  key={col.name}
+                  onClick={() => setSelectedColor(col)}
+                  className={`p-6 rounded-3xl border transition-all cursor-pointer group space-y-4 ${
+                    isSelected
+                      ? 'bg-slate-900 border-amber-500 shadow-2xl shadow-amber-500/10 scale-[1.02]'
+                      : 'bg-slate-950/70 border-white/10 hover:border-white/20'
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="flex items-center justify-between">
+                    <div
+                      className="w-12 h-12 rounded-2xl shadow-lg border border-white/20"
+                      style={{ backgroundColor: col.hex }}
+                    />
+                    {isSelected && (
+                      <span className="text-[10px] font-bold uppercase bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded-full">
+                        Active
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="font-bold font-serif text-lg text-white">{col.name}</h4>
+                    <p className="text-[11px] font-mono text-amber-400">{col.biblicalReference}</p>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">{col.spiritualMeaning}</p>
                 </div>
-                <div className="p-8 space-y-4">
-                  <h3 className="font-black text-xl">{color.name}</h3>
-                  <p className="text-sm text-ios-secondary-label leading-relaxed">
-                    {color.meanings}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -1,303 +1,348 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Sparkles, X, Clock, MapPin } from 'lucide-react';
-import themeImg from '../assets/church/this_year_theme/IMG-20260408-WA0064.jpg';
-import pastorsImg from '../assets/church/all_church_pastors/IMG-20260301-WA0187.jpg';
-import pastorImg1 from '../assets/church/pastor/IMG-20260408-WA0061.jpg';
-import pastorImg2 from '../assets/church/pastor/IMG-20260408-WA0062.jpg';
-import coupleImg1 from '../assets/church/pastor_and_wife/IMG-20260408-WA0060.jpg';
-import coupleImg2 from '../assets/church/pastor_and_wife/IMG-20260408-WA0063.jpg';
+import { ArrowRight, Sparkles, MapPin, Play, Clock, ChevronRight, Heart, Users, Shield, BookOpen } from 'lucide-react';
+import { CHURCH_INFO, BRANCHES, IMAGES } from '../data/churchData';
 
-const images = [
-  { src: themeImg, title: "Theme of the Year", subtitle: "Divine Manifestation" },
-  { src: pastorsImg, title: "Our Pastors", subtitle: "Unified Leadership" },
-  { src: pastorImg1, title: "Overseer", subtitle: "Rev. Nicholas Dobeng" },
-  { src: coupleImg1, title: "Leadership", subtitle: "Rev. & Mrs. Dobeng" },
-  { src: pastorImg2, title: "Ministry", subtitle: "A Heart for People" },
-  { src: coupleImg2, title: "Family", subtitle: "Example in Love" }
-];
+interface HeroProps {
+  onOpenBranchModal?: () => void;
+  onOpenGivingModal?: () => void;
+  onOpenPrayerModal?: () => void;
+}
 
-const branches = [
+const slides = [
   {
-    id: 'mallam',
-    name: 'Mallam Branch',
-    location: 'Mallam, Accra',
-    services: [
-      { day: 'Sunday', time: '9:00 AM - 12:00 PM', type: 'Main Service' },
-      { day: 'Tuesday', time: '6:00 PM - 8:45 PM', type: 'Mid-week Service' },
-      { day: 'Thursday', time: '6:00 PM - 9:00 PM', type: 'Prophetic Service' },
-      { day: 'Saturday', time: '6:00 PM - 7:00 PM', type: 'Prayers' },
-    ]
+    image: IMAGES.theme,
+    tag: '2026 Theme of the Year',
+    title: 'Divine Manifestation',
+    subtitle: 'Touching Lives Worldwide & Experiencing the Tangible Power of God',
+    caption: 'Esther 5:1 & Ephesians 4:12',
   },
   {
-    id: 'kokrobitey',
-    name: 'Kokrobitey Branch',
-    location: 'Kokrobitey',
-    services: [
-      { day: 'Sunday', time: '7:00 AM - 9:00 AM', type: 'Morning Service' },
-      { day: 'Wednesday', time: '6:30 PM - 8:30 PM', type: 'Mid-week Service' },
-      { day: 'Friday', time: '7:00 PM - 9:00 PM', type: 'Prophetic Service' },
-    ]
+    image: IMAGES.overseer,
+    tag: 'Apostolic Leadership',
+    title: 'Rev. Nicholas Dobeng',
+    subtitle: 'General Overseer & Founder leading with prophetic vision and pastoral care',
+    caption: 'A heart for people, a mandate for nations',
   },
   {
-    id: 'langma',
-    name: 'Langma Branch',
-    location: 'Langma',
-    services: [
-      { day: 'Sunday', time: '8:30 AM - 11:00 AM', type: 'Main Service' },
-      { day: 'Thursday', time: '6:30 PM - 8:30 PM', type: 'Mid-week Meeting' },
-    ]
-  }
+    image: IMAGES.pastors,
+    tag: 'Pastoral Council',
+    title: 'Unified Shepherds',
+    subtitle: 'Dedicated pastors and ministers across Mallam, Kokrobitey, and Langma branches',
+    caption: 'Perfecting the saints for the work of ministry',
+  },
+  {
+    image: IMAGES.couple1,
+    tag: 'Family & Foundation',
+    title: 'Rev. & Mrs. Dobeng',
+    subtitle: 'Leading by example in love, righteousness, and spiritual mentorship',
+    caption: 'Inner court – where sacrifices made to heaven',
+  },
 ];
 
-const Hero = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState<typeof branches[0] | null>(null);
+export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }: HeroProps) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [nextSundayCountdown, setNextSundayCountdown] = useState({ days: 0, hours: 0, mins: 0 });
 
+  // Auto-advance slides
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
+  // Compute countdown to next Sunday 9:00 AM
+  useEffect(() => {
+    const calculateCountdown = () => {
+      const now = new Date();
+      const nextSunday = new Date();
+      const dayOfWeek = now.getDay();
+      const daysUntilSunday = (7 - dayOfWeek) % 7 || 7;
+      
+      nextSunday.setDate(now.getDate() + daysUntilSunday);
+      nextSunday.setHours(9, 0, 0, 0);
+
+      const diff = nextSunday.getTime() - now.getTime();
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        setNextSundayCountdown({ days, hours, mins });
+      }
+    };
+
+    calculateCountdown();
+    const interval = setInterval(calculateCountdown, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden px-6">
-      {/* Dynamic Background Elements */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-church-gold/15 rounded-full blur-[120px]" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            x: [0, 50, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-church-lemon-green/10 rounded-full blur-[100px]" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            y: [0, -30, 0],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-church-deep-orange/5 rounded-full blur-[140px]" 
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        <div className="text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-8 shadow-sm border-white/40"
-          >
-            <Sparkles size={16} className="text-ios-blue" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-ios-blue">Touching Lives Worldwide</span>
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="ios-title md:text-[72px] mb-8"
-          >
-            Rhema Inner Court <br className="hidden md:block" /> 
-            <span className="text-ios-blue">Gospel Church (Worldwide)</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="ios-body text-xl md:text-2xl text-ios-secondary-label max-w-2xl mx-auto lg:mx-0 mb-12"
-          >
-            A community of believers dedicated to worship, transformation, and the global spread of the Gospel.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col md:flex-row items-center justify-center lg:justify-start gap-4"
-          >
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="w-full md:w-auto h-16 px-10 bg-ios-blue text-white rounded-3xl font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-ios-blue/30 active:scale-95 transition-all"
-            >
-              Join Our Service
-              <ArrowRight size={20} />
-            </button>
-            <button className="w-full md:w-auto h-16 px-10 glass border-white/40 text-ios-label rounded-3xl font-black text-lg active:scale-95 transition-all">
-              Learn More
-            </button>
-          </motion.div>
-        </div>
-
+    <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 md:px-8 overflow-hidden bg-[#070c18]">
+      {/* Background Animated Ambient Lights */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="relative w-full mt-12 lg:mt-0"
-        >
-          <div className="glass p-3 md:p-4 rounded-[32px] md:rounded-[40px] shadow-2xl border-white/40 lg:rotate-3 hover:rotate-0 transition-transform duration-700 h-[400px] md:h-[600px] w-full max-w-[600px] mx-auto overflow-hidden">
-            <div className="relative h-full w-full rounded-[24px] md:rounded-[32px] overflow-hidden bg-black/5">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={currentIndex}
-                  src={images[currentIndex].src}
-                  alt={images[currentIndex].title}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                  className="absolute inset-0 w-full h-full object-contain p-2"
-                />
-              </AnimatePresence>
-            </div>
-            
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={currentIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="absolute -bottom-4 md:-bottom-6 -right-4 md:-right-6 glass px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl shadow-xl border-white/40"
-              >
-                <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-ios-blue mb-1">{images[currentIndex].title}</p>
-                <p className="font-bold text-base md:text-lg">{images[currentIndex].subtitle}</p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </motion.div>
+          animate={{
+            scale: [1, 1.25, 1],
+            opacity: [0.15, 0.25, 0.15],
+            x: [0, 40, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-32 -left-32 w-[650px] h-[650px] bg-amber-500/20 rounded-full blur-[140px]"
+        />
+        <motion.div
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.2, 0.1],
+            y: [0, 60, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/3 -right-32 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[160px]"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.08, 0.18, 0.08],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -bottom-32 left-1/3 w-[550px] h-[550px] bg-orange-600/15 rounded-full blur-[150px]"
+        />
       </div>
 
-      {/* Join Our Service Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+      {/* Hero Content Container */}
+      <div className="relative max-w-7xl mx-auto w-full z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Column: Vision, Titles & CTAs */}
+          <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
+            
+            {/* Top Badge: 2026 Theme & Next Service */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest shadow-lg shadow-amber-500/5"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span>2026: Divine Manifestation</span>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-medium"
+              >
+                <Clock className="w-3.5 h-3.5 text-amber-400" />
+                <span>Next Sunday Service in: <strong className="text-amber-300 font-mono">{nextSundayCountdown.days}d {nextSundayCountdown.hours}h {nextSundayCountdown.mins}m</strong></span>
+              </motion.div>
+            </div>
+
+            {/* Main Headline */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="space-y-4"
+            >
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif tracking-tight text-white leading-[1.08]">
+                Where The Impossibility <br />
+                <span className="text-gold-gradient font-serif italic">Becomes Possible.</span>
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                Welcome to <strong className="text-white font-medium">Rhema Inner Court Gospel Church (Worldwide)</strong>. A sanctuary of spiritual transformation, fervent prayer, apostolic truth, and global impact.
+              </p>
+            </motion.div>
+
+            {/* Scripture Motto Strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 max-w-2xl mx-auto lg:mx-0"
+            >
+              {CHURCH_INFO.motto.map((item, idx) => (
+                <div key={idx} className="p-3 rounded-2xl bg-white/5 border border-white/10 text-left">
+                  <p className="text-xs font-bold text-amber-300">{item.title}</p>
+                  <p className="text-[10px] text-slate-400 uppercase font-mono mt-0.5">{item.scripture}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Main Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2"
+            >
+              <button
+                onClick={onOpenBranchModal}
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm uppercase tracking-wider shadow-2xl shadow-amber-500/25 flex items-center justify-center gap-3 active:scale-95 transition-all cursor-pointer"
+              >
+                <MapPin className="w-5 h-5" />
+                <span>Join Our Service</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <a
+                href={CHURCH_INFO.contact.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider border border-white/10 hover:border-amber-500/30 flex items-center justify-center gap-3 transition-all cursor-pointer"
+              >
+                <Play className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <span>Watch Online</span>
+              </a>
+
+              <button
+                onClick={onOpenGivingModal}
+                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <Heart className="w-4 h-4" />
+                <span>Giving</span>
+              </button>
+            </motion.div>
+
+            {/* Quick Branch Bar */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => {
-                setIsModalOpen(false);
-                setSelectedBranch(null);
-              }}
-              className="absolute inset-0 bg-black/40 backdrop-blur-md"
-            />
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-slate-400"
             >
-              <div className="p-8 border-b border-ios-separator/10 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-10">
-                <div>
-                  <h2 className="text-2xl font-black text-ios-label">Choose a Branch</h2>
-                  <p className="text-sm text-ios-secondary-label mt-1">Select a location to view worship times</p>
-                </div>
-                <button 
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setSelectedBranch(null);
-                  }}
-                  className="w-10 h-10 rounded-full bg-ios-bg flex items-center justify-center text-ios-label hover:bg-ios-separator/20 transition-colors"
+              <span className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">Gathering Locations:</span>
+              {BRANCHES.map((b) => (
+                <button
+                  key={b.id}
+                  onClick={onOpenBranchModal}
+                  className="px-3 py-1 rounded-lg bg-white/5 hover:bg-amber-500/15 text-slate-300 hover:text-amber-300 border border-white/5 transition-all text-xs flex items-center gap-1 cursor-pointer"
                 >
-                  <X size={20} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                  {b.name.split('(')[0].trim()}
                 </button>
-              </div>
-
-              <div className="p-8 overflow-y-auto">
-                {!selectedBranch ? (
-                  <div className="grid gap-4">
-                    {branches.map((branch) => (
-                      <button
-                        key={branch.id}
-                        onClick={() => setSelectedBranch(branch)}
-                        className="group flex items-center justify-between p-6 bg-ios-bg rounded-3xl hover:bg-ios-blue transition-all duration-300 text-left"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-ios-blue shadow-sm group-hover:scale-110 transition-transform">
-                            <MapPin size={24} />
-                          </div>
-                          <div>
-                            <h3 className="font-black text-lg group-hover:text-white transition-colors">{branch.name}</h3>
-                            <p className="text-sm text-ios-secondary-label group-hover:text-white/70 transition-colors">{branch.location}</p>
-                          </div>
-                        </div>
-                        <ArrowRight size={20} className="text-ios-blue group-hover:text-white group-hover:translate-x-1 transition-all" />
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-6"
-                  >
-                    <button 
-                      onClick={() => setSelectedBranch(null)}
-                      className="text-ios-blue font-bold text-sm flex items-center gap-1 hover:underline mb-4"
-                    >
-                      ← Back to branches
-                    </button>
-                    
-                    <div className="flex items-center gap-4 mb-8">
-                      <div className="w-14 h-14 rounded-2xl bg-ios-blue/10 flex items-center justify-center text-ios-blue">
-                        <MapPin size={28} />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-ios-label">{selectedBranch.name}</h3>
-                        <p className="text-ios-secondary-label">{selectedBranch.location}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-4">
-                      {selectedBranch.services.map((service, i) => (
-                        <div 
-                          key={i}
-                          className="flex items-center justify-between p-6 bg-ios-bg rounded-3xl border border-transparent hover:border-ios-blue/20 transition-all"
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-ios-blue shadow-sm">
-                              <Clock size={20} />
-                            </div>
-                            <div>
-                              <p className="font-black text-ios-label">{service.day}</p>
-                              <p className="text-xs text-ios-secondary-label font-bold uppercase tracking-widest">{service.type}</p>
-                            </div>
-                          </div>
-                          <p className="font-bold text-ios-blue bg-ios-blue/10 px-4 py-2 rounded-xl">{service.time}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-              
-              <div className="p-8 bg-ios-bg/50 border-t border-ios-separator/10 mt-auto">
-                <p className="text-center text-sm text-ios-secondary-label">
-                  We look forward to worshiping with you!
-                </p>
-              </div>
+              ))}
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
+
+          {/* Right Column: Hero Visual Showcase Slider */}
+          <div className="lg:col-span-5 relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative mx-auto max-w-md lg:max-w-none"
+            >
+              {/* Glass Frame Card */}
+              <div className="relative rounded-[36px] p-3 md:p-4 bg-gradient-to-b from-white/10 via-white/5 to-transparent border border-amber-500/30 shadow-2xl shadow-black/80 backdrop-blur-2xl">
+                
+                {/* Image Viewport */}
+                <div className="relative aspect-[4/5] rounded-[28px] overflow-hidden bg-slate-950">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={currentSlide}
+                      src={slides[currentSlide].image}
+                      alt={slides[currentSlide].title}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.8, ease: 'easeInOut' }}
+                      className="w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+
+                  {/* Floating Caption on Image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 space-y-2 z-10">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentSlide}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.4 }}
+                        className="space-y-1.5"
+                      >
+                        <span className="inline-block px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-widest shadow-md">
+                          {slides[currentSlide].tag}
+                        </span>
+                        <h3 className="text-xl md:text-2xl font-bold font-serif text-white leading-tight">
+                          {slides[currentSlide].title}
+                        </h3>
+                        <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                          {slides[currentSlide].subtitle}
+                        </p>
+                        <p className="text-[10px] text-amber-300/80 font-mono pt-1">
+                          {slides[currentSlide].caption}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                {/* Slider Thumbnails / Pagination Dots */}
+                <div className="flex items-center justify-between px-3 pt-4">
+                  <div className="flex items-center gap-2">
+                    {slides.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlide(idx)}
+                        className={`h-2 rounded-full transition-all cursor-pointer ${
+                          currentSlide === idx
+                            ? 'w-8 bg-amber-400 shadow-md shadow-amber-400/50'
+                            : 'w-2 bg-white/20 hover:bg-white/40'
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  <span className="text-[11px] font-mono font-bold text-amber-400">
+                    0{currentSlide + 1} / 0{slides.length}
+                  </span>
+                </div>
+              </div>
+
+              {/* Floating Floating Stat Badges */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="absolute -bottom-6 -left-6 bg-slate-900/90 border border-amber-500/30 rounded-2xl p-4 shadow-2xl backdrop-blur-xl hidden sm:flex items-center gap-3.5 z-20"
+              >
+                <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-lg font-black text-white font-mono">3 Branches</p>
+                  <p className="text-[10px] text-amber-300/80 uppercase font-bold tracking-wider">Accra, Ghana & Beyond</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="absolute -top-6 -right-6 bg-slate-900/90 border border-amber-500/30 rounded-2xl p-4 shadow-2xl backdrop-blur-xl hidden sm:flex items-center gap-3.5 z-20"
+              >
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <Shield className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-lg font-black text-white font-mono">100%</p>
+                  <p className="text-[10px] text-emerald-300/80 uppercase font-bold tracking-wider">Bible Believing Church</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 };
 
 export default Hero;
-
