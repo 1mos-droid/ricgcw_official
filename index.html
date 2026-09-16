@@ -2,20 +2,24 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b132b" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#070c18" />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <link rel="apple-touch-icon" href="/logo.jpg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="canonical" href="https://ricgcw.org/" />
     
     <!-- SEO Optimization -->
-    <title>Rhema Inner Court Gospel Church (Worldwide) | RICGCW Official</title>
-    <meta name="description" content="Welcome to Rhema Inner Court Gospel Church (Worldwide). A spirit-filled sanctuary of worship, transformation, taking territories, and perfecting the saints. 2026: Divine Manifestation." />
+    <title>Rhema Inner Court Gospel Church (Worldwide) | 2026: Divine Manifestation</title>
+    <meta name="description" content="Welcome to Rhema Inner Court Gospel Church (Worldwide) under the leadership of General Overseer Rev. Nicholas Dobeng. A sanctuary of worship, transformation, taking territories, and perfecting the saints across Mallam, Kokrobitey, and Langma." />
     <meta name="keywords" content="Rhema Inner Court Gospel Church, RICGCW, Rev Nicholas Dobeng, Church in Accra Ghana, Mallam Church, Kokrobitey Church, Divine Manifestation, Touching Lives Worldwide" />
+    <meta name="author" content="Rhema Inner Court Gospel Church (Worldwide)" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ricgcw.org/" />
     <meta property="og:title" content="Rhema Inner Court Gospel Church (Worldwide)" />
-    <meta property="og:description" content="Touching Lives Worldwide — 2026 Divine Manifestation. Join us for transformative worship, healing, and empowering fellowship." />
+    <meta property="og:description" content="Touching Lives Worldwide — 2026 Divine Manifestation. Join us for transformative worship, healing, and empowering fellowship across Mallam, Kokrobitey, and Langma." />
     <meta property="og:image" content="/og-image.jpg" />
 
     <!-- Twitter -->
@@ -25,13 +29,47 @@
     <meta property="twitter:description" content="Touching Lives Worldwide — 2026 Divine Manifestation." />
     <meta property="twitter:image" content="/og-image.jpg" />
 
-    <!-- Google Fonts -->
+    <!-- Google Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Church",
+        "name": "Rhema Inner Court Gospel Church (Worldwide)",
+        "alternateName": "RICGCW",
+        "url": "https://ricgcw.org/",
+        "logo": "https://ricgcw.org/logo.jpg",
+        "image": "https://ricgcw.org/og-image.jpg",
+        "description": "Touching Lives Worldwide — 2026 Divine Manifestation. Perfecting the saints and taking territories.",
+        "leader": {
+          "@type": "Person",
+          "name": "Rev. Nicholas Dobeng",
+          "jobTitle": "General Overseer & Founder"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Near Mallam Junction, Mallam-Gbawe Road",
+          "addressLocality": "Accra",
+          "addressRegion": "Greater Accra Region",
+          "addressCountry": "GH"
+        },
+        "telephone": "+2332444857403",
+        "email": "innercourtch@gmail.com",
+        "sameAs": [
+          "https://youtube.com/@innercourtgospelchurchworl2293",
+          "https://www.facebook.com/share/1CT6hkuLu8/",
+          "https://www.instagram.com/ofttouchinglives"
+        ]
+      }
+    </script>
+
+    <!-- Optimized Google Fonts with display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-[#070c18] text-slate-100 antialiased selection:bg-amber-500/30 selection:text-amber-200">
+  <body class="bg-white text-slate-900 antialiased selection:bg-amber-500 selection:text-slate-950 overflow-x-hidden">
     <div id="root"></div>
+    <!-- Paystack Direct Checkout Integration -->
+    <script src="https://js.paystack.co/v1/inline.js" async></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

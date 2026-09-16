@@ -1,0 +1,25 @@
+{
+  "name": "Rhema Inner Court Gospel Church (Worldwide)",
+  "short_name": "RICGCW",
+  "description": "Touching Lives Worldwide — 2026 Divine Manifestation. Worship, sermons, and sanctuary locator.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070c18",
+  "theme_color": "#070c18",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["religion", "lifestyle", "community"]
+}

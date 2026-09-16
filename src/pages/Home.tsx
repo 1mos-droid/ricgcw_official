@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Hero from '../sections/Hero';
@@ -13,14 +13,20 @@ import Connect from '../sections/Connect';
 import { BranchModal } from '../components/BranchModal';
 import { GivingModal } from '../components/GivingModal';
 import { PrayerModal } from '../components/PrayerModal';
+import { MobileQuickBar } from '../components/MobileQuickBar';
+import { trackPageView } from '../utils/analytics';
 
 export const Home = () => {
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
   const [isGivingModalOpen, setIsGivingModalOpen] = useState(false);
   const [isPrayerModalOpen, setIsPrayerModalOpen] = useState(false);
 
+  useEffect(() => {
+    trackPageView('Home');
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#070c18] text-slate-100 selection:bg-amber-500/30 selection:text-amber-200">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-amber-500 selection:text-slate-950 pb-16 md:pb-0">
       {/* Navigation */}
       <Navbar
         onOpenBranchModal={() => setIsBranchModalOpen(true)}
@@ -64,6 +70,12 @@ export const Home = () => {
         onOpenBranchModal={() => setIsBranchModalOpen(true)}
         onOpenGivingModal={() => setIsGivingModalOpen(true)}
         onOpenPrayerModal={() => setIsPrayerModalOpen(true)}
+      />
+
+      {/* Mobile Sticky Action Bar */}
+      <MobileQuickBar
+        onOpenBranchModal={() => setIsBranchModalOpen(true)}
+        onOpenGivingModal={() => setIsGivingModalOpen(true)}
       />
 
       {/* Modals */}
