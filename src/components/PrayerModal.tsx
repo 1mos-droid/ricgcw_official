@@ -75,12 +75,12 @@ export const PrayerModal = ({ isOpen, onClose }: PrayerModalProps) => {
             </div>
             <div>
               <h2 className="text-xl md:text-2xl font-bold font-serif text-white">Prayer Request & Intercession</h2>
-              <p className="text-xs text-amber-300 font-medium">"The effective, fervent prayer of a righteous man avails much." — James 5:16</p>
+              <p className="text-xs text-amber-300 font-medium">"The effective, fervent prayer of a righteous man avails much." (James 5:16)</p>
             </div>
           </div>
           <button
             onClick={resetAndClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close prayer modal"
           >
             <X className="w-5 h-5" />

@@ -15,6 +15,7 @@ export interface PaystackPaymentOptions {
   publicKey?: string;
   subaccount?: string;
   reference?: string;
+  callback?: (response: { reference: string; [key: string]: any }) => void;
   onSuccess?: (response: { reference: string; [key: string]: any }) => void;
   onClose?: () => void;
 }
@@ -66,9 +67,27 @@ export function buildPaystackPaymentConfig(options: PaystackPaymentOptions) {
   const currency = options.currency || 'GHS';
   const amountInKoboOrPesewas = Math.round(options.amount * 100);
   const ref = options.reference || generatePaymentReference();
+  const key = options.publicKey || (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || DEFAULT_PAYSTACK_PUBLIC_KEY;
+
+  // Paystack Inline v1 strictly tests: Object.prototype.toString.call(config.callback) === '[object Function]'
+  // Async functions evaluate to '[object AsyncFunction]', which triggers "Attribute callback must be a valid function".
+  // Using a plain synchronous function declaration ensures full compatibility.
+  function callbackWrapper(response: any) {
+    if (typeof options.callback === 'function') {
+      options.callback(response);
+    } else if (typeof options.onSuccess === 'function') {
+      options.onSuccess(response);
+    }
+  }
+
+  function closeWrapper() {
+    if (typeof options.onClose === 'function') {
+      options.onClose();
+    }
+  }
 
   return {
-    key: options.publicKey || (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || DEFAULT_PAYSTACK_PUBLIC_KEY,
+    key,
     email,
     amount: amountInKoboOrPesewas,
     currency,
@@ -82,9 +101,106 @@ export function buildPaystackPaymentConfig(options: PaystackPaymentOptions) {
         { display_name: 'Subaccount', variable_name: 'subaccount', value: subaccount },
       ],
     },
-    callback: options.onSuccess,
-    onClose: options.onClose,
+    callback: callbackWrapper,
+    onClose: closeWrapper,
   };
+}
+
+/**
+ * Robust helper that handles both Paystack v1 and v2 Inline SDK modal popups
+ */
+export function openPaystackPopup(config: any): boolean {
+  if (typeof window === 'undefined') return false;
+
+  const Pop = (window as any).PaystackPop;
+  if (!Pop) return false;
+
+  function callbackHandler(response: any) {
+    if (typeof config.callback === 'function') {
+      config.callback(response);
+    } else if (typeof config.onSuccess === 'function') {
+      config.onSuccess(response);
+    }
+  }
+
+  function closeHandler() {
+    if (typeof config.onClose === 'function') {
+      config.onClose();
+    } else if (typeof config.onCancel === 'function') {
+      config.onCancel();
+    }
+  }
+
+  // 1. Paystack v1 standard: PaystackPop.setup(v1Config).openIframe()
+  if (typeof Pop.setup === 'function') {
+    try {
+      const v1Config: any = {
+        key: config.key || config.publicKey || DEFAULT_PAYSTACK_PUBLIC_KEY,
+        email: config.email,
+        amount: config.amount,
+        currency: config.currency || 'GHS',
+        ref: config.ref || config.reference,
+        metadata: config.metadata,
+        callback: callbackHandler,
+        onClose: closeHandler,
+      };
+      if (config.subaccount) {
+        v1Config.subaccount = config.subaccount;
+      }
+      const handler = Pop.setup(v1Config);
+      if (handler && typeof handler.openIframe === 'function') {
+        handler.openIframe();
+        return true;
+      }
+    } catch (err) {
+      console.warn('PaystackPop.setup failed, trying alternative pop method:', err);
+    }
+  }
+
+  // 2. Paystack v2 instance: new PaystackPop().newTransaction(config)
+  if (typeof Pop === 'function') {
+    try {
+      const instance = new Pop();
+      if (instance && typeof instance.newTransaction === 'function') {
+        instance.newTransaction({
+          key: config.key || config.publicKey || DEFAULT_PAYSTACK_PUBLIC_KEY,
+          email: config.email,
+          amount: config.amount,
+          currency: config.currency,
+          ref: config.ref || config.reference,
+          subaccount: config.subaccount,
+          metadata: config.metadata,
+          onSuccess: callbackHandler,
+          onCancel: closeHandler,
+        });
+        return true;
+      }
+    } catch {
+      // Not a constructor
+    }
+  }
+
+  // 3. Paystack v2 static: PaystackPop.newTransaction(config)
+  if (typeof Pop.newTransaction === 'function') {
+    try {
+      Pop.newTransaction({
+        key: config.key || config.publicKey || DEFAULT_PAYSTACK_PUBLIC_KEY,
+        email: config.email,
+        amount: config.amount,
+        currency: config.currency,
+        ref: config.ref || config.reference,
+        subaccount: config.subaccount,
+        metadata: config.metadata,
+        onSuccess: callbackHandler,
+        onCancel: closeHandler,
+      });
+      return true;
+    } catch (err) {
+      console.warn('PaystackPop.newTransaction error:', err);
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -125,9 +241,13 @@ export function loadPaystackInlineScript(): Promise<boolean> {
       return;
     }
 
-    const existingScript = document.getElementById('paystack-inline-js');
+    const existingScript = document.getElementById('paystack-inline-js') as HTMLScriptElement | null;
     if (existingScript) {
-      existingScript.addEventListener('load', () => resolve(true));
+      if ((window as any).PaystackPop) {
+        resolve(true);
+        return;
+      }
+      existingScript.addEventListener('load', () => resolve(Boolean((window as any).PaystackPop)));
       existingScript.addEventListener('error', () => resolve(false));
       return;
     }
@@ -136,9 +256,9 @@ export function loadPaystackInlineScript(): Promise<boolean> {
     script.id = 'paystack-inline-js';
     script.src = 'https://js.paystack.co/v1/inline.js';
     script.async = true;
-    script.onload = () => resolve(true);
+    script.onload = () => resolve(Boolean((window as any).PaystackPop));
     script.onerror = () => resolve(false);
-    document.body.appendChild(script);
+    document.head.appendChild(script);
   });
 }
 

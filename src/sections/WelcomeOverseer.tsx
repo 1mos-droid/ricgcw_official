@@ -24,8 +24,8 @@ export const WelcomeOverseer = ({ onOpenPrayerModal, onOpenBranchModal }: Welcom
         
         {/* Section Header Tag */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Apostolic Welcome & Shepherding
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Apostolic Welcome &amp; Shepherding
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
             Welcome to the Inner Court of the King
@@ -101,7 +101,7 @@ export const WelcomeOverseer = ({ onOpenPrayerModal, onOpenBranchModal }: Welcom
                   As recorded in <em>{churchInfo.scripturalAnchor.reference}</em>, when Queen Esther stepped into the inner court of the King, she obtained royal favor that altered the destiny of an entire nation. In this house, we believe in the absolute reality of God's spoken word (Rhema), the unquenchable fire of the Holy Spirit, and the power of sacrificial praise.
                 </p>
                 <p>
-                  Whether you are seeking salvation, deeper discipleship, physical or emotional healing, marital restoration, or financial breakthrough — there is an open heaven waiting for you in any of our sanctuaries in <strong>{branchNames || 'Accra and beyond'}</strong>.
+                  Whether you are seeking salvation, deeper discipleship, physical or emotional healing, marital restoration, or financial breakthrough, there is an open heaven waiting for you in any of our sanctuaries in <strong>{branchNames || 'Accra and beyond'}</strong>.
                 </p>
               </div>
             </div>

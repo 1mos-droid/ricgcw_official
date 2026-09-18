@@ -28,11 +28,11 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
               <Church className="w-3.5 h-3.5 text-amber-600" /> Gather With Us
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
-              Church Sanctuaries & Service Times
+              Church Sanctuaries &amp; Service Times
             </h2>
             <p className="text-sm sm:text-base text-slate-600 max-w-2xl font-normal">
               Experience the power and presence of God in any of our {branches.length} regional branches across Greater Accra, Ghana.
@@ -44,7 +44,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
               trackEvent('interaction', 'branch_modal_opened', 'Branches Section');
               onOpenBranchModal?.();
             }}
-            className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 self-start md:self-auto transition-colors cursor-pointer shadow-md"
+            className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 self-start md:self-auto transition-colors cursor-pointer shadow-md"
           >
             <MapPin className="w-4 h-4 text-amber-400" /> Full Branch Directory
           </button>
@@ -76,7 +76,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
                     <Church className="w-5 h-5" />
                   </div>
                   {branch.isHeadquarters && (
-                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-800 border border-amber-500/30">
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-500/15 text-amber-800 border border-amber-500/30">
                       Headquarters
                     </span>
                   )}
@@ -90,7 +90,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
 
                 <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs">
                   <span className="font-mono text-[11px] text-slate-900 font-bold">
-                    Sunday: {branch.services[0]?.time.split('–')[0]}
+                    Sunday: {branch.services[0]?.time.split(/[-–]/)[0].trim()}
                   </span>
                   <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'text-amber-600 translate-x-1' : 'text-slate-400'}`} />
                 </div>
@@ -106,7 +106,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-200">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-900 border border-amber-500/30">
+                  <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-900 border border-amber-500/30">
                     {activeBranch.tagline}
                   </span>
                   <span className="text-xs text-slate-600">Led by: <strong className="text-slate-900">{activeBranch.pastor}</strong></span>
@@ -143,7 +143,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
             {/* Service Schedules Grid */}
             <div className="space-y-4">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-600" /> Weekly Gatherings & Ministrations
+                <Clock className="w-4 h-4 text-amber-600" /> Weekly Gatherings &amp; Ministrations
               </h4>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -157,7 +157,7 @@ export const BranchesSchedules = ({ onOpenBranchModal }: BranchesSchedulesProps)
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${service.isMain ? 'bg-amber-500/20 text-amber-900 font-black' : 'bg-slate-100 text-slate-700'}`}>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md ${service.isMain ? 'bg-amber-500/20 text-amber-900 font-black' : 'bg-slate-100 text-slate-700'}`}>
                         {service.day}
                       </span>
                       <span className="font-mono text-xs font-bold text-slate-900">

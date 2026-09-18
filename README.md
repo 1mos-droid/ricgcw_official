@@ -1,4 +1,4 @@
-# Rhema Inner Court Gospel Church (Worldwide) — Official Website
+# Rhema Inner Court Gospel Church (Worldwide): Official Website
 
 The official, modern, and spirit-filled website for **Rhema Inner Court Gospel Church (Worldwide) (RICGCW)**, founded and led by General Overseer **Rev. Nicholas Dobeng**.
 

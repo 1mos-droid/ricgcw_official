@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { IMAGES } from '../data/churchData';
+import { usePageTitle } from '../utils/usePageTitle';
 
 export const AdminLogin: React.FC = () => {
+  usePageTitle('Admin Portal Login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

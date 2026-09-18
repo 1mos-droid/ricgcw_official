@@ -77,7 +77,7 @@ describe('AdminDashboard Sponsorship Management Tab', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /publish kingdom project/i }));
 
-    // Now the project exists — click Edit
+    // Now the project exists: click Edit
     const editButtons = screen.getAllByRole('button', { name: /edit/i });
     expect(editButtons.length).toBeGreaterThan(0);
     fireEvent.click(editButtons[0]);

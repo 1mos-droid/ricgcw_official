@@ -58,7 +58,7 @@ export const Navbar = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
         <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 text-xs font-semibold py-1.5 px-4 hidden sm:block">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="bg-slate-950 text-amber-300 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">
+              <span className="bg-slate-950 text-amber-300 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
                 {themeSettings.announcementBadge}
               </span>
               <span className="tracking-wide">

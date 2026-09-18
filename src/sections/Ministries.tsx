@@ -26,11 +26,11 @@ export const Ministries = ({ onOpenPrayerModal, onOpenBranchModal }: MinistriesP
         
         {/* Section Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
-            <Users className="w-3.5 h-3.5 text-amber-600" /> Growth & Fellowship
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <Users className="w-3.5 h-3.5 text-amber-600" /> Growth &amp; Fellowship
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
-            Find Your Community & Ministry
+            Find Your Community &amp; Ministry
           </h2>
           <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
             From men and women to youth and children, there is a dedicated spiritual family waiting to welcome and disciple you.
@@ -52,7 +52,7 @@ export const Ministries = ({ onOpenPrayerModal, onOpenBranchModal }: MinistriesP
                     <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform">
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                       Active Fellowship
                     </span>
                   </div>

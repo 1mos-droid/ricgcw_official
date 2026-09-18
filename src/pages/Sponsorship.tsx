@@ -8,6 +8,7 @@ import { PrayerModal } from '../components/PrayerModal';
 import { MobileQuickBar } from '../components/MobileQuickBar';
 import { useChurch } from '../context/ChurchContext';
 import { trackPageView, trackEvent } from '../utils/analytics';
+import { usePageTitle } from '../utils/usePageTitle';
 
 const ICON_MAP = {
   Users,
@@ -20,6 +21,7 @@ const ICON_MAP = {
 };
 
 export const Sponsorship = () => {
+  usePageTitle('Kingdom Partnership & Missions Sponsorship');
   const { projects, sponsorshipStats, sponsorshipSettings } = useChurch();
   const [isGivingModalOpen, setIsGivingModalOpen] = useState(false);
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
@@ -49,7 +51,7 @@ export const Sponsorship = () => {
           
           {/* Header Banner */}
           <div className="text-center space-y-4 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
               <Heart className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
               <span>{sponsorshipSettings?.badge || 'Kingdom Partnership & Sponsorship'}</span>
             </div>
@@ -84,7 +86,7 @@ export const Sponsorship = () => {
           {/* Secure Online Payment Gateway Card */}
           <div className="p-8 sm:p-12 rounded-3xl bg-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-3 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
                 <Lock className="w-3.5 h-3.5" /> {sponsorshipSettings?.gatewayBadge || 'Paystack Instant Gateway'}
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif text-white">
@@ -131,7 +133,7 @@ export const Sponsorship = () => {
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                           {proj.category}
                         </span>
                         <span className="text-xs font-mono font-bold text-slate-900">{proj.percent}% Funded</span>

@@ -4,6 +4,7 @@ import {
   buildPaystackPaymentConfig,
   generatePaymentReference,
   formatTransactionRecord,
+  openPaystackPopup,
 } from './paystackService';
 
 describe('paystackService (TDD)', () => {
@@ -107,6 +108,20 @@ describe('paystackService (TDD)', () => {
       expect(record.platform).toBe('ricgcw_official');
       expect(record.status).toBe('success');
       expect(record.date).toBeDefined();
+    });
+  });
+
+  describe('openPaystackPopup', () => {
+    it('successfully triggers Paystack v1 setup and openIframe', () => {
+      const mockOpenIframe = vi.fn();
+      const mockSetup = vi.fn().mockReturnValue({ openIframe: mockOpenIframe });
+      (window as any).PaystackPop = { setup: mockSetup };
+
+      const opened = openPaystackPopup({ key: 'pk_test_123', email: 'test@example.com', amount: 1000 });
+
+      expect(opened).toBe(true);
+      expect(mockSetup).toHaveBeenCalled();
+      expect(mockOpenIframe).toHaveBeenCalled();
     });
   });
 });

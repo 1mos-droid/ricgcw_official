@@ -28,7 +28,7 @@ export const About = () => {
           {/* Left Text Block */}
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
                 <BookOpen className="w-3.5 h-3.5 text-amber-600" /> Our Divine Foundation
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight leading-tight">
@@ -46,7 +46,7 @@ export const About = () => {
                 "{churchInfo.scripturalAnchor.verse}"
               </p>
               <p className="text-xs font-bold text-amber-700 uppercase font-mono tracking-wider">
-                — {churchInfo.scripturalAnchor.reference}
+                ({churchInfo.scripturalAnchor.reference})
               </p>
             </div>
 
@@ -94,7 +94,7 @@ export const About = () => {
                 />
               </div>
               <div className="p-4 space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-800 border border-amber-500/20 inline-block">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-500/10 text-amber-800 border border-amber-500/20 inline-block">
                   {churchInfo.themeYear} Theme Banner
                 </span>
                 <h3 className="font-serif font-bold text-lg text-slate-900">{churchInfo.themeTitle}</h3>

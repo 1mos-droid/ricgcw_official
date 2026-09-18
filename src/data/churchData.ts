@@ -123,7 +123,7 @@ export const CHURCH_INFO = {
     { title: 'Taking Territories', scripture: 'Joshua 1:3' },
     { title: 'Where Impossibility Becomes Possible', scripture: 'Luke 1:37' },
   ],
-  slogan: 'Inner court – where sacrifices made to heaven!!!',
+  slogan: 'Inner Court: Where sacrifices made to heaven!!!',
   vision: 'To Reach Out To People; To Love The People; To Care For The People, Spiritual And Physical Needs.',
   scripturalAnchor: {
     verse: "Now it came to pass on the third day, that Esther put on her royal apparel, and stood in the inner court of the king's house...",
@@ -184,7 +184,7 @@ export const CHURCH_INFO = {
     },
   ],
   loyaltyCulture: {
-    quote: "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too. We do not speak evil things and will not allow anybody from within or outside to speak evil about them — internally (inside the church) or externally (outside the church). This is the way we think and do our things as a LOYAL PEOPLE unto God.",
+    quote: "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too. We do not speak evil things and will not allow anybody from within or outside to speak evil about them, internally (inside the church) or externally (outside the church). This is the way we think and do our things as a LOYAL PEOPLE unto God.",
     scripture: 'Proverbs 21:21',
   },
   contact: {
@@ -228,26 +228,26 @@ export const BRANCHES: Branch[] = [
     services: [
       {
         day: 'Sunday',
-        time: '9:00 AM – 12:00 PM',
+        time: '9:00 AM - 12:00 PM',
         name: 'Glorious Sunday Celebration & Word Feast',
         description: 'Atmosphere of high praise, deep worship, prophetic utterance, and kingdom transformation.',
         isMain: true,
       },
       {
         day: 'Tuesday',
-        time: '6:00 PM – 8:45 PM',
+        time: '6:00 PM - 8:45 PM',
         name: 'Mid-Week Rhema Teaching Service',
         description: 'In-depth systematic study of the Word of God, discipleship, and spiritual empowerment.',
       },
       {
         day: 'Thursday',
-        time: '6:00 PM – 9:00 PM',
+        time: '6:00 PM - 9:00 PM',
         name: 'Prophetic Encounter & Deliverance Service',
         description: 'Unlocking divine destiny, prayer warfare, breakthrough, and signs & wonders.',
       },
       {
         day: 'Saturday',
-        time: '6:00 PM – 7:00 PM',
+        time: '6:00 PM - 7:00 PM',
         name: 'Intercessory Hour & Altar of Fire',
         description: 'Power-packed corporate prayer covering families, nation, and church vision.',
       },
@@ -266,20 +266,20 @@ export const BRANCHES: Branch[] = [
     services: [
       {
         day: 'Sunday',
-        time: '7:00 AM – 9:00 AM',
+        time: '7:00 AM - 9:00 AM',
         name: 'Early Morning Divine Encounter Service',
         description: 'Start your Lord\'s day in reverence, passionate prayer, and life-changing ministry.',
         isMain: true,
       },
       {
         day: 'Wednesday',
-        time: '6:30 PM – 8:30 PM',
+        time: '6:30 PM - 8:30 PM',
         name: 'Mid-Week Breakthrough Service',
         description: 'Spiritual fellowship, scripture exposition, and communal prayers.',
       },
       {
         day: 'Friday',
-        time: '7:00 PM – 9:00 PM',
+        time: '7:00 PM - 9:00 PM',
         name: 'Prophetic Miracle & Revival Night',
         description: 'Intense intercession, healing, and supernatural breakthroughs.',
       },
@@ -298,14 +298,14 @@ export const BRANCHES: Branch[] = [
     services: [
       {
         day: 'Sunday',
-        time: '8:30 AM – 11:00 AM',
+        time: '8:30 AM - 11:00 AM',
         name: 'Sunday Morning Miracle & Praise Service',
         description: 'Vibrant worship, powerful communion, and prophetic instructions.',
         isMain: true,
       },
       {
         day: 'Thursday',
-        time: '6:30 PM – 8:30 PM',
+        time: '6:30 PM - 8:30 PM',
         name: 'Mid-Week Word & Prayer Encounter',
         description: 'Building spiritual stamina and fellowship in the presence of God.',
       },

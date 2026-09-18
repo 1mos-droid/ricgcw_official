@@ -69,7 +69,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
         
         {/* Section Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Plan Your Visit
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
@@ -92,7 +92,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                 trackEvent('interaction', 'branch_modal_opened', 'Plan Your Visit Guide');
                 onOpenBranchModal?.();
               }}
-              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 self-center md:self-auto transition-all shadow-sm"
+              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 self-center md:self-auto transition-all shadow-sm cursor-pointer"
             >
               <MapPin className="w-4 h-4" /> View Branch Map
             </button>
@@ -134,9 +134,10 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                   <p className="font-bold text-sm text-slate-950">{churchInfo.contact.location}</p>
                   <button
                     onClick={onOpenBranchModal}
-                    className="text-xs text-amber-700 font-bold hover:underline mt-0.5 block cursor-pointer"
+                    className="text-xs text-amber-700 font-bold hover:underline mt-0.5 flex items-center gap-1 cursor-pointer"
                   >
-                    View All {branches.length} Branch Addresses →
+                    <span>View All {branches.length} Branch Addresses</span>
+                    <ChevronDown className="w-3 h-3 -rotate-90" />
                   </button>
                 </div>
               </div>
@@ -146,7 +147,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                   <MessageCircle className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Official Helpline & WhatsApp</p>
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Official Helpline &amp; WhatsApp</p>
                   <a
                     href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}`}
                     target="_blank"
@@ -156,7 +157,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                   >
                     {churchInfo.contact.phone}
                   </a>
-                  <p className="text-xs text-slate-500 mt-0.5">Available for emergency prayer & inquiries</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Available for emergency prayer &amp; inquiries</p>
                 </div>
               </div>
 
@@ -172,7 +173,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                   >
                     {churchInfo.contact.email}
                   </a>
-                  <p className="text-xs text-slate-500 mt-0.5">For administrative letters & bookings</p>
+                  <p className="text-xs text-slate-500 mt-0.5">For administrative letters &amp; bookings</p>
                 </div>
               </div>
             </div>
@@ -215,8 +216,8 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
           <div className="lg:col-span-7">
             <div className="p-8 sm:p-10 rounded-3xl bg-slate-50 border border-slate-200 shadow-md space-y-6">
               <div className="space-y-2">
-                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-800 border border-amber-500/30">
-                  Online Inquiry & Counseling
+                <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-800 border border-amber-500/30">
+                  Online Inquiry &amp; Counseling
                 </span>
                 <h3 className="text-2xl font-bold font-serif text-slate-950">Send a Direct Message to Pastors</h3>
                 <p className="text-xs text-slate-600">

@@ -28,7 +28,7 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
               <CalendarIcon className="w-3.5 h-3.5 text-amber-600" /> Holy Gatherings
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
@@ -44,7 +44,7 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
               trackEvent('interaction', 'branch_modal_opened', 'Events Section');
               onOpenBranchModal?.();
             }}
-            className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-2 self-start md:self-auto transition-colors cursor-pointer shadow-sm"
+            className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-2 self-start md:self-auto transition-colors cursor-pointer shadow-sm"
           >
             <span>Weekly Schedules</span>
             <ArrowRight className="w-4 h-4 text-amber-600" />
@@ -74,7 +74,7 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
             {featuredEvent && (
               <div className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-white shadow-xl space-y-6 relative overflow-hidden">
                 <div className="flex flex-wrap items-center justify-between gap-4">
-                  <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-500 text-slate-950 shadow-sm">
+                  <span className="px-3.5 py-1 rounded-md text-xs font-bold uppercase tracking-widest bg-amber-500 text-slate-950 shadow-sm">
                     Featured Flagship Conference
                   </span>
                   <span className="text-xs font-mono font-bold text-amber-300 bg-white/10 px-3 py-1 rounded-xl border border-white/10">
@@ -125,7 +125,7 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                           {ev.category}
                         </span>
                         <span className="text-xs font-mono font-bold text-slate-600">{ev.date}</span>

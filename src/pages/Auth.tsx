@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { IMAGES } from '../data/churchData';
+import { usePageTitle } from '../utils/usePageTitle';
 
 export const Auth: React.FC = () => {
+  usePageTitle('Access Verification');
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-100 px-4 relative overflow-hidden">
       <div className="max-w-md w-full text-center space-y-8 p-8 sm:p-10 bg-slate-900 border border-amber-500/30 rounded-3xl shadow-2xl relative z-10">

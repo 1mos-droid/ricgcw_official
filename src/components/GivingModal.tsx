@@ -6,6 +6,7 @@ import {
   buildPaystackPaymentConfig,
   formatTransactionRecord,
   loadPaystackInlineScript,
+  openPaystackPopup,
   recordPaymentToFirestore,
   DEFAULT_PAYSTACK_SUBACCOUNT,
   DEFAULT_PAYSTACK_PUBLIC_KEY,
@@ -37,13 +38,13 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const [keyWarning, setKeyWarning] = useState(false);
+  const [gatewayError, setGatewayError] = useState(false);
 
   // Preload Paystack inline script when modal opens
   useEffect(() => {
     if (isOpen) {
       loadPaystackInlineScript();
-      setKeyWarning(false);
+      setGatewayError(false);
     }
   }, [isOpen]);
 
@@ -51,7 +52,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
 
   const handleGivingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setKeyWarning(false);
+    setGatewayError(false);
     setIsProcessing(true);
     trackEvent('conversion', 'give_paystack_intent', `${currency} ${amount} for ${category}`);
 
@@ -66,84 +67,54 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
         donorName,
         donorEmail: donorEmail || 'innercourtch@gmail.com',
         donorPhone,
-        reference: response.reference,
+        reference: response.reference || response.trxref,
         subaccount,
       });
 
       await recordPaymentToFirestore(txRecord);
       setIsProcessing(false);
       setIsSuccess(true);
-      trackEvent('conversion', 'give_paystack_success', response.reference);
+      trackEvent('conversion', 'give_paystack_success', response.reference || response.trxref);
     };
 
-    if (!paystackKey) {
-      setIsProcessing(false);
-      setKeyWarning(true);
-      return;
-    }
-
-    if (typeof window !== 'undefined' && (window as any).PaystackPop) {
-      try {
-        const config = buildPaystackPaymentConfig({
-          amount: Number(amount),
-          email: donorEmail || 'innercourtch@gmail.com',
-          donorName: donorName || 'Anonymous Giver',
-          donorPhone,
-          category,
-          currency,
-          publicKey: paystackKey,
-          subaccount,
-          onSuccess: handleSuccessCallback,
-          onClose: () => {
-            setIsProcessing(false);
-          },
-        });
-
-        const handler = (window as any).PaystackPop.setup(config);
-        handler.openIframe();
-        return;
-      } catch (err) {
-        console.error('Paystack popup trigger error:', err);
-        setIsProcessing(false);
-        setKeyWarning(true);
+    try {
+      let hasPaystack = typeof window !== 'undefined' && Boolean((window as any).PaystackPop);
+      if (!hasPaystack) {
+        hasPaystack = await loadPaystackInlineScript();
       }
-    } else {
-      // Script not yet loaded, try loading then opening
-      const loaded = await loadPaystackInlineScript();
-      if (loaded && (window as any).PaystackPop) {
-        try {
-          const config = buildPaystackPaymentConfig({
-            amount: Number(amount),
-            email: donorEmail || 'innercourtch@gmail.com',
-            donorName: donorName || 'Anonymous Giver',
-            donorPhone,
-            category,
-            currency,
-            publicKey: paystackKey,
-            subaccount,
-            onSuccess: handleSuccessCallback,
-            onClose: () => {
-              setIsProcessing(false);
-            },
-          });
 
-          const handler = (window as any).PaystackPop.setup(config);
-          handler.openIframe();
-          return;
-        } catch (err) {
-          console.error('Paystack popup error:', err);
+      const config = buildPaystackPaymentConfig({
+        amount: Number(amount),
+        email: donorEmail || 'innercourtch@gmail.com',
+        donorName: donorName || 'Anonymous Giver',
+        donorPhone,
+        category,
+        currency,
+        publicKey: paystackKey,
+        subaccount,
+        callback: handleSuccessCallback,
+        onSuccess: handleSuccessCallback,
+        onClose: () => {
           setIsProcessing(false);
-        }
-      }
-    }
+        },
+      });
 
-    setIsProcessing(false);
+      const opened = openPaystackPopup(config);
+      if (!opened) {
+        setIsProcessing(false);
+        setGatewayError(true);
+      }
+    } catch (err) {
+      console.error('Paystack popup trigger error:', err);
+      setIsProcessing(false);
+      setGatewayError(true);
+    }
   };
 
   const resetAndClose = () => {
     setIsSuccess(false);
     setIsProcessing(false);
-    setKeyWarning(false);
+    setGatewayError(false);
     onClose();
   };
 
@@ -172,7 +143,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
           </div>
           <button
             onClick={resetAndClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close giving modal"
           >
             <X className="w-5 h-5" />
@@ -313,10 +284,9 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Email for Receipt</label>
+                  <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Email for Receipt (Optional)</label>
                   <input
                     type="email"
-                    required
                     value={donorEmail}
                     onChange={(e) => setDonorEmail(e.target.value)}
                     placeholder="name@example.com"
@@ -325,16 +295,30 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
                 </div>
               </div>
 
-              {/* Missing Paystack Public Key Notice */}
-              {keyWarning && (
-                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs space-y-1.5 animate-in fade-in">
+              {/* Direct MoMo / Payment Gateway Fallback */}
+              {gatewayError && (
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs space-y-2 animate-in fade-in">
                   <div className="flex items-center gap-2 font-bold text-amber-900">
                     <ShieldCheck className="w-4 h-4 text-amber-600" />
-                    <span>Paystack Public Key Required</span>
+                    <span>Direct Mobile Money Giving</span>
                   </div>
-                  <p className="leading-relaxed text-[11px] text-amber-800">
-                    Subaccount <code className="font-bold font-mono bg-amber-200/60 px-1 py-0.5 rounded">{churchInfo.giving.subaccount || DEFAULT_PAYSTACK_SUBACCOUNT}</code> is configured, but your Paystack Public Key (<code className="font-mono text-[10px]">pk_live_...</code> or <code className="font-mono text-[10px]">pk_test_...</code>) must be added to your environment configuration (<code className="font-mono text-[10px]">VITE_PAYSTACK_PUBLIC_KEY</code> in <code className="font-mono text-[10px]">.env</code>) to launch live checkout.
+                  <p className="leading-relaxed text-[11px] text-amber-900">
+                    If online checkout is temporarily unavailable on your browser, you can give directly via Mobile Money:
                   </p>
+                  <div className="p-3 rounded-xl bg-white border border-amber-200 space-y-1 font-mono text-[11px] text-slate-800">
+                    <p>• <strong>MTN Mobile Money:</strong> {churchInfo.contact.phone}</p>
+                    <p>• <strong>Reference:</strong> {category} - {donorName || 'Giver'}</p>
+                  </div>
+                  <div className="pt-0.5">
+                    <a
+                      href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}?text=Shalom%20Church%20Office,%20I%20want%20to%20give%20${encodeURIComponent(currency + ' ' + amount)}%20towards%20${encodeURIComponent(category)}.`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 font-bold text-emerald-700 hover:text-emerald-800 text-xs"
+                    >
+                      <span>Chat with Church Treasury on WhatsApp →</span>
+                    </a>
+                  </div>
                 </div>
               )}
 

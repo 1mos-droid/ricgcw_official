@@ -116,7 +116,7 @@ const defaultThemeSettings: ChurchThemeSettings = {
   accentColor: 'gold',
   showAnnouncementBanner: true,
   announcementBadge: '2026 Mandate',
-  announcementText: 'Divine Manifestation — Touching Lives Worldwide across Accra & Beyond',
+  announcementText: 'Divine Manifestation: Touching Lives Worldwide across Accra & Beyond',
   enableLiveStreamBadge: true,
   enableRadioPlayer: true,
   heroHeadline: 'Where Impossibilities Become Divine Reality',

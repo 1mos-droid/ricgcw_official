@@ -15,8 +15,10 @@ import { GivingModal } from '../components/GivingModal';
 import { PrayerModal } from '../components/PrayerModal';
 import { MobileQuickBar } from '../components/MobileQuickBar';
 import { trackPageView } from '../utils/analytics';
+import { usePageTitle } from '../utils/usePageTitle';
 
 export const Home = () => {
+  usePageTitle('2026 Divine Manifestation');
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
   const [isGivingModalOpen, setIsGivingModalOpen] = useState(false);
   const [isPrayerModalOpen, setIsPrayerModalOpen] = useState(false);

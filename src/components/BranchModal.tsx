@@ -48,7 +48,7 @@ export const BranchModal = ({ isOpen, onClose, defaultBranchId }: BranchModalPro
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close branch modal"
           >
             <X className="w-5 h-5" />
@@ -79,7 +79,7 @@ export const BranchModal = ({ isOpen, onClose, defaultBranchId }: BranchModalPro
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-sm text-slate-950">{branch.name.split('(')[0]}</span>
                       {branch.isHeadquarters && (
-                        <span className="text-[9px] font-bold bg-amber-500/20 text-amber-900 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                        <span className="text-[9px] font-bold bg-amber-500/20 text-amber-900 border border-amber-500/30 px-2 py-0.5 rounded-md">
                           HQ
                         </span>
                       )}
@@ -99,7 +99,7 @@ export const BranchModal = ({ isOpen, onClose, defaultBranchId }: BranchModalPro
           <div className="md:col-span-8 p-6 md:p-8 space-y-6 overflow-y-auto">
             <div className="space-y-3 pb-6 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-900 border border-amber-500/30">
+                <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-900 border border-amber-500/30">
                   {selectedBranch.tagline}
                 </span>
                 <span className="text-xs text-slate-500">Resident Minister: <strong className="text-slate-900">{selectedBranch.pastor}</strong></span>
@@ -152,7 +152,7 @@ export const BranchModal = ({ isOpen, onClose, defaultBranchId }: BranchModalPro
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${srv.isMain ? 'bg-amber-500 text-slate-950 font-black' : 'bg-white text-slate-700 border border-slate-200'}`}>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${srv.isMain ? 'bg-amber-500 text-slate-950 font-black' : 'bg-white text-slate-700 border border-slate-200'}`}>
                         {srv.day}
                       </span>
                       <span className="font-mono text-xs font-bold text-slate-900">{srv.time}</span>

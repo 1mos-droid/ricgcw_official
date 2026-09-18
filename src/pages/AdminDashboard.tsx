@@ -43,8 +43,10 @@ import { calculateFundingPercent, createSponsorshipProject } from '../utils/spon
 import { db } from '../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { TransactionRecord } from '../utils/paystackService';
+import { usePageTitle } from '../utils/usePageTitle';
 
 export const AdminDashboard: React.FC = () => {
+  usePageTitle('Admin Control Center & Dynamic CMS');
   const navigate = useNavigate();
   const {
     churchInfo,
@@ -473,7 +475,7 @@ export const AdminDashboard: React.FC = () => {
                 <span className="font-bold text-sm font-serif text-white tracking-wide">
                   RICGCW Control Center
                 </span>
-                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Dynamic CMS
                 </span>
               </div>
@@ -547,7 +549,7 @@ export const AdminDashboard: React.FC = () => {
                 <Icon className="w-4 h-4" />
                 <span>{tab.name}</span>
                 {tab.badge && (
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-slate-950 text-amber-300' : 'bg-amber-500/20 text-amber-300'}`}>
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${isActive ? 'bg-slate-950 text-amber-300' : 'bg-amber-500/20 text-amber-300'}`}>
                     {tab.badge}
                   </span>
                 )}
@@ -748,7 +750,7 @@ export const AdminDashboard: React.FC = () => {
                             {tx.donorPhone && <p className="text-[10px] text-slate-400 font-mono">{tx.donorPhone}</p>}
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold">
+                            <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold">
                               {tx.category}
                             </span>
                           </td>
@@ -759,7 +761,7 @@ export const AdminDashboard: React.FC = () => {
                             {tx.paymentReference}
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase">
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase">
                               {tx.status || 'success'}
                             </span>
                           </td>
@@ -1062,7 +1064,7 @@ export const AdminDashboard: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">{ev.category}</span>
                         {ev.isFeatured && (
-                          <span className="text-[10px] uppercase font-bold px-2 py-0.2 rounded-full bg-amber-500/20 text-amber-300">
+                          <span className="text-[10px] uppercase font-bold px-2 py-0.2 rounded-md bg-amber-500/20 text-amber-300">
                             Featured Flagship
                           </span>
                         )}
@@ -1285,7 +1287,7 @@ export const AdminDashboard: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <h4 className="font-bold font-serif text-white text-base">{br.name}</h4>
                         {br.isHeadquarters && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
                             Headquarters
                           </span>
                         )}
@@ -1688,7 +1690,7 @@ export const AdminDashboard: React.FC = () => {
                   >
                     <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
                           {proj.category}
                         </span>
                         <span className="text-xs font-mono font-bold text-slate-300">
@@ -2033,7 +2035,7 @@ export const AdminDashboard: React.FC = () => {
                         <div>
                           <div className="flex items-center gap-2">
                             <h4 className="font-bold text-base text-white">{prayer.name}</h4>
-                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
                               prayer.status === 'new'
                                 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                                 : prayer.status === 'prayed'

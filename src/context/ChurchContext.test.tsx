@@ -16,7 +16,7 @@ describe('ChurchContext Sponsorship Management', () => {
   it('provides initial default sponsorship projects, stats, and settings', () => {
     const { result } = renderHook(() => useChurch(), { wrapper });
 
-    // Projects start empty — admin adds real data via dashboard
+    // Projects start empty: admin adds real data via dashboard
     expect(result.current.projects.length).toBe(0);
     // Only 1 verified stat: number of active sanctuaries
     expect(result.current.sponsorshipStats.length).toBe(1);

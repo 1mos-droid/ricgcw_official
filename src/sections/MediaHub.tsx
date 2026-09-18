@@ -15,7 +15,7 @@ export const MediaHub = () => {
         
         {/* Section Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-700 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-red-500/10 border border-red-500/30 text-red-700 text-xs font-bold uppercase tracking-widest">
             <Radio className="w-3.5 h-3.5 text-red-600" /> Broadcasts &amp; Sermons
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
@@ -35,7 +35,7 @@ export const MediaHub = () => {
             {/* Live Streaming Sanctuary Card */}
             <div className="p-8 rounded-3xl bg-slate-900 text-white shadow-xl relative overflow-hidden space-y-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 text-red-400 rounded-full border border-red-500/30">
+                <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 text-red-400 rounded-md border border-red-500/30">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   <span className="text-[10px] font-black uppercase tracking-widest">Live Broadcast</span>
                 </div>
@@ -59,7 +59,7 @@ export const MediaHub = () => {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-white">Live Ministration Stream</p>
-                    <p className="text-[10px] text-slate-400">RICGCW — Apostolic Broadcast</p>
+                    <p className="text-[10px] text-slate-400">RICGCW: Apostolic Broadcast</p>
                   </div>
                 </div>
 

@@ -21,11 +21,11 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
         {/* Top Callout Banner */}
         <div className="mb-14 p-8 md:p-10 rounded-3xl bg-slate-900 border border-amber-500/30 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="space-y-2 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" /> {churchInfo.themeYear} Mandate
             </div>
             <h3 className="text-2xl md:text-3xl font-bold font-serif text-white">
-              {churchInfo.themeTitle} — {churchInfo.themeSubtitle}
+              {churchInfo.themeTitle}: {churchInfo.themeSubtitle}
             </h3>
             <p className="text-slate-400 text-xs sm:text-sm max-w-2xl">
               Join us this week for an encounter with God's word and power. Experience miracles, salvation, and kingdom advancement.
@@ -72,7 +72,7 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
             </p>
             <div className="pt-2 text-xs italic text-amber-300/80 border-l-2 border-amber-500/30 pl-3">
               "{churchInfo.scripturalAnchor.verse}"
-              <span className="block font-bold mt-1 text-slate-400 not-italic">— {churchInfo.scripturalAnchor.reference}</span>
+              <span className="block font-bold mt-1 text-slate-400 not-italic">({churchInfo.scripturalAnchor.reference})</span>
             </div>
             <div className="flex items-center gap-3 pt-2">
               <a
@@ -146,22 +146,22 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
               </li>
               <li>
                 <a href="#identity" className="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3 h-3 text-amber-400" /> Tabernacle & Color Meanings
+                  <ChevronRight className="w-3 h-3 text-amber-400" /> Tabernacle &amp; Color Meanings
                 </a>
               </li>
               <li>
                 <a href="#ministries" className="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3 h-3 text-amber-400" /> Men of Valor & Women of Grace
+                  <ChevronRight className="w-3 h-3 text-amber-400" /> Men of Valor &amp; Women of Grace
                 </a>
               </li>
               <li>
                 <a href="#ministries" className="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3 h-3 text-amber-400" /> Youth Alive & Kids Court
+                  <ChevronRight className="w-3 h-3 text-amber-400" /> Youth Alive &amp; Kids Court
                 </a>
               </li>
               <li>
                 <a href="#media" className="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3 h-3 text-amber-400" /> Sermons & Radio Broadcast
+                  <ChevronRight className="w-3 h-3 text-amber-400" /> Sermons &amp; Radio Broadcast
                 </a>
               </li>
               <li>
@@ -220,19 +220,31 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
                 }}
                 className="w-full py-3 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Heart className="w-3.5 h-3.5" /> Tithes & MoMo Giving
+                <Heart className="w-3.5 h-3.5" /> Tithes &amp; MoMo Giving
               </button>
             </div>
           </div>
         </div>
 
-        {/* Bottom Legal Copyright Bar */}
+        {/* Bottom Legal Copyright Bar & Privacy / Terms Links */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Rhema Inner Court Gospel Church (Worldwide). All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-amber-400 font-medium">General Overseer: Rev. Nicholas Dobeng</span>
+          
+          <div className="flex flex-wrap items-center gap-4 text-xs">
+            <Link to="/privacy" className="text-slate-400 hover:text-amber-300 transition-colors">
+              Privacy Policy
+            </Link>
             <span>•</span>
-            <span className="text-slate-400">Touching Lives Worldwide</span>
+            <Link to="/terms" className="text-slate-400 hover:text-amber-300 transition-colors">
+              Terms of Service
+            </Link>
+            <span>•</span>
+            <button
+              onClick={() => window.dispatchEvent(new Event('open-cookie-preferences'))}
+              className="text-slate-400 hover:text-amber-300 transition-colors cursor-pointer"
+            >
+              Cookie Settings
+            </button>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ export const Identity = () => {
 
   const definitions = churchInfo.definitions || [];
   const loyalty = churchInfo.loyaltyCulture || {
-    quote: "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too. We do not speak evil things and will not allow anybody from within or outside to speak evil about them — internally (inside the church) or externally (outside the church). This is the way we think and do our things as a LOYAL PEOPLE unto God.",
+    quote: "RICGCW believes in our HEAD PASTOR and the ASSOCIATES, also the LEADERS and all the DEPARTMENTAL HEAD EXECUTIVES as well as all the MEMBERS too. We do not speak evil things and will not allow anybody from within or outside to speak evil about them, internally (inside the church) or externally (outside the church). This is the way we think and do our things as a LOYAL PEOPLE unto God.",
     scripture: 'Proverbs 21:21',
   };
 
@@ -20,12 +20,12 @@ export const Identity = () => {
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
                 <Shield className="w-3.5 h-3.5 text-amber-600" /> Church Culture
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
                 A Consecrated Culture of <br />
-                <span className="text-amber-700 italic">Honor & Loyalty.</span>
+                <span className="text-amber-700 italic">Honor &amp; Loyalty.</span>
               </h2>
             </div>
 
@@ -34,7 +34,7 @@ export const Identity = () => {
                 "{loyalty.quote}"
               </p>
               <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-xs text-amber-800 font-bold uppercase tracking-wider">
-                <span>Core Value: Honor & Protection</span>
+                <span>Core Value: Honor &amp; Protection</span>
                 <span>{loyalty.scripture}</span>
               </div>
             </div>
@@ -70,7 +70,7 @@ export const Identity = () => {
         {/* Church Colors & Spiritual Meanings */}
         <div className="space-y-10">
           <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
               <Palette className="w-3.5 h-3.5 text-amber-600" /> Sanctuary Symbolism
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-slate-950">
