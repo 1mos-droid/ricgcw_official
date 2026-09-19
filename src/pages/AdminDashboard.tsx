@@ -34,7 +34,9 @@ import {
   CreditCard,
   HelpCircle,
   FolderPlus,
-  Users
+  Users,
+  QrCode,
+  Crown
 } from 'lucide-react';
 import { useChurch, PrayerItem } from '../context/ChurchContext';
 import { getAnalyticsSummary, AnalyticsSummary } from '../utils/analytics';
@@ -486,6 +488,15 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              to="/consecration"
+              target="_blank"
+              className="px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors"
+            >
+              <Crown className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">Consecration QR & Lineup</span>
+            </Link>
+
             <Link
               to="/"
               target="_blank"

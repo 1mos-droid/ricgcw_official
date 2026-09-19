@@ -6,6 +6,7 @@ import Sponsorship from './pages/Sponsorship';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Auth from './pages/Auth';
+import ConsecrationProgram from './pages/ConsecrationProgram';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
@@ -42,6 +43,13 @@ function App() {
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/auth" element={<Auth />} />
+
+          {/* Unlisted / Secret QR Code Program Lineup Routes (Not linked in navigation) */}
+          <Route path="/consecration" element={<ConsecrationProgram />} />
+          <Route path="/consecration-service" element={<ConsecrationProgram />} />
+          <Route path="/order-of-service" element={<ConsecrationProgram />} />
+          <Route path="/lineup" element={<ConsecrationProgram />} />
+          <Route path="/program" element={<ConsecrationProgram />} />
 
           {/* Secret Admin Portal Routes (Not linked publicly) */}
           <Route path="/admin/login" element={<AdminLogin />} />

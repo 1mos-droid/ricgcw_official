@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ricgcw.org/sitemap.xml
+Sitemap: https://ricgcw.me/sitemap.xml

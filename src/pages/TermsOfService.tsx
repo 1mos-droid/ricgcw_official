@@ -63,7 +63,7 @@ export const TermsOfService = () => {
                 Acceptance of Terms
               </h2>
               <p>
-                By browsing, visiting, or utilizing any feature of the Rhema Inner Court Gospel Church (Worldwide) website (ricgcw.org), you acknowledge that you have read, understood, and agree to be bound by these Terms of Service, along with our Privacy Policy. If you do not agree with any part of these terms, you may refrain from using this website.
+                By browsing, visiting, or utilizing any feature of the Rhema Inner Court Gospel Church (Worldwide) website (ricgcw.me), you acknowledge that you have read, understood, and agree to be bound by these Terms of Service, along with our Privacy Policy. If you do not agree with any part of these terms, you may refrain from using this website.
               </p>
             </section>
 
