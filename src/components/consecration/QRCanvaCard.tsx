@@ -33,7 +33,7 @@ const getInitialBaseUrl = () => {
 };
 
 export const QRCanvaCard = ({
-  path = '/consecration',
+  path = '/program',
   className = '',
   showDownloadButton = true,
 }: QRCanvaCardProps) => {
@@ -225,20 +225,19 @@ export const QRCanvaCard = ({
       // Main Event Title
       ctx.fillStyle = isDark ? '#ffffff' : '#0f172a';
       ctx.font = 'bold 44px "Playfair Display", Georgia, serif';
-      ctx.fillText('Solemn Consecration & Ordination', width / 2, 375);
-      ctx.fillText('Official Program Lineup', width / 2, 430);
+      ctx.fillText('CONSECRATION AND ORDINATION SERVICE', width / 2, 375);
 
-      // Subtitle / Motto
+      // Subtitle
       ctx.fillStyle = isDark ? '#fef3c7' : '#475569';
-      ctx.font = 'italic 24px "Playfair Display", Georgia, serif';
-      ctx.fillText('“Esther 5:1 • Inner Court: Where Sacrifices Are Made Unto Heaven”', width / 2, 480);
+      ctx.font = 'bold 28px "Playfair Display", Georgia, serif';
+      ctx.fillText('PROGRAM LINE UP', width / 2, 435);
 
       // Horizontal Divider Ribbon
       ctx.strokeStyle = goldSubtle;
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(200, 515);
-      ctx.lineTo(width - 200, 515);
+      ctx.moveTo(200, 485);
+      ctx.lineTo(width - 200, 485);
       ctx.stroke();
 
       // 5. Draw QR Code Frame & Image
@@ -492,14 +491,14 @@ export const QRCanvaCard = ({
                 cardTheme === 'sanctuary-white' ? 'text-slate-950' : 'text-white'
               }`}
             >
-              Solemn Consecration & Ordination
+              CONSECRATION AND ORDINATION SERVICE
             </h3>
             <p
-              className={`text-xs sm:text-sm font-serif italic mt-0.5 ${
-                cardTheme === 'sanctuary-white' ? 'text-slate-600' : 'text-amber-200/90'
+              className={`text-xs sm:text-sm font-bold uppercase tracking-widest mt-1 ${
+                cardTheme === 'sanctuary-white' ? 'text-slate-700' : 'text-amber-300'
               }`}
             >
-              "Inner Court: Where Sacrifices Are Made Unto Heaven"
+              PROGRAM LINE UP
             </p>
           </div>
         </div>
@@ -541,7 +540,7 @@ export const QRCanvaCard = ({
         {/* Scan Instructions */}
         <div className="relative z-10 space-y-2">
           <div
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${
               cardTheme === 'sanctuary-white'
                 ? 'bg-amber-100 text-amber-900 border border-amber-300'
                 : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
@@ -578,7 +577,7 @@ export const QRCanvaCard = ({
           </div>
         </div>
 
-        {/* Card Footer Slogan */}
+        {/* Card Footer */}
         <div
           className={`relative z-10 mt-6 pt-4 border-t text-[10px] tracking-wider uppercase font-semibold ${
             cardTheme === 'sanctuary-white'
@@ -586,7 +585,7 @@ export const QRCanvaCard = ({
               : 'border-slate-800 text-amber-400/80'
           }`}
         >
-          2026 Divine Manifestation • Taking Territories
+          Official Liturgy Program
         </div>
       </div>
 

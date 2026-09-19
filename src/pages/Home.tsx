@@ -18,7 +18,7 @@ import { trackPageView } from '../utils/analytics';
 import { usePageTitle } from '../utils/usePageTitle';
 
 export const Home = () => {
-  usePageTitle('2026 Divine Manifestation');
+  usePageTitle('Home • 2026: Divine Manifestation');
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
   const [isGivingModalOpen, setIsGivingModalOpen] = useState(false);
   const [isPrayerModalOpen, setIsPrayerModalOpen] = useState(false);

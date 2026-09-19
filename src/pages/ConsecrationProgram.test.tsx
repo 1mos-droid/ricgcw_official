@@ -6,15 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ChurchProvider } from '../context/ChurchContext';
 import { ConsecrationProgram } from './ConsecrationProgram';
 
-// Mock QRCode library to avoid canvas issues in jsdom
-vi.mock('qrcode', () => ({
-  default: {
-    toDataURL: vi.fn().mockResolvedValue('data:image/png;base64,mockqrdata'),
-    toString: vi.fn().mockResolvedValue('<svg>mock qr</svg>'),
-  },
-}));
-
-describe('ConsecrationProgram Page Component', () => {
+describe('ConsecrationProgram Page Component (Verbatim Document Lineup)', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();
@@ -30,106 +22,91 @@ describe('ConsecrationProgram Page Component', () => {
     );
   };
 
-  it('renders the solemn consecration hero header and church details', () => {
+  it('renders the document header and church name', () => {
     renderConsecrationProgram();
 
     expect(screen.getAllByText(/Rhema Inner Court Gospel Church \(Worldwide\)/i)[0]).toBeInTheDocument();
-    expect(screen.getByText(/Solemn Episcopal Consecration & Sacred Ordination Service/i)).toBeInTheDocument();
-    expect(screen.getByText(/Divine Manifestation \(2026\)/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /CONSECRATION AND ORDINATION SERVICE/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/PROGRAM LINE UP/i)[0]).toBeInTheDocument();
   });
 
-  it('renders the 33-step Consecration lineup by default', () => {
+  it('renders all 33 items of the Consecration & Ordination Service lineup by default', () => {
     renderConsecrationProgram();
 
-    // Key milestone steps
-    expect(screen.getAllByText(/OPENING PRAYER \/ INTRODUCTION OF PROCESSION/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/SONG MINISTRATION & ORDER OF PROCESSION/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/CONSECRATION VOWS/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/PRAYERS AND ANOINTING OF CANDIDATE WITH HORN OF OIL/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/PRESENTATION OF THE VESTMENTS/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/RECESSIONAL SONG: TO GOD BE THE GLORY/i)[0]).toBeInTheDocument();
+    // Verbatim checks from page 1 of document
+    expect(screen.getByText(/OPENING PRAYER \/ INTRODUCTION OF PROCESSION/i)).toBeInTheDocument();
+    expect(screen.getByText(/Song Ministration/i)).toBeInTheDocument();
+    expect(screen.getByText(/REMOVAL OF MITRE/i)).toBeInTheDocument();
+    expect(screen.getByText(/FIRST SCRIPTURE READING \(Hebrews 5:1-10\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/SECOND SCRIPTURE READING \(Isaiah 42:1-9\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/CONSECRATION VOWS/i)).toBeInTheDocument();
+    expect(screen.getByText(/PRAYERS AND ANOINTING OF CANDIDATE with HORN of OIL/i)).toBeInTheDocument();
+    expect(screen.getByText(/CUMMUNION FOR NEW CANDIDATE/i)).toBeInTheDocument();
+    expect(screen.getByText(/PRESENTATION OF THE VESTMENTS/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/ORDER OF RECESSION/i)[0]).toBeInTheDocument();
+    expect(screen.getByText(/RECESSIONAL SONG: To God be the Glory/i)).toBeInTheDocument();
+    expect(screen.getByText(/GREETINGS AND PHOTOGRAPHS/i)).toBeInTheDocument();
   });
 
-  it('renders Order of Procession details with sacred members', () => {
+  it('renders Order of Procession sub-items (a-g)', () => {
     renderConsecrationProgram();
 
-    expect(screen.getAllByText(/Assisting Ceremonial Ministers/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/Bearer of the Consecrating Bishop’s Sword/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/Bearer of the Consecrating Bishop’s Staff/i)[0]).toBeInTheDocument();
+    expect(screen.getByText(/Assisting Ceremonial Ministers bearing vestments, staff and Bibles/i)).toBeInTheDocument();
+    expect(screen.getByText(/Candidate \(in white cassock\)/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Bearer of the Consecrating Bishop['’]s Sword/i)[0]).toBeInTheDocument();
+    expect(screen.getByText(/Consecrating Bishop wearing Mitre on skull cap for procession/i)).toBeInTheDocument();
   });
 
-  it('switches to Ordination of Pastors tab and displays 13 steps', () => {
+  it('renders Order of Recession sub-items (a-h)', () => {
+    renderConsecrationProgram();
+
+    expect(screen.getByText(/New Bishops \/ Apostles \/ Prophets \(each holding his own staff\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Assisting Ceremonial Ministers bearing Bibles and Certificates of New Bishop/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Bearer of the Consecrating Bishop['’]s Sword/i)[1]).toBeInTheDocument();
+    expect(screen.getByText(/Clergy/i)).toBeInTheDocument();
+  });
+
+  it('switches to Ordination of Pastors tab and renders the 13 verbatim items', () => {
     renderConsecrationProgram();
 
     const pastorsTab = screen.getByRole('button', { name: /Ordination of Pastors/i });
     fireEvent.click(pastorsTab);
 
-    expect(screen.getAllByText(/DECLARATION OF PURPOSE/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/The Holy Call & Scriptural Qualifications of a Pastor/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/PRESENTATION OF CERTIFICATES, CROSS AND BIBLE/i)[0]).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /ORDINATION OF PASTORS/i })).toBeInTheDocument();
+    expect(screen.getByText(/PROCESSIONAL HYMN/i)).toBeInTheDocument();
+    expect(screen.getByText(/DECLARATION OF PURPOSE/i)).toBeInTheDocument();
+    expect(screen.getByText(/ORDINATION VOWS/i)).toBeInTheDocument();
+    expect(screen.getByText(/PRESENTATION OF CERTIFICATES, CROSS AND BIBLE, prayer, laying of hands, anointing with oil/i)).toBeInTheDocument();
+    expect(screen.getByText(/OFFICIAL PICTURES TAKEN/i)).toBeInTheDocument();
   });
 
-  it('switches to Canva Poster & QR Hub tab', () => {
+  it('filters lineup items via real-time search', () => {
     renderConsecrationProgram();
 
-    const canvaTab = screen.getByRole('button', { name: /Canva Poster & QR Hub/i });
-    fireEvent.click(canvaTab);
+    const searchInput = screen.getByPlaceholderText(/Search lineup items\.\.\./i);
+    fireEvent.change(searchInput, { target: { value: 'HORN of OIL' } });
 
-    expect(screen.getByText(/Custom Framed Canva Poster & QR Code/i)).toBeInTheDocument();
-    expect(screen.getByText(/Download Canva Poster \(PNG\)/i)).toBeInTheDocument();
-  });
-
-  it('switches to Sacred Regalia & Symbols tab', () => {
-    renderConsecrationProgram();
-
-    const symbolsTab = screen.getByRole('button', { name: /Sacred Regalia & Symbols/i });
-    fireEvent.click(symbolsTab);
-
-    expect(screen.getAllByText(/The Episcopal Mitre/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/The Horn of Consecration Oil/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/The Pastoral Staff \(Crozier\)/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/The Consecrating Sword/i)[0]).toBeInTheDocument();
-  });
-
-  it('switches to Liturgical Scriptures & Hymns tab', () => {
-    renderConsecrationProgram();
-
-    const hymnsTab = screen.getByRole('button', { name: /Liturgical Scriptures & Hymn/i });
-    fireEvent.click(hymnsTab);
-
-    expect(screen.getAllByText(/To God Be The Glory/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/Hebrews 5:1-10/i)[0]).toBeInTheDocument();
-    expect(screen.getAllByText(/Isaiah 42:1-9/i)[0]).toBeInTheDocument();
-  });
-
-  it('filters program steps via search input', () => {
-    renderConsecrationProgram();
-
-    const searchInput = screen.getByPlaceholderText(/Search program steps, scriptures, prayers.../i);
-    fireEvent.change(searchInput, { target: { value: 'Horn of Oil' } });
-
-    expect(screen.getByText(/PRAYERS AND ANOINTING OF CANDIDATE WITH HORN OF OIL/i)).toBeInTheDocument();
+    expect(screen.getByText(/PRAYERS AND ANOINTING OF CANDIDATE with HORN of OIL/i)).toBeInTheDocument();
     expect(screen.queryByText(/FIRST SCRIPTURE READING \(Hebrews 5:1-10\)/i)).not.toBeInTheDocument();
   });
 
-  it('opens the QR Code Hub modal when clicking QR & Share button', () => {
+  it('does not render QR generator, modal buttons, or print controls on the attendee page', () => {
     renderConsecrationProgram();
 
-    const qrButtons = screen.getAllByText(/QR & Share/i);
-    fireEvent.click(qrButtons[0]);
-
-    expect(screen.getByText(/Digital Program QR Code & Canva Hub/i)).toBeInTheDocument();
-    expect(screen.getByText(/Unlisted Endpoint Protected/i)).toBeInTheDocument();
-    expect(screen.getByText(/Download Canva Poster \(PNG\)/i)).toBeInTheDocument();
+    expect(screen.queryByText(/QR & Share/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Generate \/ Download QR Code/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Print Program/i })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Canva Poster & QR Hub/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Sacred Regalia & Symbols/i)).not.toBeInTheDocument();
   });
 
-  it('allows setting active step and marking items as done', () => {
+  it('allows toggling text size zoom for reading comfort in church', () => {
     renderConsecrationProgram();
 
-    // Click on step 1 to make it active
-    const setStepButtons = screen.getAllByText(/Set as Current Step/i);
-    fireEvent.click(setStepButtons[0]);
+    const zoomButton = screen.getByRole('button', { name: /Toggle text size/i });
+    expect(zoomButton).toHaveTextContent(/Text Size: A\+/i);
 
-    expect(screen.getByText(/CURRENTLY IN SESSION \/ ACTIVE STEP/i)).toBeInTheDocument();
+    fireEvent.click(zoomButton);
+    expect(zoomButton).toHaveTextContent(/Text Size: A-/i);
   });
 });

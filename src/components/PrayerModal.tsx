@@ -91,7 +91,7 @@ export const PrayerModal = ({ isOpen, onClose }: PrayerModalProps) => {
         <div className="p-6 md:p-8 overflow-y-auto flex-1">
           {submitted ? (
             <div className="text-center py-8 space-y-6">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+              <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 

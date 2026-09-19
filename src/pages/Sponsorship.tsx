@@ -149,10 +149,10 @@ export const Sponsorship = () => {
                           <span>Raised: <strong>{proj.raised}</strong></span>
                           <span>Target: <strong>{proj.target}</strong></span>
                         </div>
-                        <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
+                        <div className="h-2 rounded-xl bg-slate-200 overflow-hidden">
                           <div
                             style={{ width: `${Math.min(100, Math.max(0, proj.percent))}%` }}
-                            className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                            className="h-full bg-amber-500 rounded-xl transition-all duration-500"
                           />
                         </div>
                       </div>

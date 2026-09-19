@@ -46,6 +46,7 @@ import { db } from '../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { TransactionRecord } from '../utils/paystackService';
 import { usePageTitle } from '../utils/usePageTitle';
+import { QRCanvaCard } from '../components/consecration/QRCanvaCard';
 
 export const AdminDashboard: React.FC = () => {
   usePageTitle('Admin Control Center & Dynamic CMS');
@@ -90,7 +91,7 @@ export const AdminDashboard: React.FC = () => {
     resetToDefaults,
   } = useChurch();
 
-  const [activeTab, setActiveTab] = useState<'analytics' | 'content' | 'branches' | 'ministries' | 'events' | 'sponsorship' | 'faqs' | 'appearance' | 'prayers' | 'feedback'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'content' | 'events' | 'liturgy' | 'branches' | 'ministries' | 'sponsorship' | 'faqs' | 'appearance' | 'prayers' | 'feedback'>('analytics');
   const [analytics, setAnalytics] = useState<AnalyticsSummary>(getAnalyticsSummary());
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -537,6 +538,7 @@ export const AdminDashboard: React.FC = () => {
             { id: 'analytics', name: 'Analytics & Giving', icon: BarChart3, badge: `${analytics.totalVisitors}` },
             { id: 'content', name: 'Church Identity', icon: Edit3 },
             { id: 'events', name: 'Events', icon: Calendar, badge: `${events.length}` },
+            { id: 'liturgy', name: 'Liturgy & QR Studio', icon: Crown, badge: 'Canva Flyer' },
             { id: 'branches', name: 'Branches', icon: MapPin, badge: `${branches.length}` },
             { id: 'ministries', name: 'Ministries', icon: Users, badge: `${ministries.length}` },
             { id: 'sponsorship', name: 'Sponsorship & Projects', icon: Heart, badge: `${projects.length}` },
@@ -683,8 +685,8 @@ export const AdminDashboard: React.FC = () => {
                       <span className="flex items-center gap-2"><Smartphone className="w-4 h-4 text-amber-400" /> Mobile Phones</span>
                       <span className="font-mono font-bold">72%</span>
                     </div>
-                    <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
-                      <div className="h-full bg-amber-500 rounded-full w-[72%]" />
+                    <div className="h-2 rounded-md bg-slate-800 overflow-hidden">
+                      <div className="h-full bg-amber-500 rounded-md w-[72%]" />
                     </div>
                   </div>
 
@@ -693,8 +695,8 @@ export const AdminDashboard: React.FC = () => {
                       <span className="flex items-center gap-2"><Laptop className="w-4 h-4 text-blue-400" /> Desktop & Laptops</span>
                       <span className="font-mono font-bold">23%</span>
                     </div>
-                    <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
-                      <div className="h-full bg-blue-500 rounded-full w-[23%]" />
+                    <div className="h-2 rounded-md bg-slate-800 overflow-hidden">
+                      <div className="h-full bg-blue-500 rounded-md w-[23%]" />
                     </div>
                   </div>
 
@@ -703,8 +705,8 @@ export const AdminDashboard: React.FC = () => {
                       <span className="flex items-center gap-2"><Tablet className="w-4 h-4 text-emerald-400" /> Tablets & iPads</span>
                       <span className="font-mono font-bold">5%</span>
                     </div>
-                    <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full w-[5%]" />
+                    <div className="h-2 rounded-md bg-slate-800 overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-md w-[5%]" />
                     </div>
                   </div>
                 </div>
@@ -1177,6 +1179,56 @@ export const AdminDashboard: React.FC = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3.5: LITURGY & QR STUDIO */}
+        {activeTab === 'liturgy' && (
+          <div className="space-y-8 animate-in fade-in duration-200">
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <Crown className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-bold text-xl text-white">
+                      Solemn Consecration • Canva &amp; QR Studio
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Generate official Canva-framed posters and QR codes targeting the clean attendee lineup page (<code className="text-amber-300">https://ricgcw.me/program</code>).
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/program"
+                    target="_blank"
+                    className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-amber-500/20"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Preview Attendee Lineup (/program)</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Informational Guidance Banner */}
+              <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30 flex items-start gap-3 text-xs text-amber-200">
+                <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-bold text-amber-300">
+                    Separation of Management vs. Attendee Experience:
+                  </p>
+                  <p className="text-slate-300">
+                    When churchgoers scan the generated QR code or open <strong className="text-amber-300">ricgcw.me/program</strong>, they see a <em>pure, read-only digital liturgy bulletin</em> without any QR code generators, download buttons, or printing controls.
+                  </p>
+                </div>
+              </div>
+
+              {/* Embedded Canva Poster & QR Code Designer */}
+              <QRCanvaCard path="/program" />
             </div>
           </div>
         )}
@@ -1719,10 +1771,10 @@ export const AdminDashboard: React.FC = () => {
                       </div>
 
                       {/* Progress Bar Preview */}
-                      <div className="w-full max-w-md h-1.5 rounded-full bg-slate-700 overflow-hidden mt-2">
+                      <div className="w-full max-w-md h-1.5 rounded-md bg-slate-700 overflow-hidden mt-2">
                         <div
                           style={{ width: `${Math.min(100, Math.max(0, proj.percent))}%` }}
-                          className="h-full bg-amber-500 rounded-full"
+                          className="h-full bg-amber-500 rounded-md"
                         />
                       </div>
                     </div>

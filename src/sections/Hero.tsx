@@ -207,7 +207,7 @@ export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }
                       <button
                         key={idx}
                         onClick={() => setActiveSlideIndex(idx)}
-                        className={`h-2 rounded-full transition-all cursor-pointer ${
+                        className={`h-2 rounded-md transition-all cursor-pointer ${
                           idx === activeSlideIndex ? 'w-8 bg-amber-400' : 'w-2 bg-slate-700 hover:bg-slate-600'
                         }`}
                         aria-label={`Slide ${idx + 1}`}

@@ -96,7 +96,7 @@ export const Identity = () => {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div
-                      className="w-8 h-8 rounded-full border border-slate-300 shadow-sm"
+                      className="w-8 h-8 rounded-xl border border-slate-300 shadow-sm"
                       style={{ backgroundColor: col.hex }}
                     />
                     {isSelected && <Check className="w-4 h-4 text-amber-700" />}
