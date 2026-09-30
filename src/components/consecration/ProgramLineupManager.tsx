@@ -90,6 +90,7 @@ export const ProgramLineupManager: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<ProgramItem | null>(null);
   const [formTitle, setFormTitle] = useState('');
+  const [formLeader, setFormLeader] = useState('');
   const [formSectionHeader, setFormSectionHeader] = useState('');
   const [formSubItems, setFormSubItems] = useState<SubItem[]>([]);
 
@@ -111,6 +112,7 @@ export const ProgramLineupManager: React.FC = () => {
     return activeItems.filter(
       (item) =>
         item.title.toLowerCase().includes(q) ||
+        item.leader?.toLowerCase().includes(q) ||
         item.sectionHeader?.toLowerCase().includes(q) ||
         item.subItems?.some((sub) => sub.text.toLowerCase().includes(q) || sub.letter.toLowerCase().includes(q))
     );
@@ -120,6 +122,7 @@ export const ProgramLineupManager: React.FC = () => {
   const handleOpenAddModal = () => {
     setEditingItem(null);
     setFormTitle('');
+    setFormLeader('');
     setFormSectionHeader('');
     setFormSubItems([]);
     setIsModalOpen(true);
@@ -129,6 +132,7 @@ export const ProgramLineupManager: React.FC = () => {
   const handleOpenEditModal = (item: ProgramItem) => {
     setEditingItem(item);
     setFormTitle(item.title);
+    setFormLeader(item.leader || '');
     setFormSectionHeader(item.sectionHeader || '');
     setFormSubItems(item.subItems ? [...item.subItems] : []);
     setIsModalOpen(true);
@@ -164,6 +168,7 @@ export const ProgramLineupManager: React.FC = () => {
 
     const itemPayload: Omit<ProgramItem, 'id' | 'order'> = {
       title: formTitle.trim(),
+      ...(formLeader.trim() ? { leader: formLeader.trim() } : {}),
       ...(formSectionHeader.trim() ? { sectionHeader: formSectionHeader.trim() } : {}),
       ...(cleanedSubItems.length > 0 ? { subItems: cleanedSubItems } : {}),
     };
@@ -450,6 +455,13 @@ export const ProgramLineupManager: React.FC = () => {
                         {item.title}
                       </h5>
 
+                      {item.leader && (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-amber-950/40 border border-amber-500/20 text-amber-300 text-xs font-sans">
+                          <span className="text-[10px] uppercase font-bold text-amber-500">Led by:</span>
+                          <span className="font-semibold">{item.leader}</span>
+                        </div>
+                      )}
+
                       {/* Sub-items rendering */}
                       {item.subItems && item.subItems.length > 0 && (
                         <div className="mt-2.5 pl-3 border-l-2 border-amber-500/30 space-y-1">
@@ -535,6 +547,23 @@ export const ProgramLineupManager: React.FC = () => {
                   onChange={(e) => setFormTitle(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:outline-none focus:border-amber-400"
                 />
+              </div>
+
+              {/* Optional Leader / Officiant */}
+              <div>
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Leader / Officiant (Optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Elder Daniel Akorsah, Min. Kofi Nkosuo"
+                  value={formLeader}
+                  onChange={(e) => setFormLeader(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:outline-none focus:border-amber-400"
+                />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  The person, minister, or group ministering or leading this segment.
+                </p>
               </div>
 
               {/* Optional Section Header */}

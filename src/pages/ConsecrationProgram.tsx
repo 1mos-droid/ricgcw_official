@@ -58,10 +58,11 @@ export const ConsecrationProgram: React.FC = () => {
     const query = searchQuery.toLowerCase();
     return list.filter((item) => {
       const matchesTitle = item.title.toLowerCase().includes(query);
+      const matchesLeader = item.leader?.toLowerCase().includes(query);
       const matchesSubItems = item.subItems?.some((sub) =>
         sub.text.toLowerCase().includes(query) || sub.letter.toLowerCase().includes(query)
       );
-      return matchesTitle || matchesSubItems;
+      return matchesTitle || matchesLeader || matchesSubItems;
     });
   }, [activeTab, searchQuery, consecrationList, pastorsList]);
 
@@ -216,9 +217,17 @@ export const ConsecrationProgram: React.FC = () => {
                   </div>
 
                   <div className="flex-1 min-w-0 pt-0.5">
-                    <h3 className="text-sm sm:text-base md:text-lg font-serif font-bold text-slate-100 tracking-wide leading-snug">
-                      {item.title}
-                    </h3>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+                      <h3 className="text-sm sm:text-base md:text-lg font-serif font-bold text-slate-100 tracking-wide leading-snug">
+                        {item.title}
+                      </h3>
+                      {item.leader && !item.title.toLowerCase().includes(item.leader.toLowerCase()) && (
+                        <span className="text-xs sm:text-sm font-sans font-medium text-amber-300/90 shrink-0 inline-flex items-center gap-1.5">
+                          <span className="text-[10px] uppercase font-bold tracking-widest text-amber-500/80">Led by:</span>
+                          <span className="font-semibold text-amber-200">{item.leader}</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 

@@ -7,6 +7,7 @@ export interface ProgramItem {
   id: number;
   order: number;
   title: string;
+  leader?: string;
   sectionHeader?: string;
   subItems?: SubItem[];
 }
@@ -19,11 +20,13 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 1,
     order: 1,
     title: 'OPENING PRAYER / INTRODUCTION OF PROCESSION',
+    leader: 'Elder Daniel Akorsah',
   },
   {
     id: 2,
     order: 2,
     title: 'Song Ministration',
+    leader: 'Minister of Christ',
     sectionHeader: 'Order of Procession',
     subItems: [
       { letter: 'a', text: 'Assisting Ceremonial Ministers bearing vestments, staff and Bibles' },
@@ -49,6 +52,7 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 5,
     order: 5,
     title: 'PURPOSE OF SERVICE',
+    leader: 'Mrs Sandra Dobeng',
   },
   {
     id: 6,
@@ -59,6 +63,7 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 7,
     order: 7,
     title: 'READING OF PROFILE',
+    leader: 'Reginald Aaron Dobeng',
   },
   {
     id: 8,
@@ -69,21 +74,25 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 9,
     order: 9,
     title: 'FIRST SCRIPTURE READING (Hebrews 5:1-10)',
+    leader: 'Mrs. Lydia Frimpong',
   },
   {
     id: 10,
     order: 10,
     title: 'SPECIAL SONGS BY PSALMIST',
+    leader: 'Min. Kofi Nkosuo',
   },
   {
     id: 11,
     order: 11,
     title: 'SECOND SCRIPTURE READING (Isaiah 42:1-9)',
+    leader: 'Miss Faustina Osei',
   },
   {
     id: 12,
     order: 12,
     title: 'SPECIAL SONGS BY PSALMIST',
+    leader: 'Minister Manuel',
   },
   {
     id: 13,
@@ -139,6 +148,7 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 23,
     order: 23,
     title: 'FIRST OFFERING',
+    leader: 'Praises Team',
   },
   {
     id: 24,
@@ -154,11 +164,13 @@ export const CONSECRATION_PROGRAM: ProgramItem[] = [
     id: 26,
     order: 26,
     title: 'MAIDEN SPEECHES OF THE NEW BISHOP OR OVERSEER',
+    leader: 'Overseer Nicholas Dobeng',
   },
   {
     id: 27,
     order: 27,
-    title: 'SECOND OFFERING',
+    title: 'Appeal for Funds (Snr. Apostle Daniel Ofori Darkwa)',
+    leader: 'Snr. Apostle Daniel Ofori Darkwa',
   },
   {
     id: 28,

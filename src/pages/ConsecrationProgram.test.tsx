@@ -46,6 +46,19 @@ describe('ConsecrationProgram Page Component (Verbatim Document Lineup)', () => 
     expect(screen.getAllByText(/ORDER OF RECESSION/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/RECESSIONAL SONG: To God be the Glory/i)).toBeInTheDocument();
     expect(screen.getByText(/GREETINGS AND PHOTOGRAPHS/i)).toBeInTheDocument();
+
+    // Leaders and item 27
+    expect(screen.getByText('Elder Daniel Akorsah')).toBeInTheDocument();
+    expect(screen.getByText('Minister of Christ')).toBeInTheDocument();
+    expect(screen.getByText('Mrs Sandra Dobeng')).toBeInTheDocument();
+    expect(screen.getByText('Reginald Aaron Dobeng')).toBeInTheDocument();
+    expect(screen.getByText('Mrs. Lydia Frimpong')).toBeInTheDocument();
+    expect(screen.getByText('Min. Kofi Nkosuo')).toBeInTheDocument();
+    expect(screen.getByText('Miss Faustina Osei')).toBeInTheDocument();
+    expect(screen.getByText('Minister Manuel')).toBeInTheDocument();
+    expect(screen.getByText('Praises Team')).toBeInTheDocument();
+    expect(screen.getByText('Overseer Nicholas Dobeng')).toBeInTheDocument();
+    expect(screen.getByText(/Appeal for Funds \(Snr\. Apostle Daniel Ofori Darkwa\)/i)).toBeInTheDocument();
   });
 
   it('renders Order of Procession sub-items (a-g)', () => {

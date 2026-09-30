@@ -159,7 +159,7 @@ const defaultThemeSettings: ChurchThemeSettings = {
   heroSubtitle: 'Rhema Inner Court Gospel Church (Worldwide) is a sacred sanctuary dedicated to perfecting the saints, empowering families, and taking territories through the unadulterated word of God.',
 };
 
-const CONSECRATION_STORAGE_KEY = 'ricgcw_consecration_v3';
+const CONSECRATION_STORAGE_KEY = 'ricgcw_consecration_v4';
 
 const getInitialConsecrationData = (): ConsecrationLiturgyData => {
   if (typeof window !== 'undefined') {
@@ -167,6 +167,7 @@ const getInitialConsecrationData = (): ConsecrationLiturgyData => {
       // Clear legacy/polluted storage keys so they never contaminate the canonical program
       localStorage.removeItem('ricgcw_consecration_data');
       localStorage.removeItem('ricgcw_consecration_data_v2');
+      localStorage.removeItem('ricgcw_consecration_v3');
 
       const saved = localStorage.getItem(CONSECRATION_STORAGE_KEY);
       if (saved) {
