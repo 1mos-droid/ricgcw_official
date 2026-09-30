@@ -159,26 +159,32 @@ const defaultThemeSettings: ChurchThemeSettings = {
   heroSubtitle: 'Rhema Inner Court Gospel Church (Worldwide) is a sacred sanctuary dedicated to perfecting the saints, empowering families, and taking territories through the unadulterated word of God.',
 };
 
-const CONSECRATION_STORAGE_KEY = 'ricgcw_consecration_data';
+const CONSECRATION_STORAGE_KEY = 'ricgcw_consecration_v3';
 
 const getInitialConsecrationData = (): ConsecrationLiturgyData => {
   if (typeof window !== 'undefined') {
     try {
+      // Clear legacy/polluted storage keys so they never contaminate the canonical program
+      localStorage.removeItem('ricgcw_consecration_data');
+      localStorage.removeItem('ricgcw_consecration_data_v2');
+
       const saved = localStorage.getItem(CONSECRATION_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return {
-          consecrationTitle: parsed.consecrationTitle || CONSECRATION_SERVICE_TITLE,
-          consecrationSubtitle: parsed.consecrationSubtitle || CONSECRATION_SERVICE_SUBTITLE,
-          consecrationProgram: Array.isArray(parsed.consecrationProgram) && parsed.consecrationProgram.length > 0
-            ? parsed.consecrationProgram
-            : CONSECRATION_PROGRAM,
-          pastorsOrdinationTitle: parsed.pastorsOrdinationTitle || PASTORS_ORDINATION_TITLE,
-          pastorsOrdinationSubtitle: parsed.pastorsOrdinationSubtitle || PASTORS_ORDINATION_SUBTITLE,
-          pastorOrdinationProgram: Array.isArray(parsed.pastorOrdinationProgram) && parsed.pastorOrdinationProgram.length > 0
-            ? parsed.pastorOrdinationProgram
-            : PASTOR_ORDINATION_PROGRAM,
-        };
+        if (parsed && typeof parsed === 'object') {
+          return {
+            consecrationTitle: parsed.consecrationTitle || CONSECRATION_SERVICE_TITLE,
+            consecrationSubtitle: parsed.consecrationSubtitle || CONSECRATION_SERVICE_SUBTITLE,
+            consecrationProgram: Array.isArray(parsed.consecrationProgram) && parsed.consecrationProgram.length > 0
+              ? parsed.consecrationProgram
+              : CONSECRATION_PROGRAM,
+            pastorsOrdinationTitle: parsed.pastorsOrdinationTitle || PASTORS_ORDINATION_TITLE,
+            pastorsOrdinationSubtitle: parsed.pastorsOrdinationSubtitle || PASTORS_ORDINATION_SUBTITLE,
+            pastorOrdinationProgram: Array.isArray(parsed.pastorOrdinationProgram) && parsed.pastorOrdinationProgram.length > 0
+              ? parsed.pastorOrdinationProgram
+              : PASTOR_ORDINATION_PROGRAM,
+          };
+        }
       }
     } catch (e) {
       console.warn('Error reading stored consecration data:', e);
@@ -442,6 +448,34 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } catch (err) {
       console.warn('Settings subscription error:', err);
     }
+  }, []);
+
+  // 8. Cross-tab & Multi-window Liturgy Synchronization
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === CONSECRATION_STORAGE_KEY && e.newValue) {
+        try {
+          const data = JSON.parse(e.newValue);
+          if (data.consecrationTitle) setConsecrationTitle(data.consecrationTitle);
+          if (data.consecrationSubtitle) setConsecrationSubtitle(data.consecrationSubtitle);
+          if (Array.isArray(data.consecrationProgram) && data.consecrationProgram.length > 0) {
+            setConsecrationProgram(data.consecrationProgram);
+          }
+          if (data.pastorsOrdinationTitle) setPastorsOrdinationTitle(data.pastorsOrdinationTitle);
+          if (data.pastorsOrdinationSubtitle) setPastorsOrdinationSubtitle(data.pastorsOrdinationSubtitle);
+          if (Array.isArray(data.pastorOrdinationProgram) && data.pastorOrdinationProgram.length > 0) {
+            setPastorOrdinationProgram(data.pastorOrdinationProgram);
+          }
+        } catch (err) {
+          console.warn('Storage sync error:', err);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   // -------------------------------------------------------------
@@ -792,7 +826,11 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         localStorage.setItem(CONSECRATION_STORAGE_KEY, JSON.stringify(full));
       }
       if (db) {
-        await setDoc(doc(db, 'settings', 'consecration'), full, { merge: true });
+        try {
+          await setDoc(doc(db, 'settings', 'consecration'), full, { merge: true });
+        } catch (dbErr) {
+          console.warn('Firestore consecration sync notice:', dbErr);
+        }
       }
     } catch (err) {
       console.warn('Could not persist consecration data:', err);

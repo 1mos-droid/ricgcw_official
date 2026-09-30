@@ -24,7 +24,15 @@ type ActiveProgramTab = 'consecration' | 'pastors';
 
 export const ConsecrationProgram: React.FC = () => {
   usePageTitle('Program Line Up • Consecration & Ordination Service');
-  const { churchInfo } = useChurch();
+  const {
+    churchInfo,
+    consecrationTitle,
+    consecrationSubtitle,
+    consecrationProgram,
+    pastorsOrdinationTitle,
+    pastorsOrdinationSubtitle,
+    pastorOrdinationProgram,
+  } = useChurch();
 
   const [activeTab, setActiveTab] = useState<ActiveProgramTab>('consecration');
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,8 +42,17 @@ export const ConsecrationProgram: React.FC = () => {
     trackPageView('Program_Lineup_Viewer');
   }, []);
 
+  const consecrationList =
+    Array.isArray(consecrationProgram) && consecrationProgram.length > 0
+      ? consecrationProgram
+      : CONSECRATION_PROGRAM;
+  const pastorsList =
+    Array.isArray(pastorOrdinationProgram) && pastorOrdinationProgram.length > 0
+      ? pastorOrdinationProgram
+      : PASTOR_ORDINATION_PROGRAM;
+
   const currentProgramList: ProgramItem[] = useMemo(() => {
-    const list = activeTab === 'consecration' ? CONSECRATION_PROGRAM : PASTOR_ORDINATION_PROGRAM;
+    const list = activeTab === 'consecration' ? consecrationList : pastorsList;
     if (!searchQuery.trim()) return list;
 
     const query = searchQuery.toLowerCase();
@@ -46,10 +63,16 @@ export const ConsecrationProgram: React.FC = () => {
       );
       return matchesTitle || matchesSubItems;
     });
-  }, [activeTab, searchQuery]);
+  }, [activeTab, searchQuery, consecrationList, pastorsList]);
 
-  const currentTitle = activeTab === 'consecration' ? CONSECRATION_SERVICE_TITLE : PASTORS_ORDINATION_TITLE;
-  const currentSubtitle = activeTab === 'consecration' ? CONSECRATION_SERVICE_SUBTITLE : PASTORS_ORDINATION_SUBTITLE;
+  const currentTitle =
+    activeTab === 'consecration'
+      ? consecrationTitle || CONSECRATION_SERVICE_TITLE
+      : pastorsOrdinationTitle || PASTORS_ORDINATION_TITLE;
+  const currentSubtitle =
+    activeTab === 'consecration'
+      ? consecrationSubtitle || CONSECRATION_SERVICE_SUBTITLE
+      : pastorsOrdinationSubtitle || PASTORS_ORDINATION_SUBTITLE;
 
   return (
     <div
@@ -129,7 +152,7 @@ export const ConsecrationProgram: React.FC = () => {
             }`}
           >
             <Crown className="w-4 h-4 shrink-0" />
-            <span>Consecration &amp; Ordination Service (33)</span>
+            <span>Consecration &amp; Ordination Service ({consecrationList.length})</span>
           </button>
 
           <button
@@ -144,7 +167,7 @@ export const ConsecrationProgram: React.FC = () => {
             }`}
           >
             <Users className="w-4 h-4 shrink-0" />
-            <span>Ordination of Pastors (13)</span>
+            <span>Ordination of Pastors ({pastorsList.length})</span>
           </button>
         </div>
 

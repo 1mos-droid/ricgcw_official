@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ChurchProvider } from '../context/ChurchContext';
+import { ChurchProvider, useChurch } from '../context/ChurchContext';
 import { ConsecrationProgram } from './ConsecrationProgram';
 
 describe('ConsecrationProgram Page Component (Verbatim Document Lineup)', () => {
@@ -109,4 +109,51 @@ describe('ConsecrationProgram Page Component (Verbatim Document Lineup)', () => 
     fireEvent.click(zoomButton);
     expect(zoomButton).toHaveTextContent(/Text Size: A-/i);
   });
+
+  it('reflects liturgy updates when an admin modifies titles or adds an item', async () => {
+    // Component to simulate admin action and attendee view inside the same ChurchProvider
+    const AdminAndUpdateApp = () => {
+      const { updateConsecrationTitles, addProgramItem } = useChurch();
+      return (
+        <div>
+          <button
+            onClick={() => updateConsecrationTitles('UPDATED CANONICAL LITURGY', 'SACRED ORDINATION')}
+          >
+            Admin Update Titles
+          </button>
+          <button
+            onClick={() =>
+              addProgramItem('consecration', {
+                title: 'CONGREGATIONAL ANOINTING & IMPARTATION',
+              })
+            }
+          >
+            Admin Add Item
+          </button>
+          <ConsecrationProgram />
+        </div>
+      );
+    };
+
+    render(
+      <ChurchProvider>
+        <BrowserRouter>
+          <AdminAndUpdateApp />
+        </BrowserRouter>
+      </ChurchProvider>
+    );
+
+    expect(screen.getByRole('heading', { name: /CONSECRATION AND ORDINATION SERVICE/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Consecration & Ordination Service \(33\)/i })).toBeInTheDocument();
+
+    // Trigger admin title update
+    fireEvent.click(screen.getByText('Admin Update Titles'));
+    expect(screen.getByRole('heading', { name: /UPDATED CANONICAL LITURGY/i })).toBeInTheDocument();
+
+    // Trigger admin item addition
+    fireEvent.click(screen.getByText('Admin Add Item'));
+    expect(screen.getByRole('button', { name: /Consecration & Ordination Service \(34\)/i })).toBeInTheDocument();
+    expect(screen.getByText('CONGREGATIONAL ANOINTING & IMPARTATION')).toBeInTheDocument();
+  });
 });
+
