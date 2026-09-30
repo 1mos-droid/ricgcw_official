@@ -18,7 +18,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useChurch } from '../../context/ChurchContext';
-import { ProgramItem, SubItem } from '../../data/consecrationData';
+import { ProgramItem, SubItem, normalizeConsecrationProgram } from '../../data/consecrationData';
 
 type ServiceType = 'consecration' | 'pastors';
 
@@ -102,7 +102,7 @@ export const ProgramLineupManager: React.FC = () => {
 
   // Active items list
   const activeItems = useMemo(() => {
-    return isConsecration ? consecrationProgram : pastorOrdinationProgram;
+    return isConsecration ? normalizeConsecrationProgram(consecrationProgram) : pastorOrdinationProgram;
   }, [isConsecration, consecrationProgram, pastorOrdinationProgram]);
 
   // Filtered items list
