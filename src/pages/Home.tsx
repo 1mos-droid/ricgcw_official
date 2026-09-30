@@ -37,7 +37,7 @@ export const Home = () => {
       />
 
       {/* Main Content Sections */}
-      <main>
+      <main id="main-content">
         <Hero
           onOpenBranchModal={() => setIsBranchModalOpen(true)}
           onOpenGivingModal={() => setIsGivingModalOpen(true)}

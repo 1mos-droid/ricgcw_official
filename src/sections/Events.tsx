@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Calendar as CalendarIcon, MapPin, Clock, ArrowRight, CheckCircle2, Bookmark } from 'lucide-react';
+import { Calendar as CalendarIcon, MapPin, Clock, ArrowRight, CheckCircle2, Bookmark, CalendarPlus, Share2 } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { trackEvent } from '../utils/analytics';
+import { downloadEventIcs } from '../utils/calendarUtils';
 
 interface EventsProps {
   onOpenPrayerModal?: () => void;
@@ -10,12 +11,19 @@ interface EventsProps {
 
 export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) => {
   const { events } = useChurch();
-  const [registeredEventId, setRegisteredEventId] = useState<string | null>(null);
+  const [downloadedEventId, setDownloadedEventId] = useState<string | null>(null);
 
-  const handleRegister = (eventId: string, title: string) => {
-    trackEvent('interaction', 'event_rsvp', title);
-    setRegisteredEventId(eventId);
-    setTimeout(() => setRegisteredEventId(null), 3000);
+  const handleDownloadCalendar = (ev: { id: string; title: string; description: string; location: string; date: string; time: string }) => {
+    trackEvent('interaction', 'event_add_calendar', ev.title);
+    downloadEventIcs({
+      title: ev.title,
+      description: `${ev.description}\nTime: ${ev.time}`,
+      location: ev.location,
+      dateStr: ev.date,
+      timeStr: ev.time,
+    });
+    setDownloadedEventId(ev.id);
+    setTimeout(() => setDownloadedEventId(null), 4000);
   };
 
   const featuredEvent = events.find((e) => e.isFeatured) || events[0];
@@ -105,11 +113,12 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
                 <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
                   <span className="text-xs text-amber-300 font-medium">Free admission • Open to the general public</span>
                   <button
-                    onClick={() => handleRegister(featuredEvent.id, featuredEvent.title)}
-                    className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                    onClick={() => handleDownloadCalendar(featuredEvent)}
+                    className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-95"
+                    aria-label={`Add ${featuredEvent.title} to your calendar`}
                   >
-                    {registeredEventId === featuredEvent.id ? <CheckCircle2 className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
-                    <span>{registeredEventId === featuredEvent.id ? 'Saved in Reminder!' : 'Save The Date & Attend'}</span>
+                    {downloadedEventId === featuredEvent.id ? <CheckCircle2 className="w-4 h-4 text-emerald-900" /> : <CalendarPlus className="w-4 h-4" />}
+                    <span>{downloadedEventId === featuredEvent.id ? 'Saved to Calendar!' : 'Add to Calendar (.ics)'}</span>
                   </button>
                 </div>
               </div>
@@ -151,11 +160,12 @@ export const Events = ({ onOpenPrayerModal, onOpenBranchModal }: EventsProps) =>
                       </div>
 
                       <button
-                        onClick={() => handleRegister(ev.id, ev.title)}
-                        className="w-full py-2.5 rounded-xl bg-slate-50 hover:bg-amber-500 hover:text-slate-950 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer border border-slate-200"
+                        onClick={() => handleDownloadCalendar(ev)}
+                        className="w-full py-2.5 rounded-xl bg-slate-50 hover:bg-amber-500 hover:text-slate-950 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer border border-slate-200 active:scale-95"
+                        aria-label={`Add ${ev.title} to calendar`}
                       >
-                        {registeredEventId === ev.id ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
-                        <span>{registeredEventId === ev.id ? 'Attending!' : 'RSVP & Attend'}</span>
+                        {downloadedEventId === ev.id ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" /> : <CalendarPlus className="w-3.5 h-3.5" />}
+                        <span>{downloadedEventId === ev.id ? 'Saved to Calendar!' : 'Add to Calendar (.ics)'}</span>
                       </button>
                     </div>
                   </div>

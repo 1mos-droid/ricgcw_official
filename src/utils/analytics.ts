@@ -32,8 +32,23 @@ const getDeviceType = (): 'mobile' | 'desktop' | 'tablet' => {
   return 'desktop';
 };
 
+export const isAnalyticsPermitted = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const raw = localStorage.getItem('ricgcw_cookie_consent');
+    if (!raw) return true;
+    const parsed = JSON.parse(raw);
+    return parsed.analytics !== false;
+  } catch {
+    return true;
+  }
+};
+
 export const trackEvent = (category: AnalyticsEvent['category'], action: string, label?: string) => {
   try {
+    if (!isAnalyticsPermitted() && category === 'navigation') {
+      return;
+    }
     const newEvent: AnalyticsEvent = {
       id: Math.random().toString(36).substring(2, 9),
       category,
