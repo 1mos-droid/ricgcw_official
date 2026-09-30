@@ -21,10 +21,28 @@ import {
   LeadershipMember,
   ChurchColor,
 } from '../data/churchData';
+import {
+  ProgramItem,
+  CONSECRATION_PROGRAM,
+  PASTOR_ORDINATION_PROGRAM,
+  CONSECRATION_SERVICE_TITLE,
+  CONSECRATION_SERVICE_SUBTITLE,
+  PASTORS_ORDINATION_TITLE,
+  PASTORS_ORDINATION_SUBTITLE,
+} from '../data/consecrationData';
 import { trackEvent } from '../utils/analytics';
 import { db } from '../firebase';
 import { collection, onSnapshot, addDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { normalizeFirestoreEvent, toFirestoreEvent, sortEventsChronologically } from '../utils/eventAdapter';
+
+export interface ConsecrationLiturgyData {
+  consecrationTitle: string;
+  consecrationSubtitle: string;
+  consecrationProgram: ProgramItem[];
+  pastorsOrdinationTitle: string;
+  pastorsOrdinationSubtitle: string;
+  pastorOrdinationProgram: ProgramItem[];
+}
 
 export type ChurchInfoType = typeof defaultChurchInfo;
 
@@ -108,6 +126,24 @@ export interface ChurchContextType {
   updatePrayerStatus: (id: string, status: PrayerItem['status'], notes?: string) => Promise<void>;
   deletePrayerRequest: (id: string) => Promise<void>;
 
+  // Consecration Liturgy & Program Lineup
+  consecrationTitle: string;
+  consecrationSubtitle: string;
+  consecrationProgram: ProgramItem[];
+  pastorsOrdinationTitle: string;
+  pastorsOrdinationSubtitle: string;
+  pastorOrdinationProgram: ProgramItem[];
+
+  updateConsecrationTitles: (title: string, subtitle: string) => Promise<void>;
+  updatePastorsOrdinationTitles: (title: string, subtitle: string) => Promise<void>;
+  updateConsecrationProgram: (items: ProgramItem[]) => Promise<void>;
+  updatePastorOrdinationProgram: (items: ProgramItem[]) => Promise<void>;
+  addProgramItem: (serviceType: 'consecration' | 'pastors', item: Omit<ProgramItem, 'id' | 'order'>) => Promise<void>;
+  updateProgramItem: (serviceType: 'consecration' | 'pastors', id: number, item: Partial<ProgramItem>) => Promise<void>;
+  deleteProgramItem: (serviceType: 'consecration' | 'pastors', id: number) => Promise<void>;
+  moveProgramItem: (serviceType: 'consecration' | 'pastors', id: number, direction: 'up' | 'down') => Promise<void>;
+  resetProgramToDefaults: (serviceType?: 'consecration' | 'pastors' | 'all') => Promise<void>;
+
   // Reset
   resetToDefaults: () => Promise<void>;
 }
@@ -121,6 +157,41 @@ const defaultThemeSettings: ChurchThemeSettings = {
   enableRadioPlayer: true,
   heroHeadline: 'Where Impossibilities Become Divine Reality',
   heroSubtitle: 'Rhema Inner Court Gospel Church (Worldwide) is a sacred sanctuary dedicated to perfecting the saints, empowering families, and taking territories through the unadulterated word of God.',
+};
+
+const CONSECRATION_STORAGE_KEY = 'ricgcw_consecration_data';
+
+const getInitialConsecrationData = (): ConsecrationLiturgyData => {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem(CONSECRATION_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          consecrationTitle: parsed.consecrationTitle || CONSECRATION_SERVICE_TITLE,
+          consecrationSubtitle: parsed.consecrationSubtitle || CONSECRATION_SERVICE_SUBTITLE,
+          consecrationProgram: Array.isArray(parsed.consecrationProgram) && parsed.consecrationProgram.length > 0
+            ? parsed.consecrationProgram
+            : CONSECRATION_PROGRAM,
+          pastorsOrdinationTitle: parsed.pastorsOrdinationTitle || PASTORS_ORDINATION_TITLE,
+          pastorsOrdinationSubtitle: parsed.pastorsOrdinationSubtitle || PASTORS_ORDINATION_SUBTITLE,
+          pastorOrdinationProgram: Array.isArray(parsed.pastorOrdinationProgram) && parsed.pastorOrdinationProgram.length > 0
+            ? parsed.pastorOrdinationProgram
+            : PASTOR_ORDINATION_PROGRAM,
+        };
+      }
+    } catch (e) {
+      console.warn('Error reading stored consecration data:', e);
+    }
+  }
+  return {
+    consecrationTitle: CONSECRATION_SERVICE_TITLE,
+    consecrationSubtitle: CONSECRATION_SERVICE_SUBTITLE,
+    consecrationProgram: CONSECRATION_PROGRAM,
+    pastorsOrdinationTitle: PASTORS_ORDINATION_TITLE,
+    pastorsOrdinationSubtitle: PASTORS_ORDINATION_SUBTITLE,
+    pastorOrdinationProgram: PASTOR_ORDINATION_PROGRAM,
+  };
 };
 
 const ChurchContext = createContext<ChurchContextType | undefined>(undefined);
@@ -138,6 +209,15 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [churchColors] = useState<ChurchColor[]>(defaultChurchColors);
   const [themeSettings, setThemeSettingsState] = useState<ChurchThemeSettings>(defaultThemeSettings);
   const [prayerRequests, setPrayerRequests] = useState<PrayerItem[]>([]);
+
+  // Consecration & Ordination Liturgy State
+  const initialConsecration = getInitialConsecrationData();
+  const [consecrationTitle, setConsecrationTitle] = useState<string>(initialConsecration.consecrationTitle);
+  const [consecrationSubtitle, setConsecrationSubtitle] = useState<string>(initialConsecration.consecrationSubtitle);
+  const [consecrationProgram, setConsecrationProgram] = useState<ProgramItem[]>(initialConsecration.consecrationProgram);
+  const [pastorsOrdinationTitle, setPastorsOrdinationTitle] = useState<string>(initialConsecration.pastorsOrdinationTitle);
+  const [pastorsOrdinationSubtitle, setPastorsOrdinationSubtitle] = useState<string>(initialConsecration.pastorsOrdinationSubtitle);
+  const [pastorOrdinationProgram, setPastorOrdinationProgram] = useState<ProgramItem[]>(initialConsecration.pastorOrdinationProgram);
 
   // -------------------------------------------------------------
   // Global Real-time Firestore Subscriptions
@@ -327,10 +407,37 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         (error) => console.warn('Sponsorship settings live sync note:', error)
       );
 
+      const unsubConsecration = onSnapshot(
+        doc(db, 'settings', 'consecration'),
+        (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.consecrationTitle) setConsecrationTitle(data.consecrationTitle);
+            if (data.consecrationSubtitle) setConsecrationSubtitle(data.consecrationSubtitle);
+            if (Array.isArray(data.consecrationProgram) && data.consecrationProgram.length > 0) {
+              setConsecrationProgram(data.consecrationProgram);
+            }
+            if (data.pastorsOrdinationTitle) setPastorsOrdinationTitle(data.pastorsOrdinationTitle);
+            if (data.pastorsOrdinationSubtitle) setPastorsOrdinationSubtitle(data.pastorsOrdinationSubtitle);
+            if (Array.isArray(data.pastorOrdinationProgram) && data.pastorOrdinationProgram.length > 0) {
+              setPastorOrdinationProgram(data.pastorOrdinationProgram);
+            }
+
+            try {
+              localStorage.setItem(CONSECRATION_STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+              console.warn('Error saving to localStorage:', e);
+            }
+          }
+        },
+        (error) => console.warn('Consecration settings live sync note:', error)
+      );
+
       return () => {
         unsubInfo();
         unsubTheme();
         unsubSponsorship();
+        unsubConsecration();
       };
     } catch (err) {
       console.warn('Settings subscription error:', err);
@@ -666,6 +773,156 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  // -------------------------------------------------------------
+  // Consecration & Ordination Liturgy Actions
+  // -------------------------------------------------------------
+
+  const persistConsecration = async (updates: Partial<ConsecrationLiturgyData>) => {
+    try {
+      const full: ConsecrationLiturgyData = {
+        consecrationTitle,
+        consecrationSubtitle,
+        consecrationProgram,
+        pastorsOrdinationTitle,
+        pastorsOrdinationSubtitle,
+        pastorOrdinationProgram,
+        ...updates,
+      };
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(CONSECRATION_STORAGE_KEY, JSON.stringify(full));
+      }
+      if (db) {
+        await setDoc(doc(db, 'settings', 'consecration'), full, { merge: true });
+      }
+    } catch (err) {
+      console.warn('Could not persist consecration data:', err);
+    }
+  };
+
+  const updateConsecrationTitles = async (title: string, subtitle: string) => {
+    setConsecrationTitle(title);
+    setConsecrationSubtitle(subtitle);
+    await persistConsecration({ consecrationTitle: title, consecrationSubtitle: subtitle });
+  };
+
+  const updatePastorsOrdinationTitles = async (title: string, subtitle: string) => {
+    setPastorsOrdinationTitle(title);
+    setPastorsOrdinationSubtitle(subtitle);
+    await persistConsecration({ pastorsOrdinationTitle: title, pastorsOrdinationSubtitle: subtitle });
+  };
+
+  const updateConsecrationProgram = async (items: ProgramItem[]) => {
+    const normalized = items.map((item, idx) => ({ ...item, order: idx + 1 }));
+    setConsecrationProgram(normalized);
+    await persistConsecration({ consecrationProgram: normalized });
+  };
+
+  const updatePastorOrdinationProgram = async (items: ProgramItem[]) => {
+    const normalized = items.map((item, idx) => ({ ...item, order: idx + 1 }));
+    setPastorOrdinationProgram(normalized);
+    await persistConsecration({ pastorOrdinationProgram: normalized });
+  };
+
+  const addProgramItem = async (
+    serviceType: 'consecration' | 'pastors',
+    itemData: Omit<ProgramItem, 'id' | 'order'>
+  ) => {
+    const isConsecration = serviceType === 'consecration';
+    const currentList = isConsecration ? consecrationProgram : pastorOrdinationProgram;
+    const newId = currentList.length > 0 ? Math.max(...currentList.map((i) => i.id)) + 1 : 1;
+    const newItem: ProgramItem = {
+      ...itemData,
+      id: newId,
+      order: currentList.length + 1,
+    };
+    const updated = [...currentList, newItem];
+    if (isConsecration) {
+      setConsecrationProgram(updated);
+      await persistConsecration({ consecrationProgram: updated });
+    } else {
+      setPastorOrdinationProgram(updated);
+      await persistConsecration({ pastorOrdinationProgram: updated });
+    }
+  };
+
+  const updateProgramItem = async (
+    serviceType: 'consecration' | 'pastors',
+    id: number,
+    itemUpdates: Partial<ProgramItem>
+  ) => {
+    const isConsecration = serviceType === 'consecration';
+    const currentList = isConsecration ? consecrationProgram : pastorOrdinationProgram;
+    const updated = currentList.map((item) => (item.id === id ? { ...item, ...itemUpdates } : item));
+    if (isConsecration) {
+      setConsecrationProgram(updated);
+      await persistConsecration({ consecrationProgram: updated });
+    } else {
+      setPastorOrdinationProgram(updated);
+      await persistConsecration({ pastorOrdinationProgram: updated });
+    }
+  };
+
+  const deleteProgramItem = async (serviceType: 'consecration' | 'pastors', id: number) => {
+    const isConsecration = serviceType === 'consecration';
+    const currentList = isConsecration ? consecrationProgram : pastorOrdinationProgram;
+    const filtered = currentList.filter((item) => item.id !== id);
+    const reordered = filtered.map((item, idx) => ({ ...item, order: idx + 1 }));
+    if (isConsecration) {
+      setConsecrationProgram(reordered);
+      await persistConsecration({ consecrationProgram: reordered });
+    } else {
+      setPastorOrdinationProgram(reordered);
+      await persistConsecration({ pastorOrdinationProgram: reordered });
+    }
+  };
+
+  const moveProgramItem = async (
+    serviceType: 'consecration' | 'pastors',
+    id: number,
+    direction: 'up' | 'down'
+  ) => {
+    const isConsecration = serviceType === 'consecration';
+    const currentList = [...(isConsecration ? consecrationProgram : pastorOrdinationProgram)];
+    const index = currentList.findIndex((item) => item.id === id);
+    if (index === -1) return;
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === currentList.length - 1) return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const [moved] = currentList.splice(index, 1);
+    currentList.splice(targetIndex, 0, moved);
+
+    const reordered = currentList.map((item, idx) => ({ ...item, order: idx + 1 }));
+    if (isConsecration) {
+      setConsecrationProgram(reordered);
+      await persistConsecration({ consecrationProgram: reordered });
+    } else {
+      setPastorOrdinationProgram(reordered);
+      await persistConsecration({ pastorOrdinationProgram: reordered });
+    }
+  };
+
+  const resetProgramToDefaults = async (serviceType: 'consecration' | 'pastors' | 'all' = 'all') => {
+    const updates: Partial<ConsecrationLiturgyData> = {};
+    if (serviceType === 'consecration' || serviceType === 'all') {
+      setConsecrationTitle(CONSECRATION_SERVICE_TITLE);
+      setConsecrationSubtitle(CONSECRATION_SERVICE_SUBTITLE);
+      setConsecrationProgram(CONSECRATION_PROGRAM);
+      updates.consecrationTitle = CONSECRATION_SERVICE_TITLE;
+      updates.consecrationSubtitle = CONSECRATION_SERVICE_SUBTITLE;
+      updates.consecrationProgram = CONSECRATION_PROGRAM;
+    }
+    if (serviceType === 'pastors' || serviceType === 'all') {
+      setPastorsOrdinationTitle(PASTORS_ORDINATION_TITLE);
+      setPastorsOrdinationSubtitle(PASTORS_ORDINATION_SUBTITLE);
+      setPastorOrdinationProgram(PASTOR_ORDINATION_PROGRAM);
+      updates.pastorsOrdinationTitle = PASTORS_ORDINATION_TITLE;
+      updates.pastorsOrdinationSubtitle = PASTORS_ORDINATION_SUBTITLE;
+      updates.pastorOrdinationProgram = PASTOR_ORDINATION_PROGRAM;
+    }
+    await persistConsecration(updates);
+  };
+
   const resetToDefaults = async () => {
     setChurchInfo(defaultChurchInfo);
     setBranches(defaultBranches);
@@ -676,6 +933,7 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setSponsorshipSettingsState(defaultSponsorshipSettings);
     setFaqs(defaultFaqs);
     setThemeSettingsState(defaultThemeSettings);
+    await resetProgramToDefaults('all');
   };
 
   return (
@@ -721,6 +979,21 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         addPrayerRequest,
         updatePrayerStatus,
         deletePrayerRequest,
+        consecrationTitle,
+        consecrationSubtitle,
+        consecrationProgram,
+        pastorsOrdinationTitle,
+        pastorsOrdinationSubtitle,
+        pastorOrdinationProgram,
+        updateConsecrationTitles,
+        updatePastorsOrdinationTitles,
+        updateConsecrationProgram,
+        updatePastorOrdinationProgram,
+        addProgramItem,
+        updateProgramItem,
+        deleteProgramItem,
+        moveProgramItem,
+        resetProgramToDefaults,
         resetToDefaults,
       }}
     >

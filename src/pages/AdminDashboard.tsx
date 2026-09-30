@@ -47,6 +47,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { TransactionRecord } from '../utils/paystackService';
 import { usePageTitle } from '../utils/usePageTitle';
 import { QRCanvaCard } from '../components/consecration/QRCanvaCard';
+import { ProgramLineupManager } from '../components/consecration/ProgramLineupManager';
 
 export const AdminDashboard: React.FC = () => {
   usePageTitle('Admin Control Center & Dynamic CMS');
@@ -62,6 +63,8 @@ export const AdminDashboard: React.FC = () => {
     faqs,
     themeSettings,
     prayerRequests,
+    consecrationProgram,
+    pastorOrdinationProgram,
     updateChurchInfo,
     updateThemeSettings,
     updateBranches,
@@ -538,7 +541,7 @@ export const AdminDashboard: React.FC = () => {
             { id: 'analytics', name: 'Analytics & Giving', icon: BarChart3, badge: `${analytics.totalVisitors}` },
             { id: 'content', name: 'Church Identity', icon: Edit3 },
             { id: 'events', name: 'Events', icon: Calendar, badge: `${events.length}` },
-            { id: 'liturgy', name: 'Liturgy & QR Studio', icon: Crown, badge: 'Canva Flyer' },
+            { id: 'liturgy', name: 'Liturgy & QR Studio', icon: Crown, badge: `${consecrationProgram.length + pastorOrdinationProgram.length} Items` },
             { id: 'branches', name: 'Branches', icon: MapPin, badge: `${branches.length}` },
             { id: 'ministries', name: 'Ministries', icon: Users, badge: `${ministries.length}` },
             { id: 'sponsorship', name: 'Sponsorship & Projects', icon: Heart, badge: `${projects.length}` },
@@ -1186,6 +1189,7 @@ export const AdminDashboard: React.FC = () => {
         {/* TAB 3.5: LITURGY & QR STUDIO */}
         {activeTab === 'liturgy' && (
           <div className="space-y-8 animate-in fade-in duration-200">
+            {/* 1. Official Program Lineup Editor */}
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
                 <div className="flex items-center gap-3">
@@ -1194,10 +1198,10 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-xl text-white">
-                      Solemn Consecration • Canva &amp; QR Studio
+                      Solemn Consecration • Program Lineup Manager
                     </h3>
                     <p className="text-xs text-slate-400">
-                      Generate official Canva-framed posters and QR codes targeting the clean attendee lineup page (<code className="text-amber-300">https://ricgcw.me/program</code>).
+                      Edit ceremony titles, add new steps, edit or reorder items, and manage procession details. Changes reflect live on the attendee page (<code className="text-amber-300">/program</code>).
                     </p>
                   </div>
                 </div>
@@ -1219,11 +1223,33 @@ export const AdminDashboard: React.FC = () => {
                 <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="font-bold text-amber-300">
-                    Separation of Management vs. Attendee Experience:
+                    Full Administrative Control:
                   </p>
                   <p className="text-slate-300">
-                    When churchgoers scan the generated QR code or open <strong className="text-amber-300">ricgcw.me/program</strong>, they see a <em>pure, read-only digital liturgy bulletin</em> without any QR code generators, download buttons, or printing controls.
+                    You can add, edit, reorder (move up/down), or delete any program items below for both the <strong>Consecration Service</strong> and <strong>Ordination of Pastors</strong>. When attendees scan the QR code or open <strong className="text-amber-300">ricgcw.me/program</strong>, they see your live customized lineup without any editing buttons or popups.
                   </p>
+                </div>
+              </div>
+
+              {/* Program Lineup Manager */}
+              <ProgramLineupManager />
+            </div>
+
+            {/* 2. Canva Poster & QR Code Designer */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <QrCode className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-bold text-xl text-white">
+                      Canva-Framed QR Poster &amp; Print Designer
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Generate official Canva-framed posters and QR codes targeting the clean attendee lineup page (<code className="text-amber-300">https://ricgcw.me/program</code>).
+                    </p>
+                  </div>
                 </div>
               </div>
 

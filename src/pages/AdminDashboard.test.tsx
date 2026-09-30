@@ -86,5 +86,20 @@ describe('AdminDashboard Sponsorship Management Tab', () => {
     const saveChangesBtn = screen.getByRole('button', { name: /save project changes/i });
     expect(saveChangesBtn).toBeInTheDocument();
   });
+
+  it('switches to Liturgy & QR Studio tab and renders Program Lineup Manager and Canva QR card', () => {
+    renderDashboard();
+
+    const liturgyTabBtn = screen.getByRole('button', { name: /liturgy & qr studio/i });
+    expect(liturgyTabBtn).toBeInTheDocument();
+    fireEvent.click(liturgyTabBtn);
+
+    expect(screen.getByText(/Solemn Consecration • Program Lineup Manager/i)).toBeInTheDocument();
+    expect(screen.getByText(/Canva-Framed QR Poster & Print Designer/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Consecration Service \(33\)/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ordination of Pastors \(13\)/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Add Lineup Item/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Reset to Document Defaults/i })).toBeInTheDocument();
+  });
 });
 
