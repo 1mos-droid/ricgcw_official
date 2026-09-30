@@ -2,6 +2,14 @@
 
 All notable changes to the RICGCW Official Website are documented in this file.
 
+## [2.1.0] - 2026-09-30
+
+### Liturgy Leadership Assignments & Cache Normalization (Issue #1)
+- **Official Consecration Leadership**: Assigned officiants and ministers to 11 key items of the Consecration & Ordination Service (Item 1: Elder Daniel Akorsah, Item 2: Minister of Christ, Item 5: Mrs Sandra Dobeng, Item 7: Reginald Aaron Dobeng, Item 9: Mrs. Lydia Frimpong, Item 10: Min. Kofi Nkosuo, Item 11: Miss Faustina Osei, Item 12: Minister Manuel, Item 23: Praises Team, Item 26: Overseer Nicholas Dobeng, Item 27: Appeal for Funds led by Snr. Apostle Daniel Ofori Darkwa).
+- **Canonical Cache Normalization**: Integrated \`normalizeConsecrationProgram()\` across \`ChurchContext\`, the attendee liturgy viewer (\`/program\`), and the Admin Liturgy Studio to guarantee assignments persist and prevent stale Firestore snapshots or browser storage from reverting them.
+- **Attendee Search**: Extended real-time search filtering on \`/program\` to match assigned ministers and leaders by name.
+- **Admin Liturgy Studio**: Added officiant/leader field to modal editor, enabling real-time liturgy updates with live cross-tab synchronization.
+
 ## [2.0.0] - 2026-08-28
 
 ### Overhaul & Architecture Restoration
