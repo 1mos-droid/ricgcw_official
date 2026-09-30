@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, MapPin, Play, Clock, Heart, Users, Shield, MessageCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, MapPin, Play, Clock, Heart, Users, Shield, MessageCircle, Radio } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { IMAGES } from '../data/churchData';
 import { trackEvent } from '../utils/analytics';
+import { getNextSundayCountdown, ServiceCountdownStatus } from '../utils/serviceScheduleUtils';
+import { toWhatsAppUrl } from '../utils/phoneUtils';
 
 interface HeroProps {
   onOpenBranchModal?: () => void;
@@ -12,7 +14,7 @@ interface HeroProps {
 
 export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }: HeroProps) => {
   const { churchInfo, themeSettings, branches, leadership } = useChurch();
-  const [nextSundayCountdown, setNextSundayCountdown] = useState({ days: 0, hours: 0, mins: 0 });
+  const [countdown, setCountdown] = useState<ServiceCountdownStatus>(() => getNextSundayCountdown());
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const mainBranch = branches.find((b) => b.isHeadquarters) || branches[0];
@@ -43,28 +45,11 @@ export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }
     return () => clearInterval(timer);
   }, [heroCards.length]);
 
-  // Next Sunday Service Countdown
+  // Next Sunday Service Countdown (Accra GMT UTC+0)
   useEffect(() => {
-    const calculateCountdown = () => {
-      const now = new Date();
-      const nextSunday = new Date();
-      const dayOfWeek = now.getDay();
-      const daysUntilSunday = (7 - dayOfWeek) % 7 || 7;
-
-      nextSunday.setDate(now.getDate() + daysUntilSunday);
-      nextSunday.setHours(9, 0, 0, 0);
-
-      const diff = nextSunday.getTime() - now.getTime();
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const mins = Math.floor((diff / (1000 * 60)) % 60);
-        setNextSundayCountdown({ days, hours, mins });
-      }
-    };
-
-    calculateCountdown();
-    const interval = setInterval(calculateCountdown, 60000);
+    const update = () => setCountdown(getNextSundayCountdown());
+    update();
+    const interval = setInterval(update, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -131,7 +116,7 @@ export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }
               </a>
 
               <a
-                href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}`}
+                href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom Pastor, I would like to connect with RICGCW.')}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Hero')}
@@ -145,13 +130,29 @@ export const Hero = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }
             {/* Live Service Indicator & Branch Summary */}
             <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-slate-800/80">
               <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-left">
-                <p className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> Next Service In
+                <p className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1.5">
+                  {countdown.isLiveNow ? (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                      <span className="text-emerald-400 font-black">Live Now</span>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-3 h-3 text-amber-400" />
+                      <span>{countdown.isToday ? 'Today in Sanctuary' : 'Next Service In'}</span>
+                    </>
+                  )}
                 </p>
-                <p className="text-base font-bold font-mono text-white mt-0.5">
-                  {nextSundayCountdown.days}d {nextSundayCountdown.hours}h {nextSundayCountdown.mins}m
+                <p className="text-sm sm:text-base font-bold font-mono text-white mt-0.5">
+                  {countdown.isLiveNow
+                    ? 'Service in Session'
+                    : countdown.isToday
+                    ? `${countdown.hours}h ${countdown.mins}m`
+                    : `${countdown.days}d ${countdown.hours}h ${countdown.mins}m`}
                 </p>
-                <p className="text-[10px] text-slate-400">Main Service: {mainServiceTime}</p>
+                <p className="text-[10px] text-slate-400 truncate">
+                  {countdown.isLiveNow ? 'Join Us in Person / Online' : `Main Service: ${mainServiceTime}`}
+                </p>
               </div>
 
               <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-left">

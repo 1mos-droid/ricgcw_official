@@ -188,7 +188,7 @@ export const CHURCH_INFO = {
     scripture: 'Proverbs 21:21',
   },
   contact: {
-    phone: '+233 244 485 7403',
+    phone: '+233 24 448 5740',
     email: 'innercourtch@gmail.com',
     location: 'Accra, Ghana (West Africa)',
     youtube: 'https://youtube.com/@innercourtgospelchurchworl2293',

@@ -9,6 +9,7 @@ import { PrayerModal } from '../components/PrayerModal';
 import { MobileQuickBar } from '../components/MobileQuickBar';
 import { usePageTitle } from '../utils/usePageTitle';
 import { useChurch } from '../context/ChurchContext';
+import { toTelUrl, toInternationalDisplay } from '../utils/phoneUtils';
 
 export const PrivacyPolicy = () => {
   usePageTitle('Privacy Policy');
@@ -156,8 +157,8 @@ export const PrivacyPolicy = () => {
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
                   <Phone className="w-4 h-4 text-amber-400 mb-1" />
                   <p className="font-bold text-white">Telephone / WhatsApp</p>
-                  <a href={`tel:${churchInfo.contact.phone}`} className="text-amber-400 hover:underline">
-                    {churchInfo.contact.phone}
+                  <a href={toTelUrl(churchInfo.contact.phone)} className="text-amber-400 hover:underline font-mono">
+                    {toInternationalDisplay(churchInfo.contact.phone)}
                   </a>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">

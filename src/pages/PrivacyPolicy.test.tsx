@@ -38,6 +38,6 @@ describe('PrivacyPolicy Page Component', () => {
     renderComponent();
 
     expect(screen.getAllByText(/innercourtch@gmail\.com/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/\+233 244 485 7403/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/\+233 24 448 5740/i).length).toBeGreaterThan(0);
   });
 });

@@ -3,6 +3,7 @@ import { Quote, Sparkles, Heart, CheckCircle2, Phone, MessageCircle, ArrowRight,
 import { useChurch } from '../context/ChurchContext';
 import { IMAGES } from '../data/churchData';
 import { trackEvent } from '../utils/analytics';
+import { toTelUrl, toWhatsAppUrl } from '../utils/phoneUtils';
 
 interface WelcomeOverseerProps {
   onOpenPrayerModal?: () => void;
@@ -130,7 +131,7 @@ export const WelcomeOverseer = ({ onOpenPrayerModal, onOpenBranchModal }: Welcom
 
               <div className="flex items-center gap-3">
                 <a
-                  href={`tel:${churchInfo.contact.phone}`}
+                  href={toTelUrl(churchInfo.contact.phone)}
                   onClick={() => trackEvent('conversion', 'call_hotline', 'Overseer Section')}
                   className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5"
                 >

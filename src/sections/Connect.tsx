@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { YoutubeIcon, FacebookIcon, InstagramIcon } from '../components/Icons';
 import { trackEvent } from '../utils/analytics';
+import { toWhatsAppUrl, toInternationalDisplay, toTelUrl } from '../utils/phoneUtils';
 
 interface ConnectProps {
   onOpenPrayerModal?: () => void;
@@ -15,6 +16,7 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
   const { churchInfo, faqs, branches } = useChurch();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,6 +30,14 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     trackEvent('inquiry', 'visitor_form_submitted', formData.subject);
+
+    // Spam honeypot detection
+    if (honeypot.trim().length > 0) {
+      console.warn('Bot submission trapped by honeypot.');
+      setFormSubmitted(true);
+      return;
+    }
+
     try {
       if (db) {
         await addDoc(collection(db, 'inquiries'), {
@@ -149,13 +159,13 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                 <div>
                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Official Helpline &amp; WhatsApp</p>
                   <a
-                    href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}`}
+                    href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom Pastor, I am contacting you from the RICGCW website.')}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Connect Section')}
                     className="font-bold font-mono text-sm text-emerald-700 hover:underline block"
                   >
-                    {churchInfo.contact.phone}
+                    {toInternationalDisplay(churchInfo.contact.phone)}
                   </a>
                   <p className="text-xs text-slate-500 mt-0.5">Available for emergency prayer &amp; inquiries</p>
                 </div>
@@ -235,6 +245,18 @@ export const Connect = ({ onOpenPrayerModal, onOpenBranchModal }: ConnectProps) 
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Honeypot field for bot protection */}
+                  <div className="hidden" aria-hidden="true">
+                    <input
+                      type="text"
+                      name="hp_website_contact"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
+
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold uppercase text-slate-700 mb-1.5">Full Name</label>

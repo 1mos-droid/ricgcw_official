@@ -4,6 +4,7 @@ import { useChurch } from '../context/ChurchContext';
 import { IMAGES } from '../data/churchData';
 import { YoutubeIcon, FacebookIcon, InstagramIcon } from './Icons';
 import { trackEvent } from '../utils/analytics';
+import { toTelUrl, toWhatsAppUrl, toInternationalDisplay } from '../utils/phoneUtils';
 
 interface FooterProps {
   onOpenBranchModal?: () => void;
@@ -185,17 +186,17 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
                 <a
-                  href={`tel:${churchInfo.contact.phone}`}
+                  href={toTelUrl(churchInfo.contact.phone)}
                   onClick={() => trackEvent('conversion', 'call_hotline', 'Footer')}
                   className="hover:text-amber-300 font-mono font-bold"
                 >
-                  {churchInfo.contact.phone}
+                  {toInternationalDisplay(churchInfo.contact.phone)}
                 </a>
               </p>
               <p className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a
-                  href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}`}
+                  href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom Pastor, I am reaching out from the RICGCW website.')}
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Footer')}

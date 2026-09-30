@@ -5,6 +5,7 @@ import { useChurch } from '../context/ChurchContext';
 import { IMAGES } from '../data/churchData';
 import { YoutubeIcon, FacebookIcon } from './Icons';
 import { trackEvent } from '../utils/analytics';
+import { toTelUrl, toWhatsAppUrl, toInternationalDisplay } from '../utils/phoneUtils';
 
 interface NavbarProps {
   onOpenBranchModal?: () => void;
@@ -67,11 +68,11 @@ export const Navbar = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
             </div>
             <div className="flex items-center gap-4 text-[11px] font-bold">
               <a
-                href={`tel:${churchInfo.contact.phone}`}
+                href={toTelUrl(churchInfo.contact.phone)}
                 onClick={() => trackEvent('conversion', 'call_hotline', 'Top Bar')}
                 className="hover:underline flex items-center gap-1 font-mono"
               >
-                <Phone className="w-3 h-3" /> {churchInfo.contact.phone}
+                <Phone className="w-3 h-3" /> {toInternationalDisplay(churchInfo.contact.phone)}
               </a>
               <span>•</span>
               <button
@@ -245,8 +246,8 @@ export const Navbar = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
             </div>
 
             <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-              <a href={`tel:${churchInfo.contact.phone}`} className="font-mono hover:text-amber-300">
-                {churchInfo.contact.phone}
+              <a href={toTelUrl(churchInfo.contact.phone)} className="font-mono hover:text-amber-300">
+                {toInternationalDisplay(churchInfo.contact.phone)}
               </a>
               <div className="flex items-center gap-3">
                 <a href={churchInfo.contact.youtube} target="_blank" rel="noreferrer" className="hover:text-red-400">
