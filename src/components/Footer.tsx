@@ -229,7 +229,21 @@ export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
 
         {/* Bottom Legal Copyright Bar & Privacy / Terms Links */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} Rhema Inner Court Gospel Church (Worldwide). All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
+            <p>© {new Date().getFullYear()} Rhema Inner Court Gospel Church (Worldwide). All rights reserved.</p>
+            <span className="hidden sm:inline text-slate-700">•</span>
+            <p className="text-slate-400">
+              Built by{' '}
+              <a
+                href="https://damise-1free.web.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-400 hover:text-amber-300 font-medium underline underline-offset-2 transition-colors"
+              >
+                Kumesi Moses Mawulolo
+              </a>
+            </p>
+          </div>
           
           <div className="flex flex-wrap items-center gap-4 text-xs">
             <Link to="/privacy" className="text-slate-400 hover:text-amber-300 transition-colors">

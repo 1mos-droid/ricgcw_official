@@ -274,6 +274,17 @@ export const ConsecrationProgram: React.FC = () => {
           <div className="text-[10px] text-amber-500/60 font-mono">
             Official Program Line Up
           </div>
+          <p className="text-[11px] text-slate-500 pt-1">
+            Built by{' '}
+            <a
+              href="https://damise-1free.web.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 font-medium underline underline-offset-2 transition-colors"
+            >
+              Kumesi Moses Mawulolo
+            </a>
+          </p>
         </footer>
       </main>
     </div>
