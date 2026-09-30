@@ -285,3 +285,34 @@ export const PASTOR_ORDINATION_PROGRAM: ProgramItem[] = [
     title: 'OFFICIAL PICTURES TAKEN',
   },
 ];
+
+export const normalizeConsecrationProgram = (items: ProgramItem[]): ProgramItem[] => {
+  if (!Array.isArray(items) || items.length === 0) {
+    return CONSECRATION_PROGRAM;
+  }
+
+  const canonicalMap = new Map<number, ProgramItem>();
+  for (const item of CONSECRATION_PROGRAM) {
+    canonicalMap.set(item.id, item);
+  }
+
+  return items.map((item) => {
+    const canonical = canonicalMap.get(item.id);
+    if (!canonical) return item;
+
+    const updated: ProgramItem = { ...item };
+
+    // If item 27 is still named "SECOND OFFERING" or lacks official title, update it
+    if (item.id === 27 && (!item.title || item.title.toUpperCase().includes('SECOND OFFERING'))) {
+      updated.title = 'Appeal for Funds (Snr. Apostle Daniel Ofori Darkwa)';
+      updated.leader = 'Snr. Apostle Daniel Ofori Darkwa';
+    }
+
+    // If canonical item has an assigned leader and current item has none, apply canonical leader
+    if (canonical.leader && !updated.leader) {
+      updated.leader = canonical.leader;
+    }
+
+    return updated;
+  });
+};

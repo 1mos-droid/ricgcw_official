@@ -16,6 +16,7 @@ import {
   PASTORS_ORDINATION_SUBTITLE,
   PASTOR_ORDINATION_PROGRAM,
   ProgramItem,
+  normalizeConsecrationProgram,
 } from '../data/consecrationData';
 import { trackPageView } from '../utils/analytics';
 import { usePageTitle } from '../utils/usePageTitle';
@@ -42,10 +43,14 @@ export const ConsecrationProgram: React.FC = () => {
     trackPageView('Program_Lineup_Viewer');
   }, []);
 
-  const consecrationList =
-    Array.isArray(consecrationProgram) && consecrationProgram.length > 0
-      ? consecrationProgram
-      : CONSECRATION_PROGRAM;
+  const consecrationList = useMemo(() => {
+    const raw =
+      Array.isArray(consecrationProgram) && consecrationProgram.length > 0
+        ? consecrationProgram
+        : CONSECRATION_PROGRAM;
+    return normalizeConsecrationProgram(raw);
+  }, [consecrationProgram]);
+
   const pastorsList =
     Array.isArray(pastorOrdinationProgram) && pastorOrdinationProgram.length > 0
       ? pastorOrdinationProgram

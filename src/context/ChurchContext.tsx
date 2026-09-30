@@ -29,6 +29,7 @@ import {
   CONSECRATION_SERVICE_SUBTITLE,
   PASTORS_ORDINATION_TITLE,
   PASTORS_ORDINATION_SUBTITLE,
+  normalizeConsecrationProgram,
 } from '../data/consecrationData';
 import { trackEvent } from '../utils/analytics';
 import { db } from '../firebase';
@@ -177,7 +178,7 @@ const getInitialConsecrationData = (): ConsecrationLiturgyData => {
             consecrationTitle: parsed.consecrationTitle || CONSECRATION_SERVICE_TITLE,
             consecrationSubtitle: parsed.consecrationSubtitle || CONSECRATION_SERVICE_SUBTITLE,
             consecrationProgram: Array.isArray(parsed.consecrationProgram) && parsed.consecrationProgram.length > 0
-              ? parsed.consecrationProgram
+              ? normalizeConsecrationProgram(parsed.consecrationProgram)
               : CONSECRATION_PROGRAM,
             pastorsOrdinationTitle: parsed.pastorsOrdinationTitle || PASTORS_ORDINATION_TITLE,
             pastorsOrdinationSubtitle: parsed.pastorsOrdinationSubtitle || PASTORS_ORDINATION_SUBTITLE,
@@ -422,7 +423,7 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             if (data.consecrationTitle) setConsecrationTitle(data.consecrationTitle);
             if (data.consecrationSubtitle) setConsecrationSubtitle(data.consecrationSubtitle);
             if (Array.isArray(data.consecrationProgram) && data.consecrationProgram.length > 0) {
-              setConsecrationProgram(data.consecrationProgram);
+              setConsecrationProgram(normalizeConsecrationProgram(data.consecrationProgram));
             }
             if (data.pastorsOrdinationTitle) setPastorsOrdinationTitle(data.pastorsOrdinationTitle);
             if (data.pastorsOrdinationSubtitle) setPastorsOrdinationSubtitle(data.pastorsOrdinationSubtitle);
@@ -462,7 +463,7 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           if (data.consecrationTitle) setConsecrationTitle(data.consecrationTitle);
           if (data.consecrationSubtitle) setConsecrationSubtitle(data.consecrationSubtitle);
           if (Array.isArray(data.consecrationProgram) && data.consecrationProgram.length > 0) {
-            setConsecrationProgram(data.consecrationProgram);
+            setConsecrationProgram(normalizeConsecrationProgram(data.consecrationProgram));
           }
           if (data.pastorsOrdinationTitle) setPastorsOrdinationTitle(data.pastorsOrdinationTitle);
           if (data.pastorsOrdinationSubtitle) setPastorsOrdinationSubtitle(data.pastorsOrdinationSubtitle);
