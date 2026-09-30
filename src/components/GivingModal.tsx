@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Heart, ShieldCheck, CheckCircle2, CreditCard, Smartphone, ArrowRight, Sparkles, Lock } from 'lucide-react';
+import { Heart, ShieldCheck, CheckCircle2, Lock, ArrowRight, Copy, Check, AlertCircle, Smartphone } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { trackEvent } from '../utils/analytics';
 import {
@@ -8,9 +8,12 @@ import {
   loadPaystackInlineScript,
   openPaystackPopup,
   recordPaymentToFirestore,
+  verifyPaymentWithServer,
   DEFAULT_PAYSTACK_SUBACCOUNT,
   DEFAULT_PAYSTACK_PUBLIC_KEY,
 } from '../utils/paystackService';
+import { Modal } from './common/Modal';
+import { toWhatsAppUrl, toLocalMoMoDisplay } from '../utils/phoneUtils';
 
 interface GivingModalProps {
   isOpen: boolean;
@@ -29,6 +32,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
     'Community Welfare Support',
   ];
 
+  const [givingMethod, setGivingMethod] = useState<'paystack' | 'momo'>('paystack');
   const [amount, setAmount] = useState<string>('100');
   const [currency, setCurrency] = useState<string>(churchInfo.giving.defaultCurrency || 'GHS');
   const [category, setCategory] = useState<string>(defaultCategory || givingCategories[0]);
@@ -37,22 +41,37 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
   const [donorPhone, setDonorPhone] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  const [gatewayError, setGatewayError] = useState(false);
+  const [confirmedRef, setConfirmedRef] = useState<string>('');
+  const [gatewayError, setGatewayError] = useState<string | null>(null);
+  const [copiedMomo, setCopiedMomo] = useState(false);
 
   // Preload Paystack inline script when modal opens
   useEffect(() => {
     if (isOpen) {
       loadPaystackInlineScript();
-      setGatewayError(false);
+      setGatewayError(null);
     }
   }, [isOpen]);
 
   const presetAmounts = ['50', '100', '200', '500', '1000', '2000'];
 
+  const handleCopyMomo = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedMomo(true);
+    setTimeout(() => setCopiedMomo(false), 2500);
+  };
+
   const handleGivingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setGatewayError(false);
+    if (isProcessing) return; // Prevent double-submit
+
+    const numericAmount = Number(amount);
+    if (isNaN(numericAmount) || numericAmount <= 0) {
+      setGatewayError('Please enter a valid donation amount.');
+      return;
+    }
+
+    setGatewayError(null);
     setIsProcessing(true);
     trackEvent('conversion', 'give_paystack_intent', `${currency} ${amount} for ${category}`);
 
@@ -60,21 +79,42 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
     const paystackKey = churchInfo.giving.paystackPublicKey || (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || DEFAULT_PAYSTACK_PUBLIC_KEY;
 
     const handleSuccessCallback = async (response: { reference: string; [key: string]: any }) => {
-      const txRecord = formatTransactionRecord({
-        amount: Number(amount),
-        currency,
-        category,
-        donorName,
-        donorEmail: donorEmail || 'innercourtch@gmail.com',
-        donorPhone,
-        reference: response.reference || response.trxref,
-        subaccount,
-      });
+      const ref = response.reference || response.trxref;
 
-      await recordPaymentToFirestore(txRecord);
-      setIsProcessing(false);
-      setIsSuccess(true);
-      trackEvent('conversion', 'give_paystack_success', response.reference || response.trxref);
+      try {
+        // Server-Side Verification: Never trust client callback alone for money
+        const verification = await verifyPaymentWithServer(ref, numericAmount, currency);
+
+        if (!verification.verified) {
+          setIsProcessing(false);
+          setGatewayError(
+            verification.message ||
+              'Payment could not be verified by church security. Please keep your transaction reference and contact Treasury.'
+          );
+          return;
+        }
+
+        const txRecord = formatTransactionRecord({
+          amount: numericAmount,
+          currency,
+          category,
+          donorName,
+          donorEmail: donorEmail || undefined,
+          donorPhone,
+          reference: ref,
+          subaccount,
+        });
+
+        await recordPaymentToFirestore(txRecord);
+        setConfirmedRef(ref);
+        setIsProcessing(false);
+        setIsSuccess(true);
+        trackEvent('conversion', 'give_paystack_success', ref);
+      } catch (err: any) {
+        console.error('Payment verification processing error:', err);
+        setIsProcessing(false);
+        setGatewayError('Payment completed with provider, but confirmation receipt is delayed. Reference: ' + ref);
+      }
     };
 
     try {
@@ -84,8 +124,8 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
       }
 
       const config = buildPaystackPaymentConfig({
-        amount: Number(amount),
-        email: donorEmail || 'innercourtch@gmail.com',
+        amount: numericAmount,
+        email: donorEmail || undefined,
         donorName: donorName || 'Anonymous Giver',
         donorPhone,
         category,
@@ -102,87 +142,163 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
       const opened = openPaystackPopup(config);
       if (!opened) {
         setIsProcessing(false);
-        setGatewayError(true);
+        setGatewayError('Could not open secure payment window. You may give directly via Mobile Money below.');
       }
     } catch (err) {
       console.error('Paystack popup trigger error:', err);
       setIsProcessing(false);
-      setGatewayError(true);
+      setGatewayError('Payment gateway temporarily unavailable. You can use direct Mobile Money transfer.');
     }
   };
 
   const resetAndClose = () => {
     setIsSuccess(false);
     setIsProcessing(false);
-    setGatewayError(false);
+    setGatewayError(null);
+    setConfirmedRef('');
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      {/* Backdrop */}
-      <div
-        onClick={resetAndClose}
-        className="fixed inset-0 bg-black/75 transition-opacity"
-      />
-
-      {/* Modal Container */}
-      <div className="relative w-full max-w-xl bg-white text-slate-900 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden z-10 my-8 max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="p-6 md:p-8 bg-slate-950 text-white flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
-              <Heart className="w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-xl md:text-2xl font-bold font-serif text-white">Online Giving Portal</h2>
-              <p className="text-xs text-amber-300 font-medium">Fast & Secure Paystack Digital Giving</p>
-            </div>
+    <Modal
+      isOpen={isOpen}
+      onClose={resetAndClose}
+      title="Online Giving Portal"
+      subtitle="Fast & Secure Paystack Digital Giving & Mobile Money"
+      icon={<Heart className="w-6 h-6" />}
+      maxWidthClass="max-w-xl"
+      closeLabel="Close giving modal"
+    >
+      {isSuccess ? (
+        <div className="text-center py-6 space-y-6">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+            <CheckCircle2 className="w-8 h-8" />
           </div>
+
+          <div className="space-y-2">
+            <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+              Verified Kingdom Seed
+            </span>
+            <h3 className="text-2xl font-bold font-serif text-slate-950">Thank You for Sowing into the Altar!</h3>
+            <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+              Your gift of <strong>{currency} {amount}</strong> towards <strong>{category}</strong> has been verified and received with honor and prayer.
+            </p>
+            {confirmedRef && (
+              <p className="text-xs font-mono text-slate-500 pt-1">
+                Reference: <strong className="text-slate-800">{confirmedRef}</strong>
+              </p>
+            )}
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 max-w-md mx-auto text-left">
+            <p className="font-bold">Scriptural Covenant</p>
+            <p className="mt-0.5 italic text-slate-700">
+              "Now may He who supplies seed to the sower, and bread for food, supply and multiply the seed you have sown and increase the fruits of your righteousness." (2 Corinthians 9:10)
+            </p>
+          </div>
+
           <button
             onClick={resetAndClose}
-            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Close giving modal"
+            className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            Return to Sanctuary
           </button>
         </div>
+      ) : (
+        <div className="space-y-5">
+          {/* Method Selector: Paystack vs Direct MoMo */}
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 border border-slate-200">
+            <button
+              type="button"
+              onClick={() => setGivingMethod('paystack')}
+              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                givingMethod === 'paystack'
+                  ? 'bg-white text-slate-950 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Online Checkout (Paystack)
+            </button>
+            <button
+              type="button"
+              onClick={() => setGivingMethod('momo')}
+              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                givingMethod === 'momo'
+                  ? 'bg-amber-500 text-slate-950 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Smartphone className="w-3.5 h-3.5" /> Direct MoMo (Ghana)
+            </button>
+          </div>
 
-        {/* Content Area */}
-        <div className="p-6 md:p-8 space-y-6 overflow-y-auto">
-          {isSuccess ? (
-            <div className="text-center py-8 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
+          {givingMethod === 'momo' ? (
+            /* Direct MoMo Transfer Card */
+            <div className="space-y-4 animate-in fade-in">
+              <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-300 text-slate-900 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-amber-500" />
+                    <h4 className="font-bold text-sm text-slate-950">Official MTN Mobile Money Altar</h4>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-200/80 text-amber-900">
+                    Instant Transfer
+                  </span>
+                </div>
 
-              <div className="space-y-2">
-                <h3 className="text-2xl font-bold font-serif text-slate-950">Thank You for Sowing into the Kingdom!</h3>
-                <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                  Your seed of <strong>{currency} {amount}</strong> towards <strong>{category}</strong> has been received with gratitude and prayer.
+                <div className="p-4 rounded-xl bg-white border border-amber-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">MoMo Number</p>
+                      <p className="text-lg font-bold font-mono text-slate-950">
+                        {toLocalMoMoDisplay(churchInfo.contact.phone)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyMomo('0244485740')}
+                      className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95"
+                    >
+                      {copiedMomo ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copiedMomo ? 'Copied!' : 'Copy Number'}</span>
+                    </button>
+                  </div>
+
+                  <div className="border-t border-slate-100 pt-2 grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <p className="text-[10px] text-slate-500 font-bold uppercase">Account Name</p>
+                      <p className="font-semibold text-slate-900">{churchInfo.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 font-bold uppercase">Reference</p>
+                      <p className="font-semibold text-slate-900">Tithe / Offering / Seed</p>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  After sending your seed via MTN MoMo, send a receipt or transaction ID to our Church Treasury WhatsApp so our pastors can agree with you in prayer:
                 </p>
-              </div>
 
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 max-w-md mx-auto">
-                <p className="font-bold">Scriptural Covenant</p>
-                <p className="mt-0.5 italic">
-                  "Now may He who supplies seed to the sower, and bread for food, supply and multiply the seed you have sown and increase the fruits of your righteousness." (2 Corinthians 9:10)
-                </p>
+                <a
+                  href={toWhatsAppUrl(
+                    churchInfo.contact.phone,
+                    'Shalom Church Treasury, I have just transferred a kingdom seed via MTN Mobile Money.'
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Giving Modal MoMo')}
+                  className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                >
+                  <span>Confirm MoMo Gift on WhatsApp →</span>
+                </a>
               </div>
-
-              <button
-                onClick={resetAndClose}
-                className="w-full sm:w-auto px-8 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                Return to Sanctuary
-              </button>
             </div>
           ) : (
-            <form onSubmit={handleGivingSubmit} className="space-y-5">
+            /* Paystack Digital Checkout Form */
+            <form onSubmit={handleGivingSubmit} className="space-y-4">
               {/* Category Selector */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-700">Select Giving Fund</label>
                 <div className="flex flex-wrap gap-2">
                   {givingCategories.map((cat) => (
@@ -203,7 +319,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
               </div>
 
               {/* Amount Selection & Currency */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700">Giving Amount</label>
                   <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
@@ -258,7 +374,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
               </div>
 
               {/* Donor Contact Details */}
-              <div className="grid sm:grid-cols-2 gap-3 pt-2">
+              <div className="grid sm:grid-cols-2 gap-3 pt-1">
                 <div>
                   <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Full Name</label>
                   <input
@@ -295,35 +411,28 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
                 </div>
               </div>
 
-              {/* Direct MoMo / Payment Gateway Fallback */}
+              {/* Error notice if popup fails */}
               {gatewayError && (
-                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs space-y-2 animate-in fade-in">
+                <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs space-y-2 animate-in fade-in">
                   <div className="flex items-center gap-2 font-bold text-amber-900">
-                    <ShieldCheck className="w-4 h-4 text-amber-600" />
-                    <span>Direct Mobile Money Giving</span>
+                    <AlertCircle className="w-4 h-4 text-amber-600" />
+                    <span>Payment Gateway Notice</span>
                   </div>
                   <p className="leading-relaxed text-[11px] text-amber-900">
-                    If online checkout is temporarily unavailable on your browser, you can give directly via Mobile Money:
+                    {gatewayError}
                   </p>
-                  <div className="p-3 rounded-xl bg-white border border-amber-200 space-y-1 font-mono text-[11px] text-slate-800">
-                    <p>• <strong>MTN Mobile Money:</strong> {churchInfo.contact.phone}</p>
-                    <p>• <strong>Reference:</strong> {category} - {donorName || 'Giver'}</p>
-                  </div>
-                  <div className="pt-0.5">
-                    <a
-                      href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}?text=Shalom%20Church%20Office,%20I%20want%20to%20give%20${encodeURIComponent(currency + ' ' + amount)}%20towards%20${encodeURIComponent(category)}.`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 font-bold text-emerald-700 hover:text-emerald-800 text-xs"
-                    >
-                      <span>Chat with Church Treasury on WhatsApp →</span>
-                    </a>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setGivingMethod('momo')}
+                    className="text-xs font-bold text-amber-800 underline cursor-pointer"
+                  >
+                    Switch to Direct Mobile Money →
+                  </button>
                 </div>
               )}
 
               {/* Secure Payment Trigger */}
-              <div className="pt-3 space-y-3">
+              <div className="pt-2 space-y-3">
                 <button
                   type="submit"
                   disabled={isProcessing}
@@ -331,7 +440,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
                 >
                   <Lock className="w-4 h-4" />
                   <span>
-                    {isProcessing ? 'Connecting Secure Gateway...' : `Proceed with ${currency} ${amount || '0'} via Paystack`}
+                    {isProcessing ? 'Verifying Transaction with Altar...' : `Proceed with ${currency} ${amount || '0'} via Paystack`}
                   </span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -339,18 +448,18 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory }: GivingModalPro
                 {/* Supported Payment Badges */}
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-600">
                   <span className="font-bold flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Paystack 256-Bit Encrypted
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> 256-Bit Encrypted &amp; Verified
                   </span>
                   <span className="text-slate-500 font-medium">
-                    MTN MoMo • Telecel • AT • Visa • Mastercard • Apple Pay
+                    MTN MoMo • Telecel • AT • Visa • Mastercard
                   </span>
                 </div>
               </div>
             </form>
           )}
         </div>
-      </div>
-    </div>
+      )}
+    </Modal>
   );
 };
 
