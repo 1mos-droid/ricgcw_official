@@ -250,7 +250,7 @@ export const ConsecrationProgram: React.FC = () => {
   return (
     <div
       className={`min-h-screen transition-colors duration-300 font-sans selection:bg-blue-600 selection:text-white ${
-        isDark ? 'bg-[#0A101D] text-slate-100' : 'bg-[#FAF8F3] text-[#0A1128]'
+        isDark ? 'dark bg-[#0A101D] text-slate-100' : 'bg-[#FAF8F3] text-[#0A1128]'
       }`}
     >
       {/* 1. Compact Sticky Mobile Header (No bulky hero card) */}
@@ -666,24 +666,58 @@ export const ConsecrationProgram: React.FC = () => {
                         {formattedTitle}
                       </h3>
 
-                      {/* 5. Leader Initials Avatar & Name (No repeated 'LED BY:') */}
+                      {/* 5. Officiating Leader with High Contrast */}
                       {item.leader && (
-                        <div className="mt-3 flex items-center gap-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
+                        <div
+                          className={`mt-3.5 flex items-center gap-3 p-2.5 rounded-xl border transition-all ${
+                            isLive
+                              ? isDark
+                                ? 'bg-red-950/40 border-red-800/60'
+                                : 'bg-red-50/90 border-red-200/90 shadow-xs'
+                              : isDark
+                              ? 'bg-[#15203B] border-slate-800'
+                              : 'bg-[#F5F0E6] border-[#E2DBD0] shadow-xs'
+                          }`}
+                        >
                           {/* Initials Avatar */}
                           <div
-                            className={`w-7 h-7 rounded-full flex items-center justify-center font-sans font-bold text-xs shrink-0 select-none shadow-xs ${
+                            className={`w-8 h-8 rounded-full flex items-center justify-center font-sans font-bold text-xs shrink-0 select-none shadow-xs ${
                               isLive
-                                ? 'bg-red-600 text-white'
+                                ? 'bg-red-600 text-white shadow-red-600/30 ring-2 ring-red-300'
                                 : isDark
-                                ? 'bg-blue-900/60 text-blue-200 border border-blue-700/50'
-                                : 'bg-[#E9EEF5] text-[#0D2C54] border border-[#CCD7E6]'
+                                ? 'bg-blue-600 text-white ring-1 ring-blue-400/40'
+                                : 'bg-[#0D2C54] text-white ring-2 ring-[#0D2C54]/20'
                             }`}
                           >
                             {leaderInitials}
                           </div>
 
-                          <div className="min-w-0">
-                            <span className="text-xs font-sans font-semibold text-slate-700 dark:text-slate-300 truncate block">
+                          {/* Leader Name & Officiating Tag */}
+                          <div className="min-w-0 flex-1">
+                            <span
+                              className={`text-[10px] font-bold uppercase tracking-wider block leading-none mb-1 ${
+                                isLive
+                                  ? isDark
+                                    ? 'text-red-300'
+                                    : 'text-red-700'
+                                  : isDark
+                                  ? 'text-blue-300'
+                                  : 'text-blue-900 font-extrabold'
+                              }`}
+                            >
+                              Officiating
+                            </span>
+                            <span
+                              className={`text-xs sm:text-sm font-sans font-bold truncate block ${
+                                isLive
+                                  ? isDark
+                                    ? 'text-white'
+                                    : 'text-red-950'
+                                  : isDark
+                                  ? 'text-slate-100'
+                                  : 'text-[#070C18]'
+                              }`}
+                            >
                               {item.leader}
                             </span>
                           </div>
@@ -695,7 +729,9 @@ export const ConsecrationProgram: React.FC = () => {
                         <div
                           className={`overflow-hidden transition-all duration-300 ${
                             isExpanded
-                              ? 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-slate-200/80 dark:border-slate-800'
+                              ? isDark
+                                ? 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-slate-800'
+                                : 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-[#E8E2D5]'
                               : 'max-h-0 opacity-0 pointer-events-none'
                           }`}
                         >
@@ -716,7 +752,7 @@ export const ConsecrationProgram: React.FC = () => {
                                 </span>
                                 <span
                                   className={
-                                    isDark ? 'text-slate-300' : 'text-slate-700 font-serif'
+                                    isDark ? 'text-slate-300' : 'text-[#1E293B] font-serif font-medium'
                                   }
                                 >
                                   {sub.text}
