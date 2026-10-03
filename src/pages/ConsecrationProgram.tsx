@@ -15,6 +15,8 @@ import {
   Sparkles,
   WifiOff,
   Clock,
+  Crown,
+  Users,
   X,
 } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
@@ -248,43 +250,33 @@ export const ConsecrationProgram: React.FC = () => {
       : 'text-base sm:text-lg';
 
   return (
-    <div
-      className={`min-h-screen transition-colors duration-300 font-sans selection:bg-blue-600 selection:text-white ${
-        isDark ? 'dark bg-[#0A101D] text-slate-100' : 'bg-[#FAF8F3] text-[#0A1128]'
-      }`}
-    >
-      {/* 1. Compact Sticky Mobile Header (No bulky hero card) */}
-      <header
-        className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors ${
-          isDark
-            ? 'bg-[#0A101D]/90 border-slate-800/80 shadow-md shadow-black/40'
-            : 'bg-[#FAF8F3]/90 border-[#E8E2D5] shadow-sm'
-        }`}
-      >
+    <div className="min-h-screen bg-[#070C18] text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950 pb-20">
+      {/* 1. Compact Sticky Mobile Header in Original Midnight & Gold */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#070C18]/90 border-b border-slate-800/80 shadow-md shadow-black/40">
         <div className="max-w-2xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
           {/* Church Circular Logo & Event Header */}
           <div className="flex items-center gap-3 min-w-0">
             <img
               src={IMAGES.logo}
               alt="Rhema Inner Court Emblem"
-              className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm ring-2 ring-blue-900/10 dark:ring-blue-400/20"
+              className="w-10 h-10 rounded-full object-cover shrink-0 shadow-sm ring-2 ring-amber-500/30"
             />
             <div className="min-w-0">
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 truncate block">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-amber-400 truncate block font-cinzel">
                 {churchInfo?.name || 'Rhema Inner Court Gospel Church (Worldwide)'}
               </span>
               <div className="flex items-center gap-2">
-                <h1 className="text-xs sm:text-sm font-serif font-bold text-slate-900 dark:text-slate-100 truncate">
+                <h1 className="text-xs sm:text-sm font-serif font-bold text-slate-100 truncate">
                   {currentTitle}
                 </h1>
-                <span className="text-[10px] text-slate-600 dark:text-slate-400 font-mono hidden xs:inline">
+                <span className="text-[10px] text-amber-400/80 font-mono hidden xs:inline">
                   • {currentSubtitle}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Right Controls: Live Beacon, Text Stepper, Theme Toggle */}
+          {/* Right Controls: Live Beacon, Text Stepper */}
           <div className="flex items-center gap-1.5 shrink-0">
             {/* Live Indicator Pill */}
             {liveItem && (
@@ -302,7 +294,7 @@ export const ConsecrationProgram: React.FC = () => {
             {/* Offline indicator if disconnected */}
             {isOffline && (
               <span
-                className="p-2 rounded-xl bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30 text-xs"
+                className="p-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs"
                 title="Offline mode: viewing cached liturgy program"
               >
                 <WifiOff className="w-4 h-4" />
@@ -314,29 +306,10 @@ export const ConsecrationProgram: React.FC = () => {
               type="button"
               onClick={handleTextSizeToggle}
               aria-label="Toggle text size"
-              className={`min-h-[44px] min-w-[44px] px-2.5 py-1.5 rounded-xl border text-xs font-bold font-mono transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 ${
-                isDark
-                  ? 'bg-slate-900/80 border-slate-700 text-slate-200 hover:border-blue-400'
-                  : 'bg-white border-[#E2DBD0] text-[#0D2C54] hover:border-blue-700 shadow-sm'
-              }`}
+              className="min-h-[44px] min-w-[44px] px-2.5 py-1.5 rounded-xl border border-slate-700 bg-slate-900/80 text-amber-300 hover:border-amber-400 text-xs font-bold font-mono transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm"
               title="Adjust text size (Compact / Standard / Comfort)"
             >
               <span>Text Size: {textSize === 'lg' ? 'A-' : 'A+'}</span>
-            </button>
-
-            {/* Dark Mode Toggle */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className={`min-h-[44px] min-w-[44px] p-2 rounded-xl border transition-all flex items-center justify-center cursor-pointer active:scale-95 ${
-                isDark
-                  ? 'bg-slate-900/80 border-slate-700 text-amber-300 hover:border-amber-400'
-                  : 'bg-white border-[#E2DBD0] text-slate-700 hover:text-blue-900 shadow-sm'
-              }`}
-              title={isDark ? 'Switch to daylight ivory theme' : 'Switch to low-light dark theme'}
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </div>
@@ -344,12 +317,8 @@ export const ConsecrationProgram: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="max-w-2xl mx-auto px-4 pt-4 pb-24 space-y-4">
-        {/* 2. Segmented Control for Service Tabs (Duolingo/Apple tactile spring) */}
-        <div
-          className={`p-1 rounded-2xl border flex items-center shadow-inner ${
-            isDark ? 'bg-[#0E1729] border-slate-800' : 'bg-[#EFE9DD] border-[#E2DBD0]'
-          }`}
-        >
+        {/* 2. Segmented Control for Service Tabs in Original Amber Gold & Navy */}
+        <div className="flex items-center justify-center p-1.5 rounded-2xl bg-slate-900/90 border border-amber-500/20 gap-1.5 shadow-xl">
           <button
             type="button"
             onClick={() => {
@@ -358,14 +327,11 @@ export const ConsecrationProgram: React.FC = () => {
             }}
             className={`relative flex-1 min-h-[44px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-serif font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer select-none active:scale-[0.98] ${
               activeTab === 'consecration'
-                ? isDark
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-[#0D2C54] text-white shadow-md'
-                : isDark
-                ? 'text-slate-400 hover:text-slate-200'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
             }`}
           >
+            <Crown className="w-4 h-4 shrink-0" />
             <span>Consecration &amp; Ordination Service ({consecrationList.length})</span>
           </button>
 
@@ -377,14 +343,11 @@ export const ConsecrationProgram: React.FC = () => {
             }}
             className={`relative flex-1 min-h-[44px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-serif font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer select-none active:scale-[0.98] ${
               activeTab === 'pastors'
-                ? isDark
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-[#0D2C54] text-white shadow-md'
-                : isDark
-                ? 'text-slate-400 hover:text-slate-200'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
             }`}
           >
+            <Users className="w-4 h-4 shrink-0" />
             <span>Ordination of Pastors ({pastorsList.length})</span>
           </button>
         </div>
@@ -393,23 +356,19 @@ export const ConsecrationProgram: React.FC = () => {
         <div className="space-y-2.5">
           {/* Search Bar */}
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-amber-500/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search lineup items..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl border text-xs sm:text-sm transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                isDark
-                  ? 'bg-[#111A2E] border-slate-800 text-slate-100 placeholder-slate-500'
-                  : 'bg-white border-[#E2DBD0] text-slate-900 placeholder-slate-400'
-              }`}
+              className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl border text-xs sm:text-sm transition-all shadow-inner focus:outline-none focus:border-amber-400 bg-slate-900/90 border-slate-800 text-slate-100 placeholder-slate-500"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-slate-400 hover:text-white"
                 aria-label="Clear search query"
               >
                 <X className="w-4 h-4" />
@@ -437,23 +396,15 @@ export const ConsecrationProgram: React.FC = () => {
                   onClick={() => setSelectedCategory(chip.id)}
                   className={`min-h-[40px] px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-all cursor-pointer select-none active:scale-95 ${
                     isSelected
-                      ? isDark
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'bg-[#0D2C54] text-white shadow-sm'
-                      : isDark
-                      ? 'bg-[#111A2E] text-slate-300 border border-slate-800 hover:border-slate-700'
-                      : 'bg-white text-slate-700 border border-[#E2DBD0] hover:bg-[#F3EFE6]'
+                      ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-slate-950 font-bold shadow-sm'
+                      : 'bg-slate-900/80 text-slate-300 border border-slate-800 hover:border-amber-500/40 hover:text-amber-200'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
                   <span>{chip.label}</span>
                   <span
                     className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                      isSelected
-                        ? 'bg-white/20 text-white'
-                        : isDark
-                        ? 'bg-slate-800 text-slate-400'
-                        : 'bg-slate-100 text-slate-500'
+                      isSelected ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-amber-400'
                     }`}
                   >
                     {chip.count}
@@ -465,27 +416,17 @@ export const ConsecrationProgram: React.FC = () => {
         </div>
 
         {/* Real-time Status Banner */}
-        <div
-          className={`p-3 rounded-2xl border flex items-center justify-between gap-3 text-xs ${
-            liveItem
-              ? isDark
-                ? 'bg-red-950/30 border-red-900/50 text-red-300'
-                : 'bg-red-50 border-red-200 text-red-900'
-              : isDark
-              ? 'bg-slate-900/60 border-slate-800 text-slate-400'
-              : 'bg-white/80 border-[#E8E2D5] text-slate-600'
-          }`}
-        >
+        <div className="p-3 rounded-2xl border flex items-center justify-between gap-3 text-xs bg-slate-900/90 border-slate-800 text-slate-300 shadow-md">
           <div className="flex items-center gap-2 min-w-0">
             {liveItem ? (
               <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping shrink-0" />
             ) : (
-              <Clock className="w-4 h-4 text-slate-400 shrink-0" />
+              <Clock className="w-4 h-4 text-amber-500/60 shrink-0" />
             )}
             <p className="truncate">
               {liveItem ? (
                 <span>
-                  <strong className="font-bold text-red-600 dark:text-red-400">Live Service:</strong> Item #{liveItem.order} is in progress
+                  <strong className="font-bold text-red-500">Live Service:</strong> Item #{liveItem.order} is in progress
                 </span>
               ) : (
                 <span>Service Liturgy • Follow along as ministers officiate</span>
@@ -497,7 +438,7 @@ export const ConsecrationProgram: React.FC = () => {
             <button
               type="button"
               onClick={scrollToLiveItem}
-              className="text-xs font-bold text-red-600 dark:text-red-400 hover:underline shrink-0 cursor-pointer"
+              className="text-xs font-bold text-amber-400 hover:text-amber-300 underline underline-offset-2 shrink-0 cursor-pointer"
             >
               Scroll to now
             </button>
@@ -507,24 +448,16 @@ export const ConsecrationProgram: React.FC = () => {
         {/* 4. Vertical Timeline on a Thin Spine */}
         <div className="relative pt-2">
           {/* Continuous vertical timeline spine */}
-          <div
-            className={`absolute left-[19px] top-6 bottom-6 w-0.5 pointer-events-none ${
-              isDark ? 'bg-slate-800' : 'bg-[#E5DFD3]'
-            }`}
-          />
+          <div className="absolute left-[19px] top-6 bottom-6 w-0.5 pointer-events-none bg-slate-800" />
 
           {filteredList.length === 0 ? (
             /* Empty Search / Filter State */
-            <div
-              className={`p-10 text-center rounded-3xl border space-y-3 ${
-                isDark ? 'bg-[#111A2E] border-slate-800' : 'bg-white border-[#E2DBD0]'
-              }`}
-            >
-              <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+            <div className="p-10 text-center rounded-3xl border border-slate-800 bg-[#0a1020]/90 space-y-3">
+              <div className="w-12 h-12 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                 <Search className="w-6 h-6" />
               </div>
-              <h4 className="font-serif font-bold text-base">No items found</h4>
-              <p className="text-xs text-slate-500 max-w-xs mx-auto">
+              <h4 className="font-serif font-bold text-base text-slate-200">No items found</h4>
+              <p className="text-xs text-slate-400 max-w-xs mx-auto">
                 No liturgy items match your current filter or search query "{searchQuery}".
               </p>
               <button
@@ -533,7 +466,7 @@ export const ConsecrationProgram: React.FC = () => {
                   setSearchQuery('');
                   setSelectedCategory('all');
                 }}
-                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold cursor-pointer transition-all shadow-md"
+                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold cursor-pointer transition-all shadow-md"
               >
                 Reset Filters
               </button>
@@ -563,16 +496,12 @@ export const ConsecrationProgram: React.FC = () => {
                   >
                     {/* Spine Node: Numbered Dot, Checkmark, or Pulsing Red Beacon */}
                     <div
-                      className={`absolute left-0 top-3 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all z-10 select-none ${
+                      className={`absolute left-0 top-3 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs transition-all z-10 select-none ${
                         isLive
-                          ? 'bg-red-600 text-white shadow-lg shadow-red-600/40 ring-4 ring-red-500/20 animate-pulse'
+                          ? 'bg-red-600 text-white shadow-lg shadow-red-600/40 ring-4 ring-red-500/30 animate-pulse'
                           : isCompleted
-                          ? isDark
-                            ? 'bg-emerald-950 border border-emerald-600/40 text-emerald-300'
-                            : 'bg-emerald-50 border border-emerald-600/30 text-emerald-700'
-                          : isDark
-                          ? 'bg-[#111A2E] border border-slate-700 text-slate-300'
-                          : 'bg-white border border-[#DDD5C7] text-[#0D2C54] shadow-sm'
+                          ? 'bg-emerald-950 border border-emerald-600/40 text-emerald-300'
+                          : 'bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 text-amber-300 font-serif'
                       }`}
                     >
                       {isCompleted ? (
@@ -587,16 +516,12 @@ export const ConsecrationProgram: React.FC = () => {
                     {/* Timeline Item Card */}
                     <div
                       onClick={() => hasSubItems && toggleItemExpansion(item.id)}
-                      className={`rounded-2xl border transition-all p-4 sm:p-5 ${
+                      className={`rounded-2xl transition-all p-4 sm:p-5 shadow-md ${
                         hasSubItems ? 'cursor-pointer active:scale-[0.99]' : ''
                       } ${
                         isLive
-                          ? isDark
-                            ? 'bg-[#16233F] border-2 border-blue-500 shadow-xl shadow-blue-950/50'
-                            : 'bg-white border-2 border-[#0D2C54] shadow-xl shadow-blue-950/10'
-                          : isDark
-                          ? 'bg-[#111A2E] border-slate-800/90 hover:border-slate-700'
-                          : 'bg-white border-[#E8E2D5] hover:border-[#D5CDBD] shadow-xs'
+                          ? 'bg-[#121c33] border-2 border-amber-500/80 shadow-xl shadow-amber-950/40 ring-1 ring-amber-500/30'
+                          : 'bg-[#0a1020]/90 border border-slate-800/80 hover:border-amber-500/30'
                       }`}
                     >
                       {/* Top Meta Line: Badges & Status */}
@@ -612,25 +537,15 @@ export const ConsecrationProgram: React.FC = () => {
 
                           {/* "Up next" Badge */}
                           {isNext && (
-                            <span
-                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                                isDark
-                                  ? 'bg-blue-950/70 border-blue-800 text-blue-300'
-                                  : 'bg-blue-50 border-blue-200 text-blue-700'
-                              }`}
-                            >
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border bg-amber-500/10 border-amber-500/30 text-amber-300">
                               Up next
                             </span>
                           )}
 
                           {/* Section Header (e.g. Order of Procession / Order of Recession) */}
                           {item.sectionHeader && (
-                            <span
-                              className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider ${
-                                isDark ? 'text-blue-400' : 'text-blue-800'
-                              }`}
-                            >
-                              <Sparkles className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 font-cinzel">
+                              <Sparkles className="w-3 h-3 text-amber-400" />
                               <span>{item.sectionHeader}</span>
                             </span>
                           )}
@@ -638,11 +553,11 @@ export const ConsecrationProgram: React.FC = () => {
 
                         {/* Expandable sub-items indicator */}
                         {hasSubItems && (
-                          <div className="flex items-center gap-1 text-[11px] font-sans text-slate-400 dark:text-slate-500">
+                          <div className="flex items-center gap-1 text-[11px] font-sans text-slate-400">
                             <span>{item.subItems?.length} steps</span>
                             <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-200 ${
-                                isExpanded ? 'rotate-180 text-blue-600 dark:text-blue-400' : ''
+                              className={`w-4 h-4 transition-transform duration-200 text-amber-400 ${
+                                isExpanded ? 'rotate-180' : ''
                               }`}
                             />
                           </div>
@@ -653,85 +568,47 @@ export const ConsecrationProgram: React.FC = () => {
                       <h3
                         className={`font-serif font-bold tracking-tight leading-snug ${titleSizeClass} ${
                           isLive
-                            ? isDark
-                              ? 'text-white'
-                              : 'text-[#0D2C54]'
+                            ? 'text-white'
                             : isCompleted
-                            ? 'text-slate-500 dark:text-slate-400'
-                            : isDark
-                            ? 'text-slate-100'
-                            : 'text-slate-900'
+                            ? 'text-slate-400'
+                            : 'text-slate-100'
                         }`}
                       >
                         {formattedTitle}
                       </h3>
 
-                      {/* 5. Officiating Leader with High Contrast */}
+                      {/* 5. Officiating Leader in Original Sacred Gold */}
                       {item.leader && (
-                        <div
-                          className={`mt-3.5 flex items-center gap-3 p-2.5 rounded-xl border transition-all ${
-                            isLive
-                              ? isDark
-                                ? 'bg-red-950/40 border-red-800/60'
-                                : 'bg-red-50/90 border-red-200/90 shadow-xs'
-                              : isDark
-                              ? 'bg-[#15203B] border-slate-800'
-                              : 'bg-[#F5F0E6] border-[#E2DBD0] shadow-xs'
-                          }`}
-                        >
+                        <div className="mt-3 flex items-center gap-2.5 pt-2.5 border-t border-slate-800/80">
                           {/* Initials Avatar */}
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center font-sans font-bold text-xs shrink-0 select-none shadow-xs ${
+                            className={`w-7 h-7 rounded-xl flex items-center justify-center font-sans font-bold text-xs shrink-0 select-none shadow-xs ${
                               isLive
-                                ? 'bg-red-600 text-white shadow-red-600/30 ring-2 ring-red-300'
-                                : isDark
-                                ? 'bg-blue-600 text-white ring-1 ring-blue-400/40'
-                                : 'bg-[#0D2C54] text-white ring-2 ring-[#0D2C54]/20'
+                                ? 'bg-red-600 text-white shadow-red-600/30 ring-2 ring-red-400/40'
+                                : 'bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 text-amber-300'
                             }`}
                           >
                             {leaderInitials}
                           </div>
 
-                          {/* Leader Name & Officiating Tag */}
-                          <div className="min-w-0 flex-1">
-                            <span
-                              className={`text-[10px] font-bold uppercase tracking-wider block leading-none mb-1 ${
-                                isLive
-                                  ? isDark
-                                    ? 'text-red-300'
-                                    : 'text-red-700'
-                                  : isDark
-                                  ? 'text-blue-300'
-                                  : 'text-blue-900 font-extrabold'
-                              }`}
-                            >
-                              Officiating
+                          {/* Leader Name & Original 'Led by:' */}
+                          <div className="min-w-0 flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-500/80">
+                              Led by:
                             </span>
-                            <span
-                              className={`text-xs sm:text-sm font-sans font-bold truncate block ${
-                                isLive
-                                  ? isDark
-                                    ? 'text-white'
-                                    : 'text-red-950'
-                                  : isDark
-                                  ? 'text-slate-100'
-                                  : 'text-[#070C18]'
-                              }`}
-                            >
+                            <span className="text-xs sm:text-sm font-sans font-semibold text-amber-200 truncate block">
                               {item.leader}
                             </span>
                           </div>
                         </div>
                       )}
 
-                      {/* Sub-Items (Cleanly collapsible for mobile screen economy, fully rendered for accessibility) */}
+                      {/* Sub-Items */}
                       {hasSubItems && (
                         <div
                           className={`overflow-hidden transition-all duration-300 ${
                             isExpanded
-                              ? isDark
-                                ? 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-slate-800'
-                                : 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-[#E8E2D5]'
+                              ? 'max-h-[2000px] opacity-100 mt-3 pt-3 border-t border-slate-800/80'
                               : 'max-h-0 opacity-0 pointer-events-none'
                           }`}
                         >
@@ -741,20 +618,10 @@ export const ConsecrationProgram: React.FC = () => {
                                 key={sub.letter}
                                 className={`flex items-start gap-2.5 ${textSizeClass} leading-relaxed`}
                               >
-                                <span
-                                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold font-mono shrink-0 select-none ${
-                                    isDark
-                                      ? 'bg-slate-800 text-blue-300'
-                                      : 'bg-[#F2ECE1] text-[#0D2C54]'
-                                  }`}
-                                >
+                                <span className="font-bold text-amber-400/90 shrink-0 w-4 font-mono text-[11px]">
                                   {sub.letter}.
                                 </span>
-                                <span
-                                  className={
-                                    isDark ? 'text-slate-300' : 'text-[#1E293B] font-serif font-medium'
-                                  }
-                                >
+                                <span className="text-slate-300 font-serif">
                                   {sub.text}
                                 </span>
                               </div>
@@ -793,32 +660,28 @@ export const ConsecrationProgram: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Fine Stationery Footer Attribution */}
-        <footer
-          className={`pt-12 pb-6 border-t text-center space-y-2 text-xs transition-colors ${
-            isDark ? 'border-slate-800/80 text-slate-500' : 'border-[#E8E2D5] text-slate-500'
-          }`}
-        >
+        {/* Original Sanctuary Footer Attribution */}
+        <footer className="pt-12 pb-6 border-t border-slate-800/80 text-center space-y-2 text-xs text-slate-500">
           <div className="flex items-center justify-center gap-2">
             <img
               src={IMAGES.logo}
               alt="RICGCW"
               className="w-5 h-5 rounded-full object-cover opacity-70"
             />
-            <p className="text-[11px] font-medium tracking-wide">
+            <p className="text-[11px] font-medium tracking-wide text-slate-400 font-cinzel">
               {churchInfo?.name || 'Rhema Inner Court Gospel Church (Worldwide)'}
             </p>
           </div>
-          <div className="text-[10px] text-slate-400 font-mono">
+          <div className="text-[10px] text-amber-500/60 font-mono">
             {currentTitle} • {currentSubtitle}
           </div>
-          <p className="text-[11px] pt-1">
+          <p className="text-[11px] text-slate-500 pt-1">
             Built by{' '}
             <a
               href="https://damise-1free.web.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-700 dark:text-blue-400 hover:underline font-semibold"
+              className="text-amber-400 hover:text-amber-300 font-medium underline underline-offset-2 transition-colors"
             >
               Kumesi Moses Mawulolo
             </a>
