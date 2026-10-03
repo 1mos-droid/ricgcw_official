@@ -166,7 +166,7 @@ describe('ConsecrationProgram Page Component (Verbatim Document Lineup)', () => 
     // Trigger admin item addition
     fireEvent.click(screen.getByText('Admin Add Item'));
     expect(screen.getByRole('button', { name: /Consecration & Ordination Service \(34\)/i })).toBeInTheDocument();
-    expect(screen.getByText('CONGREGATIONAL ANOINTING & IMPARTATION')).toBeInTheDocument();
+    expect(screen.getByText(/CONGREGATIONAL ANOINTING & IMPARTATION/i)).toBeInTheDocument();
   });
 });
 

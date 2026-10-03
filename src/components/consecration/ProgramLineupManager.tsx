@@ -16,6 +16,11 @@ import {
   Save,
   Layers,
   CheckCircle2,
+  Radio,
+  Play,
+  Square,
+  ChevronLeft,
+  ChevronRight as ChevronRightIcon,
 } from 'lucide-react';
 import { useChurch } from '../../context/ChurchContext';
 import { ProgramItem, SubItem, normalizeConsecrationProgram } from '../../data/consecrationData';
@@ -30,6 +35,9 @@ export const ProgramLineupManager: React.FC = () => {
     pastorsOrdinationTitle,
     pastorsOrdinationSubtitle,
     pastorOrdinationProgram,
+    currentConsecrationItemId,
+    currentPastorsItemId,
+    setCurrentProgramItem,
     updateConsecrationTitles,
     updatePastorsOrdinationTitles,
     addProgramItem,
@@ -104,6 +112,48 @@ export const ProgramLineupManager: React.FC = () => {
   const activeItems = useMemo(() => {
     return isConsecration ? normalizeConsecrationProgram(consecrationProgram) : pastorOrdinationProgram;
   }, [isConsecration, consecrationProgram, pastorOrdinationProgram]);
+
+  // Live Service Broadcast Item State
+  const liveItemId = isConsecration ? currentConsecrationItemId : currentPastorsItemId;
+  const currentLiveIndex = activeItems.findIndex((it) => it.id === liveItemId);
+  const currentLiveItem = currentLiveIndex >= 0 ? activeItems[currentLiveIndex] : null;
+
+  const handleNextLiveItem = async () => {
+    if (activeItems.length === 0) return;
+    if (currentLiveIndex === -1) {
+      await setCurrentProgramItem(activeService, activeItems[0].id);
+      showToast(`Service broadcast started on item #1: ${activeItems[0].title}`);
+    } else if (currentLiveIndex < activeItems.length - 1) {
+      const next = activeItems[currentLiveIndex + 1];
+      await setCurrentProgramItem(activeService, next.id);
+      showToast(`Broadcast advanced to item #${next.order}: ${next.title}`);
+    } else {
+      showToast('Reached end of service liturgy.');
+    }
+  };
+
+  const handlePrevLiveItem = async () => {
+    if (currentLiveIndex > 0) {
+      const prev = activeItems[currentLiveIndex - 1];
+      await setCurrentProgramItem(activeService, prev.id);
+      showToast(`Moved broadcast back to item #${prev.order}: ${prev.title}`);
+    }
+  };
+
+  const handleClearLiveItem = async () => {
+    await setCurrentProgramItem(activeService, null);
+    showToast('Live tracking paused (No item active).');
+  };
+
+  const handleSetItemLive = async (item: ProgramItem) => {
+    if (liveItemId === item.id) {
+      await setCurrentProgramItem(activeService, null);
+      showToast(`Cleared live broadcast from item #${item.order}.`);
+    } else {
+      await setCurrentProgramItem(activeService, item.id);
+      showToast(`Item #${item.order} (${item.title}) is now LIVE.`);
+    }
+  };
 
   // Filtered items list
   const filteredItems = useMemo(() => {
@@ -348,6 +398,83 @@ export const ProgramLineupManager: React.FC = () => {
 
       {/* Program Items Manager Section */}
       <div className="space-y-4">
+        {/* Real-time Live Service Broadcast Deck (Usher Console) */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border-2 border-red-500/30 shadow-xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div
+              className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                currentLiveItem
+                  ? 'bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse'
+                  : 'bg-slate-800 text-slate-400'
+              }`}
+            >
+              <Radio className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">
+                  {currentLiveItem ? 'Live Service Broadcast Active' : 'Live Sync Standby'}
+                </span>
+                {currentLiveItem && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-600 text-white animate-pulse">
+                    LIVE
+                  </span>
+                )}
+              </div>
+              <p className="font-serif font-bold text-sm sm:text-base text-white truncate">
+                {currentLiveItem
+                  ? `Item #${currentLiveItem.order}: ${currentLiveItem.title}`
+                  : 'No item currently broadcast live to attendee phones'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            {currentLiveItem ? (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevLiveItem}
+                  disabled={currentLiveIndex <= 0}
+                  className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 text-xs font-bold flex items-center gap-1 cursor-pointer disabled:cursor-not-allowed transition-all"
+                  title="Previous Liturgy Item"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Prev</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextLiveItem}
+                  disabled={currentLiveIndex >= activeItems.length - 1}
+                  className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 disabled:opacity-40 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-red-900/40 cursor-pointer disabled:cursor-not-allowed transition-all"
+                  title="Advance to Next Item"
+                >
+                  <span>Next Item</span>
+                  <ChevronRightIcon className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearLiveItem}
+                  className="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1 cursor-pointer transition-all"
+                  title="Pause / Clear Live Broadcast"
+                >
+                  <Square className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Off Air</span>
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={handleNextLiveItem}
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-red-600/30 cursor-pointer transition-all"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>Start Service Live (#1)</span>
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Controls Bar: Search & Add Item */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
@@ -478,8 +605,24 @@ export const ProgramLineupManager: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Right: Action Buttons (Edit / Delete) */}
+                  {/* Right: Action Buttons (Live Now / Edit / Delete) */}
                   <div className="flex items-center justify-end gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-900">
+                    <button
+                      type="button"
+                      onClick={() => handleSetItemLive(item)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        liveItemId === item.id
+                          ? 'bg-red-600 text-white shadow-md shadow-red-600/30 font-bold'
+                          : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-red-500/40'
+                      }`}
+                      title={liveItemId === item.id ? 'Currently broadcast LIVE (Click to turn off)' : 'Broadcast this item as LIVE NOW'}
+                    >
+                      <Radio
+                        className={`w-3.5 h-3.5 ${liveItemId === item.id ? 'animate-pulse text-white' : 'text-slate-400'}`}
+                      />
+                      <span>{liveItemId === item.id ? 'Live Now' : 'Set as Now'}</span>
+                    </button>
+
                     <button
                       type="button"
                       onClick={() => handleOpenEditModal(item)}

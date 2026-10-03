@@ -43,6 +43,8 @@ export interface ConsecrationLiturgyData {
   pastorsOrdinationTitle: string;
   pastorsOrdinationSubtitle: string;
   pastorOrdinationProgram: ProgramItem[];
+  currentConsecrationItemId?: number | null;
+  currentPastorsItemId?: number | null;
 }
 
 export type ChurchInfoType = typeof defaultChurchInfo;
@@ -134,7 +136,10 @@ export interface ChurchContextType {
   pastorsOrdinationTitle: string;
   pastorsOrdinationSubtitle: string;
   pastorOrdinationProgram: ProgramItem[];
+  currentConsecrationItemId: number | null;
+  currentPastorsItemId: number | null;
 
+  setCurrentProgramItem: (serviceType: 'consecration' | 'pastors', itemId: number | null) => Promise<void>;
   updateConsecrationTitles: (title: string, subtitle: string) => Promise<void>;
   updatePastorsOrdinationTitles: (title: string, subtitle: string) => Promise<void>;
   updateConsecrationProgram: (items: ProgramItem[]) => Promise<void>;
@@ -185,6 +190,14 @@ const getInitialConsecrationData = (): ConsecrationLiturgyData => {
             pastorOrdinationProgram: Array.isArray(parsed.pastorOrdinationProgram) && parsed.pastorOrdinationProgram.length > 0
               ? parsed.pastorOrdinationProgram
               : PASTOR_ORDINATION_PROGRAM,
+            currentConsecrationItemId:
+              typeof parsed.currentConsecrationItemId === 'number' || parsed.currentConsecrationItemId === null
+                ? parsed.currentConsecrationItemId
+                : null,
+            currentPastorsItemId:
+              typeof parsed.currentPastorsItemId === 'number' || parsed.currentPastorsItemId === null
+                ? parsed.currentPastorsItemId
+                : null,
           };
         }
       }
@@ -199,6 +212,8 @@ const getInitialConsecrationData = (): ConsecrationLiturgyData => {
     pastorsOrdinationTitle: PASTORS_ORDINATION_TITLE,
     pastorsOrdinationSubtitle: PASTORS_ORDINATION_SUBTITLE,
     pastorOrdinationProgram: PASTOR_ORDINATION_PROGRAM,
+    currentConsecrationItemId: null,
+    currentPastorsItemId: null,
   };
 };
 
@@ -226,6 +241,12 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [pastorsOrdinationTitle, setPastorsOrdinationTitle] = useState<string>(initialConsecration.pastorsOrdinationTitle);
   const [pastorsOrdinationSubtitle, setPastorsOrdinationSubtitle] = useState<string>(initialConsecration.pastorsOrdinationSubtitle);
   const [pastorOrdinationProgram, setPastorOrdinationProgram] = useState<ProgramItem[]>(initialConsecration.pastorOrdinationProgram);
+  const [currentConsecrationItemId, setCurrentConsecrationItemId] = useState<number | null>(
+    initialConsecration.currentConsecrationItemId ?? null
+  );
+  const [currentPastorsItemId, setCurrentPastorsItemId] = useState<number | null>(
+    initialConsecration.currentPastorsItemId ?? null
+  );
 
   // -------------------------------------------------------------
   // Global Real-time Firestore Subscriptions
@@ -430,6 +451,12 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             if (Array.isArray(data.pastorOrdinationProgram) && data.pastorOrdinationProgram.length > 0) {
               setPastorOrdinationProgram(data.pastorOrdinationProgram);
             }
+            if (data.currentConsecrationItemId !== undefined) {
+              setCurrentConsecrationItemId(data.currentConsecrationItemId);
+            }
+            if (data.currentPastorsItemId !== undefined) {
+              setCurrentPastorsItemId(data.currentPastorsItemId);
+            }
 
             try {
               localStorage.setItem(CONSECRATION_STORAGE_KEY, JSON.stringify(data));
@@ -469,6 +496,12 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           if (data.pastorsOrdinationSubtitle) setPastorsOrdinationSubtitle(data.pastorsOrdinationSubtitle);
           if (Array.isArray(data.pastorOrdinationProgram) && data.pastorOrdinationProgram.length > 0) {
             setPastorOrdinationProgram(data.pastorOrdinationProgram);
+          }
+          if (data.currentConsecrationItemId !== undefined) {
+            setCurrentConsecrationItemId(data.currentConsecrationItemId);
+          }
+          if (data.currentPastorsItemId !== undefined) {
+            setCurrentPastorsItemId(data.currentPastorsItemId);
           }
         } catch (err) {
           console.warn('Storage sync error:', err);
@@ -822,6 +855,8 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         pastorsOrdinationTitle,
         pastorsOrdinationSubtitle,
         pastorOrdinationProgram,
+        currentConsecrationItemId,
+        currentPastorsItemId,
         ...updates,
       };
       if (typeof window !== 'undefined') {
@@ -836,6 +871,19 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
     } catch (err) {
       console.warn('Could not persist consecration data:', err);
+    }
+  };
+
+  const setCurrentProgramItem = async (
+    serviceType: 'consecration' | 'pastors',
+    itemId: number | null
+  ) => {
+    if (serviceType === 'consecration') {
+      setCurrentConsecrationItemId(itemId);
+      await persistConsecration({ currentConsecrationItemId: itemId });
+    } else {
+      setCurrentPastorsItemId(itemId);
+      await persistConsecration({ currentPastorsItemId: itemId });
     }
   };
 
@@ -1025,6 +1073,9 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         pastorsOrdinationTitle,
         pastorsOrdinationSubtitle,
         pastorOrdinationProgram,
+        currentConsecrationItemId,
+        currentPastorsItemId,
+        setCurrentProgramItem,
         updateConsecrationTitles,
         updatePastorsOrdinationTitles,
         updateConsecrationProgram,

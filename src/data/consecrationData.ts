@@ -316,3 +316,74 @@ export const normalizeConsecrationProgram = (items: ProgramItem[]): ProgramItem[
     return updated;
   });
 };
+
+export type ItemCategory = 'all' | 'readings' | 'songs' | 'prayer';
+
+export function formatTitleSentenceCase(title: string): string {
+  if (!title) return '';
+  const minorWords = new Set(['and', 'or', 'the', 'a', 'an', 'of', 'in', 'with', 'by', 'for', 'to', 'at', 'from']);
+  
+  return title
+    .toLowerCase()
+    .split(' ')
+    .map((word, index) => {
+      let prefix = '';
+      let core = word;
+      if (core.startsWith('(')) {
+        prefix = '(';
+        core = core.slice(1);
+      }
+      if (minorWords.has(core) && index > 0) {
+        return prefix + core;
+      }
+      return prefix + (core.charAt(0).toUpperCase() + core.slice(1));
+    })
+    .join(' ')
+    .replace(/\/ ([a-z])/g, (_, c) => `/ ${c.toUpperCase()}`)
+    .replace(/\b(Mitre|Mitres)\b/gi, 'Mitre')
+    .replace(/\b(Bible|Bibles)\b/gi, 'Bible')
+    .replace(/\b(Psalmists?)\b/gi, 'Psalmist');
+}
+
+export function getLeaderInitials(name: string): string {
+  if (!name) return '';
+  const cleaned = name.replace(/^(Elder|Minister|Min\.|Mrs\.|Mrs|Miss|Mr\.|Mr|Overseer|Snr\.|Apostle|Rev\.|Rev|Pastor|Ps\.)\s+/i, '');
+  const parts = cleaned.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+export function categorizeProgramItem(item: ProgramItem): ItemCategory {
+  const text = `${item.title} ${item.leader || ''} ${item.subItems?.map((s) => s.text).join(' ') || ''}`.toLowerCase();
+  if (text.includes('song') || text.includes('psalmist') || text.includes('hymn') || text.includes('praises')) {
+    return 'songs';
+  }
+  if (
+    text.includes('reading') ||
+    text.includes('scripture') ||
+    text.includes('profile') ||
+    text.includes('sermon') ||
+    text.includes('speech') ||
+    text.includes('declaration')
+  ) {
+    return 'readings';
+  }
+  if (
+    text.includes('prayer') ||
+    text.includes('anointing') ||
+    text.includes('communion') ||
+    text.includes('cummunion') ||
+    text.includes('vow') ||
+    text.includes('mitre') ||
+    text.includes('procession') ||
+    text.includes('recession')
+  ) {
+    return 'prayer';
+  }
+  return 'all';
+}
