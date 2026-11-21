@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { SPRING_TACTILE } from '../components/motion';
 import {
   Check,
   ChevronDown,
@@ -43,6 +44,7 @@ type TextSizeLevel = 'sm' | 'base' | 'lg';
 
 export const ConsecrationProgram: React.FC = () => {
   usePageTitle('Official Program Line Up • Rhema Inner Court Gospel Church');
+  const prefersReduced = useReducedMotion();
 
   const {
     churchInfo,
@@ -283,10 +285,15 @@ export const ConsecrationProgram: React.FC = () => {
               <button
                 type="button"
                 onClick={scrollToLiveItem}
-                className="hidden xs:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-600 text-white text-[11px] font-bold shadow-sm shadow-red-600/30 animate-pulse cursor-pointer"
+                className="hidden xs:inline-flex min-h-[44px] items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold shadow-sm cursor-pointer transition-colors"
                 title={`Jump to live item #${liveItem.order}`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  {!prefersReduced && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  )}
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                </span>
                 <span>Now #{liveItem.order}</span>
               </button>
             )}
@@ -419,7 +426,12 @@ export const ConsecrationProgram: React.FC = () => {
         <div className="p-3 rounded-2xl border flex items-center justify-between gap-3 text-xs bg-slate-900/90 border-slate-800 text-slate-300 shadow-md">
           <div className="flex items-center gap-2 min-w-0">
             {liveItem ? (
-              <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping shrink-0" />
+              <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                {!prefersReduced && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                )}
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
+              </span>
             ) : (
               <Clock className="w-4 h-4 text-amber-500/60 shrink-0" />
             )}
@@ -529,8 +541,13 @@ export const ConsecrationProgram: React.FC = () => {
                         <div className="flex items-center gap-2 flex-wrap">
                           {/* Live "Now" Accent Badge */}
                           {isLive && (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider animate-pulse shadow-xs">
-                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-xs">
+                              <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
+                                {!prefersReduced && (
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                                )}
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                              </span>
                               <span>Now</span>
                             </span>
                           )}
@@ -640,11 +657,11 @@ export const ConsecrationProgram: React.FC = () => {
         {/* 6. Floating "Jump to now" Button */}
         <AnimatePresence>
           {liveItem && !isLiveCardVisible && (
-            <motion.div
-              initial={{ y: 50, opacity: 0, scale: 0.9 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 50, opacity: 0, scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            <m.div
+              initial={prefersReduced ? { opacity: 0 } : { y: 50, opacity: 0, scale: 0.9 }}
+              animate={prefersReduced ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1 }}
+              exit={prefersReduced ? { opacity: 0 } : { y: 50, opacity: 0, scale: 0.9 }}
+              transition={SPRING_TACTILE}
               className="fixed bottom-6 right-4 sm:right-6 z-50"
             >
               <button
@@ -652,11 +669,16 @@ export const ConsecrationProgram: React.FC = () => {
                 onClick={scrollToLiveItem}
                 className="min-h-[48px] px-4 py-3 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-xl shadow-red-600/40 flex items-center gap-2 cursor-pointer active:scale-95 transition-all select-none"
               >
-                <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  {!prefersReduced && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  )}
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                </span>
                 <span>Jump to Now · #{liveItem.order}</span>
                 <ArrowDown className="w-3.5 h-3.5" />
               </button>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 

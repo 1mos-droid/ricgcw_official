@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Send, HeartHandshake, CheckCircle2, MessageCircle } from 'lucide-react';
+import { m, useReducedMotion } from 'framer-motion';
+import { Send, HeartHandshake, MessageCircle } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { trackEvent } from '../utils/analytics';
 import { Modal } from './common/Modal';
 import { toWhatsAppUrl, toInternationalDisplay } from '../utils/phoneUtils';
+import { CATHEDRAL_EASE, SPRING_TACTILE } from './motion';
 
 interface PrayerModalProps {
   isOpen: boolean;
@@ -16,6 +18,8 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
   const { churchInfo, addPrayerRequest } = useChurch();
   const [submitted, setSubmitted] = useState(false);
   const [honeypot, setHoneypot] = useState('');
+  const prefersReduced = useReducedMotion();
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -47,7 +51,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Honeypot spam check - bots fill hidden inputs
+    // Honeypot spam check
     if (honeypot.trim().length > 0) {
       console.warn('Spam submission detected by honeypot.');
       setSubmitted(true);
@@ -92,21 +96,44 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
       {submitted ? (
         <div className="text-center py-6 space-y-6">
           <div className="w-16 h-16 rounded-2xl bg-olive-500/15 text-olive-500 flex items-center justify-center mx-auto shadow-sm">
-            <CheckCircle2 className="w-8 h-8" />
+            <svg viewBox="0 0 36 36" fill="none" className="w-9 h-9" aria-hidden="true">
+              <m.circle
+                cx="18"
+                cy="18"
+                r="15"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                initial={{ pathLength: prefersReduced ? 1 : 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: prefersReduced ? 0.1 : 0.45, ease: CATHEDRAL_EASE }}
+              />
+              <m.path
+                d="M 11 18.5 L 15.8 23.2 L 25.5 13.5"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: prefersReduced ? 1 : 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: prefersReduced ? 0.1 : 0.35, delay: 0.2, ease: CATHEDRAL_EASE }}
+              />
+            </svg>
           </div>
 
           <div className="space-y-2">
             <h3 className="text-2xl font-bold font-serif text-ink-primary">Prayer Petition Received in Faith</h3>
-            <p className="text-xs sm:text-sm text-ink-secondary max-w-md mx-auto leading-relaxed">
+            <p className="text-body text-ink-secondary max-w-md mx-auto leading-relaxed">
               Beloved, General Overseer Rev. Nicholas Dobeng and the intercessory council have received your request. We stand in covenant agreement with you before the throne of grace.
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone text-xs text-ink-primary max-w-md mx-auto">
+          <div className="p-4 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone text-caption text-ink-primary max-w-md mx-auto">
             <p className="font-bold text-gold-600">Need Immediate Urgent Prayer or Counseling?</p>
             <p className="mt-0.5 text-ink-secondary">
               Call our pastoral line at{' '}
-              <strong className="font-mono tabular-nums text-ink-primary">{toInternationalDisplay(churchInfo.contact.phone)}</strong>
+              <strong className="font-mono tabular-nums text-ink-primary">
+                {toInternationalDisplay(churchInfo.contact.phone)}
+              </strong>
             </p>
           </div>
 
@@ -119,7 +146,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Prayer Modal Success')}
-              className="w-full sm:w-auto px-6 py-3 rounded-full bg-olive-500 hover:bg-olive-600 text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-full bg-olive-500 hover:bg-olive-600 text-white font-bold text-caption uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Chat on WhatsApp</span>
@@ -127,7 +154,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
 
             <button
               onClick={resetAndClose}
-              className="w-full sm:w-auto px-6 py-3 rounded-full bg-ink-primary hover:bg-gold-600 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-full bg-ink-primary hover:bg-gold-600 text-white font-bold text-caption uppercase tracking-wider transition-colors cursor-pointer"
             >
               Close Window
             </button>
@@ -135,7 +162,6 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Honeypot field for bot protection */}
           <div className="hidden" aria-hidden="true">
             <input
               type="text"
@@ -149,7 +175,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase text-ink-secondary mb-1.5">
+              <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
                 Your Name <span className="text-flame-500">*</span>
               </label>
               <input
@@ -158,12 +184,12 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g. Sister Mercy"
-                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-ink-secondary mb-1.5">
+              <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
                 Phone / WhatsApp <span className="text-flame-500">*</span>
               </label>
               <input
@@ -172,13 +198,13 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+233 24 485 7403"
-                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-sm font-mono tabular-nums outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono tabular-nums outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-ink-secondary mb-1.5">
+            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
               Email Address (Optional)
             </label>
             <input
@@ -186,12 +212,12 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="name@example.com"
-              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-sm font-mono outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-ink-secondary mb-1.5">
+            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
               Prayer Need Category
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -200,7 +226,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
                   type="button"
                   key={cat}
                   onClick={() => setFormData({ ...formData, category: cat })}
-                  className={`p-2.5 rounded-xl text-[11px] font-bold text-left transition-all border cursor-pointer ${
+                  className={`min-h-[44px] p-2.5 rounded-xl text-caption font-bold text-left transition-all border cursor-pointer ${
                     formData.category === cat
                       ? 'bg-gold-600 text-sanctuary-alabaster border-gold-500 shadow-sm'
                       : 'bg-sanctuary-parchment text-ink-secondary border-sanctuary-stone hover:bg-white'
@@ -213,7 +239,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-ink-secondary mb-1.5">
+            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
               Your Prayer Request Details <span className="text-flame-500">*</span>
             </label>
             <textarea
@@ -222,12 +248,12 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Share your petition freely. The pastoral council treats every request with absolute reverence and confidentiality."
-              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
             />
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <label className="flex items-center gap-2 cursor-pointer text-xs text-ink-secondary select-none">
+            <label className="min-h-[44px] flex items-center gap-2 cursor-pointer text-caption text-ink-secondary select-none">
               <input
                 type="checkbox"
                 checked={formData.isConfidential}
@@ -239,13 +265,15 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
           </div>
 
           <div className="pt-2">
-            <button
+            <m.button
               type="submit"
-              className="w-full py-3.5 px-6 rounded-full bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              whileTap={prefersReduced ? undefined : { scale: 0.98 }}
+              transition={SPRING_TACTILE}
+              className="min-h-[48px] w-full py-3.5 px-6 rounded-full bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster font-bold text-caption uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <Send className="w-4 h-4 text-gold-400" />
               <span>Submit Prayer to Intercession Altar</span>
-            </button>
+            </m.button>
           </div>
         </form>
       )}

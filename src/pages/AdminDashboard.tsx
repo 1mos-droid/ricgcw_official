@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { m, AnimatePresence } from 'framer-motion';
+import { SPRING_TACTILE } from '../components/motion';
 import {
   BarChart3,
   Edit3,
@@ -468,12 +470,12 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-sanctuary-midnight text-sanctuary-alabaster flex flex-col">
       {/* Top Admin Navbar */}
-      <header className="bg-slate-900 border-b border-amber-500/20 px-4 sm:px-6 py-3.5 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <header className="bg-sanctuary-900 border-b border-gold-500/20 px-4 sm:px-6 py-3.5 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl overflow-hidden border border-amber-500/40">
+            <div className="w-9 h-9 rounded-xl overflow-hidden border border-gold-500/40 shrink-0">
               <img src={IMAGES.logo} alt="Logo" className="w-full h-full object-cover" />
             </div>
             <div>
@@ -481,42 +483,45 @@ export const AdminDashboard: React.FC = () => {
                 <span className="font-bold text-sm font-serif text-white tracking-wide">
                   RICGCW Control Center
                 </span>
-                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-olive-500/20 text-emerald-300 border border-olive-500/30 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Dynamic CMS
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-sanctuary-alabaster/60">
                 Rhema Inner Court Gospel Church (Worldwide)
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               to="/consecration"
               target="_blank"
-              className="px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-gold-500/15 hover:bg-gold-500/25 text-gold-300 border border-gold-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
             >
-              <Crown className="w-3.5 h-3.5 text-amber-400" />
+              <Crown className="w-3.5 h-3.5 text-gold-400" />
               <span className="hidden sm:inline">Consecration QR & Lineup</span>
             </Link>
 
             <Link
               to="/"
               target="_blank"
-              className="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-sanctuary-alabaster border border-white/15 text-xs font-bold flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
             >
-              <Eye className="w-3.5 h-3.5 text-amber-400" />
+              <Eye className="w-3.5 h-3.5 text-gold-400" />
               <span className="hidden sm:inline">Preview Live Site</span>
             </Link>
 
-            <button
+            <m.button
+              type="button"
               onClick={handleLogout}
-              className="px-3.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              whileTap={{ scale: 0.97 }}
+              transition={SPRING_TACTILE}
+              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-flame-500/15 hover:bg-flame-500/25 text-flame-300 border border-flame-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-flame-400"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Logout</span>
-            </button>
+            </m.button>
           </div>
         </div>
       </header>
@@ -525,18 +530,28 @@ export const AdminDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto w-full p-4 sm:p-6 md:p-8 flex-1 space-y-8">
         
         {/* Save Notification Toast */}
-        {saveSuccess && (
-          <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-emerald-600 text-white shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4">
-            <CheckCircle2 className="w-5 h-5" />
-            <div>
-              <p className="font-bold text-sm">Changes Published Successfully!</p>
-              <p className="text-xs text-emerald-100">Live website updated instantly across all client sessions.</p>
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {saveSuccess && (
+            <m.div
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.96 }}
+              transition={SPRING_TACTILE}
+              role="status"
+              aria-live="polite"
+              className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-olive-500 text-white shadow-2xl flex items-center gap-3"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              <div>
+                <p className="font-bold text-sm">Changes Published Successfully!</p>
+                <p className="text-xs text-white/90">Live website updated instantly across all client sessions.</p>
+              </div>
+            </m.div>
+          )}
+        </AnimatePresence>
 
         {/* Tab Navigation Strip */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-sanctuary-800">
           {[
             { id: 'analytics', name: 'Analytics & Giving', icon: BarChart3, badge: `${analytics.totalVisitors}` },
             { id: 'content', name: 'Church Identity', icon: Edit3 },
@@ -553,30 +568,41 @@ export const AdminDashboard: React.FC = () => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
-              <button
+              <m.button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shrink-0 transition-all cursor-pointer ${
+                whileTap={{ scale: 0.97 }}
+                transition={SPRING_TACTILE}
+                className={`relative min-h-[44px] px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                   isActive
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                    : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-850 border border-slate-800'
+                    ? 'text-sanctuary-midnight'
+                    : 'bg-sanctuary-900 text-sanctuary-alabaster/70 hover:text-white hover:bg-sanctuary-800 border border-sanctuary-800'
                 }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{tab.name}</span>
+                {isActive && (
+                  <m.span
+                    layoutId="admin-active-tab"
+                    transition={SPRING_TACTILE}
+                    className="absolute inset-0 rounded-xl bg-gold-500 shadow-md -z-0"
+                    aria-hidden="true"
+                  />
+                )}
+                <Icon className="w-4 h-4 relative z-10" />
+                <span className="relative z-10">{tab.name}</span>
                 {tab.badge && (
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${isActive ? 'bg-slate-950 text-amber-300' : 'bg-amber-500/20 text-amber-300'}`}>
+                  <span className={`relative z-10 text-[10px] px-1.5 py-0.5 rounded-md font-mono ${isActive ? 'bg-sanctuary-midnight text-gold-300' : 'bg-gold-500/20 text-gold-300'}`}>
                     {tab.badge}
                   </span>
                 )}
-              </button>
+              </m.button>
             );
           })}
         </div>
 
         {/* TAB 1: ANALYTICS & TRAFFIC HUB */}
         {activeTab === 'analytics' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             {/* Top Stat Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-5 rounded-3xl bg-slate-900 border border-slate-800 space-y-2">
