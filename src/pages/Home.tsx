@@ -12,9 +12,10 @@ import { BranchModal } from '../components/BranchModal';
 import { GivingModal } from '../components/GivingModal';
 import { PrayerModal } from '../components/PrayerModal';
 import { MobileQuickBar } from '../components/MobileQuickBar';
-import { IMAGES } from '../data/churchData';
+import { PICTURES, IMAGE_DIMENSIONS } from '../data/churchData';
 import { trackPageView } from '../utils/analytics';
 import { usePageTitle } from '../utils/usePageTitle';
+import ResponsiveImage from '../components/ResponsiveImage';
 
 interface PrayerPrefill {
   category?: string;
@@ -46,34 +47,24 @@ export const Home = () => {
   return (
     <div className="relative isolate min-h-screen bg-sanctuary-alabaster text-ink-primary selection:bg-gold-600 selection:text-sanctuary-alabaster pb-16 md:pb-0 overflow-x-clip">
       {/* =====================================================================
-          CONSTANT ATMOSPHERIC SANCTUARY CANVAS (Fixed Background Layer)
-          Anchors a continuous, tranquil sanctuary atmosphere with morning light
-          and subtle sacred depth that gently reveals as sections scroll over it.
+          CONSTANT COMPOSITE SANCTUARY CANVAS (Fixed GPU-friendly Background)
+          Uses a single multi-stop CSS radial gradient + soft ambient motif
+          (zero heavy blur filter stacking for smooth 60fps scrolling).
       ===================================================================== */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        {/* Base Cathedral Alabaster Tint */}
-        <div className="absolute inset-0 bg-sanctuary-alabaster" />
-
-        {/* Ambient Sanctuary Worship Texture with Soft Blur */}
-        <div className="absolute inset-0 opacity-[0.085] mix-blend-multiply">
-          <img
-            src={IMAGES.theme || IMAGES.overseer}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden sanctuary-composite-canvas" aria-hidden="true">
+        <div className="absolute inset-0 opacity-[0.06] mix-blend-multiply">
+          <ResponsiveImage
+            src={PICTURES.theme}
             alt=""
-            className="w-full h-full object-cover object-center scale-105 filter blur-[2px] saturate-75 contrast-110"
+            decorative
+            width={IMAGE_DIMENSIONS.theme.width}
+            height={IMAGE_DIMENSIONS.theme.height}
+            sizes="100vw"
+            pictureClassName="w-full h-full block"
+            className="w-full h-full object-cover object-center saturate-75"
           />
         </div>
-
-        {/* Subtle Architectural Limestone Grain */}
         <div className="absolute inset-0 bg-subtle-pattern opacity-35" />
-
-        {/* Ambient Golden Radial Light Blooms (Sunlight in Cathedral Hall) */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[920px] h-[640px] bg-[radial-gradient(ellipse_at_center,rgba(184,134,11,0.16)_0%,transparent_70%)] blur-[90px]" />
-        <div className="absolute top-[28%] -left-32 w-[650px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(223,197,123,0.14)_0%,transparent_70%)] blur-[100px]" />
-        <div className="absolute top-[60%] -right-32 w-[720px] h-[720px] bg-[radial-gradient(ellipse_at_center,rgba(184,134,11,0.12)_0%,transparent_70%)] blur-[110px]" />
-        <div className="absolute bottom-8 left-1/3 w-[600px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(200,75,49,0.06)_0%,transparent_70%)] blur-[120px]" />
-
-        {/* Subtle Sacred Parchment Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(230,224,211,0.45)_100%)]" />
       </div>
 
       {/* Navigation */}
@@ -83,7 +74,7 @@ export const Home = () => {
         onOpenPrayerModal={() => openPrayerModal()}
       />
 
-      {/* Main Content Sections: 5 Architectural Movements */}
+      {/* Main Content Sections */}
       <main id="main-content" className="relative z-10">
         {/* Movement I: The Threshold (Hero + Integrated Campus Dock) */}
         <Hero
@@ -103,7 +94,7 @@ export const Home = () => {
           onOpenBranchModal={openBranchModal}
         />
 
-        {/* Movement IV: The Living Word & Prayer Altar (Deep Sanctuary Theater) */}
+        {/* Movement IV: The Living Word & Prayer Altar */}
         <MediaHub
           onOpenPrayerModal={() => openPrayerModal()}
         />
