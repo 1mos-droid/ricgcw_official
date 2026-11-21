@@ -819,7 +819,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 2: CHURCH IDENTITY & GENERAL CONTENT */}
         {activeTab === 'content' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <form onSubmit={handleSaveContent} className="space-y-8">
               {/* Annual Theme */}
               <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
@@ -979,7 +979,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 3: EVENTS MANAGER */}
         {activeTab === 'events' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div className="flex items-center gap-3">
@@ -996,7 +996,7 @@ export const AdminDashboard: React.FC = () => {
 
               {/* Edit Event Form / Modal */}
               {editingEvent && (
-                <form onSubmit={handleEditEventSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4 animate-in fade-in">
+                <form onSubmit={handleEditEventSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 className="font-bold text-sm uppercase tracking-wider text-amber-400 flex items-center gap-2">
                       <Edit3 className="w-4 h-4" /> Editing Event: {editingEvent.title}
@@ -1214,7 +1214,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 3.5: LITURGY & QR STUDIO */}
         {activeTab === 'liturgy' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             {/* 1. Official Program Lineup Editor */}
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
@@ -1287,7 +1287,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 4.1: BRANCHES & SANCTUARIES MANAGER */}
         {activeTab === 'branches' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div className="flex items-center gap-3">
@@ -1304,7 +1304,7 @@ export const AdminDashboard: React.FC = () => {
 
               {/* Edit Branch Modal */}
               {editingBranch && (
-                <form onSubmit={handleEditBranchSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4 animate-in fade-in">
+                <form onSubmit={handleEditBranchSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 className="font-bold text-sm uppercase tracking-wider text-amber-400 flex items-center gap-2">
                       <Edit3 className="w-4 h-4" /> Editing Branch: {editingBranch.name}
@@ -1497,7 +1497,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 4.2: MINISTRIES MANAGER */}
         {activeTab === 'ministries' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div className="flex items-center gap-3">
@@ -1514,7 +1514,7 @@ export const AdminDashboard: React.FC = () => {
 
               {/* Edit Ministry Modal */}
               {editingMinistry && (
-                <form onSubmit={handleEditMinistrySubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4 animate-in fade-in">
+                <form onSubmit={handleEditMinistrySubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 className="font-bold text-sm uppercase tracking-wider text-amber-400 flex items-center gap-2">
                       <Edit3 className="w-4 h-4" /> Editing Ministry: {editingMinistry.name}
@@ -1669,7 +1669,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 4.5: SPONSORSHIP & KINGDOM PROJECTS MANAGER */}
         {activeTab === 'sponsorship' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             {/* Header Banner */}
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -1687,7 +1687,7 @@ export const AdminDashboard: React.FC = () => {
 
               {/* Edit Project Modal / Overlay */}
               {editingProject && (
-                <form onSubmit={handleEditProjectSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4 animate-in fade-in">
+                <form onSubmit={handleEditProjectSubmit} className="p-6 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h4 className="font-bold text-sm uppercase tracking-wider text-amber-400 flex items-center gap-2">
                       <Edit3 className="w-4 h-4" /> Editing Project: {editingProject.title}
@@ -2041,7 +2041,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 5: FAQS MANAGER */}
         {activeTab === 'faqs' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
                 <HelpCircle className="w-5 h-5 text-amber-400" />
@@ -2109,7 +2109,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 6: PRAYER REQUESTS INBOX */}
         {activeTab === 'prayers' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
+          <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="font-serif font-bold text-2xl text-white flex items-center gap-2">
@@ -2231,7 +2231,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 7: LOOK & FEEL */}
         {activeTab === 'appearance' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <form onSubmit={handleSaveAppearance} className="space-y-8">
               {/* Top Banner Customizer */}
               <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
@@ -2330,7 +2330,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 8: SYSTEM NOTES & BACKUP */}
         {activeTab === 'feedback' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-8">
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div className="flex items-center gap-3">

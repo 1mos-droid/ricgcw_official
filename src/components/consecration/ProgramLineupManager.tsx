@@ -266,7 +266,7 @@ export const ProgramLineupManager: React.FC = () => {
     <div className="space-y-6">
       {/* Toast Notification */}
       {successToast && (
-        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-emerald-600 text-white shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4">
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-emerald-600 text-white shadow-2xl flex items-center gap-3">
           <CheckCircle2 className="w-5 h-5 shrink-0" />
           <p className="font-bold text-sm">{successToast}</p>
         </div>
@@ -347,7 +347,7 @@ export const ProgramLineupManager: React.FC = () => {
         {editingTitles && (
           <form
             onSubmit={handleSaveTitles}
-            className="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 space-y-4 animate-in fade-in"
+            className="p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 space-y-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -650,7 +650,7 @@ export const ProgramLineupManager: React.FC = () => {
 
       {/* ADD / EDIT PROGRAM ITEM MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <div className="relative w-full max-w-2xl rounded-3xl bg-slate-900 border border-amber-500/30 p-6 sm:p-8 space-y-6 shadow-2xl my-8">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div className="flex items-center gap-3">
@@ -804,7 +804,7 @@ export const ProgramLineupManager: React.FC = () => {
 
       {/* DELETE CONFIRMATION MODAL */}
       {deletingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl bg-slate-900 border border-rose-500/40 p-6 sm:p-7 space-y-5 shadow-2xl">
             <div className="flex items-center gap-3 text-rose-400">
               <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center">
@@ -843,7 +843,7 @@ export const ProgramLineupManager: React.FC = () => {
 
       {/* RESET TO DEFAULTS CONFIRMATION MODAL */}
       {showResetConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl bg-slate-900 border border-rose-500/40 p-6 sm:p-7 space-y-5 shadow-2xl">
             <div className="flex items-center gap-3 text-rose-400">
               <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center">

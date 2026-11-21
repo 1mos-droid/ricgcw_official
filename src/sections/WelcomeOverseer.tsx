@@ -223,7 +223,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
           {/* Interactive Ledger Grid */}
           <div className="grid lg:grid-cols-12 gap-8 items-stretch">
             {/* Left 6 Cols: Etymology of R-H-E-M-A */}
-            <Reveal className="lg:col-span-6 bg-sanctuary-parchment/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-sanctuary-stone space-y-6 shadow-xs">
+            <Reveal className="lg:col-span-6 bg-sanctuary-parchment/95 rounded-3xl p-6 sm:p-8 border border-sanctuary-stone space-y-6 shadow-xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-sanctuary-stone">
                 <Scroll className="w-5 h-5 text-gold-600" />
                 <h4 className="font-serif text-h3 font-bold text-ink-primary">
@@ -246,7 +246,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
             </Reveal>
 
             {/* Right 6 Cols: The 5 Sacred Tabernacle Colors */}
-            <Reveal delay={0.08} className="lg:col-span-6 bg-sanctuary-parchment/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-sanctuary-stone flex flex-col justify-between space-y-6 shadow-xs">
+            <Reveal delay={0.08} className="lg:col-span-6 bg-sanctuary-parchment/95 rounded-3xl p-6 sm:p-8 border border-sanctuary-stone flex flex-col justify-between space-y-6 shadow-xs">
               <div className="space-y-3">
                 <div className="flex items-center gap-2.5 pb-4 border-b border-sanctuary-stone">
                   <Shield className="w-5 h-5 text-gold-600" />

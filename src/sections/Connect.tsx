@@ -356,7 +356,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
 
           {/* Right Column: Floating-Label Interactive Inquiry Form with Animated Check & Error Shake */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-sanctuary-parchment/88 backdrop-blur-md border border-sanctuary-stone shadow-xs space-y-5">
+            <div className="p-6 sm:p-8 rounded-3xl bg-sanctuary-parchment/95 border border-sanctuary-stone shadow-xs space-y-5">
               <div className="space-y-1.5">
                 <span className="px-3 py-1 rounded-full text-eyebrow font-semibold uppercase tracking-wider bg-gold-500/12 text-gold-700 border border-gold-500/25 inline-block">
                   Online Inquiry &amp; Counseling

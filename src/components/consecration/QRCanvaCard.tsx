@@ -405,7 +405,7 @@ export const QRCanvaCard = ({
 
       {/* Expandable Domain Customizer */}
       {showDomainSettings && (
-        <div className="p-4 bg-slate-900/90 rounded-2xl border border-amber-500/30 space-y-3 text-xs text-slate-300 animate-in fade-in duration-200">
+        <div className="p-4 bg-slate-900/90 rounded-2xl border border-amber-500/30 space-y-3 text-xs text-slate-300">
           <div className="flex items-center justify-between">
             <span className="font-bold text-amber-300">Set QR Target Base Domain:</span>
             <span className="text-[11px] text-slate-400">Default: https://ricgcw.me</span>

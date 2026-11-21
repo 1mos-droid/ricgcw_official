@@ -58,7 +58,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
   return (
     <section id="media" className="py-14 lg:py-20 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-sanctuary-950/95 backdrop-blur-xl text-sanctuary-alabaster rounded-3xl p-6 sm:p-8 lg:p-10 border border-sanctuary-stone/20 ring-1 ring-gold-400/15 shadow-[0_24px_64px_-20px_rgba(8,11,17,0.42)] relative overflow-hidden space-y-8">
+        <div className="bg-sanctuary-950/98 text-sanctuary-alabaster rounded-3xl p-6 sm:p-8 lg:p-10 border border-sanctuary-stone/20 ring-1 ring-gold-400/15 shadow-[0_24px_64px_-20px_rgba(8,11,17,0.42)] relative overflow-hidden space-y-8">
           {/* Header */}
           <SectionHeader
             variant="dark"
@@ -169,11 +169,11 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                         <div className="absolute inset-0 bg-gradient-to-t from-sanctuary-950 via-sanctuary-950/35 to-sanctuary-950/20" />
 
                         <div className="absolute top-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2">
-                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/90 backdrop-blur-md text-white text-eyebrow font-bold uppercase tracking-widest">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/95 text-white text-eyebrow font-bold uppercase tracking-widest">
                             <span className="w-2 h-2 rounded-full bg-white" />
                             <span>Featured Broadcast</span>
                           </div>
-                          <span className="px-3 py-1 rounded-full bg-sanctuary-950/75 backdrop-blur-sm text-eyebrow text-gold-400 font-mono tracking-wider border border-white/10">
+                          <span className="px-3 py-1 rounded-full bg-sanctuary-950/90 text-eyebrow text-gold-400 font-mono tracking-wider border border-white/10">
                             {featuredSermon.scripture}
                           </span>
                         </div>

@@ -125,7 +125,7 @@ export const BranchesSchedules: React.FC<BranchesSchedulesProps> = ({
           </div>
 
           {/* Right Column (7 Cols): PopLayout Cross-Fade Detail View */}
-          <div className="lg:col-span-7 bg-white/85 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-sanctuary-stone shadow-[0_12px_36px_-16px_rgba(20,22,25,0.09)] relative overflow-hidden">
+          <div className="lg:col-span-7 bg-white/95 rounded-3xl p-6 sm:p-8 border border-sanctuary-stone shadow-[0_12px_36px_-16px_rgba(20,22,25,0.09)] relative overflow-hidden">
             <AnimatePresence mode="popLayout" initial={false}>
               <m.div
                 key={activeBranch.id}
