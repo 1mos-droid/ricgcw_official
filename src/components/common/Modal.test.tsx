@@ -1,8 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
+import { MotionConfig, LazyMotion, domMax } from 'framer-motion';
 import { Modal } from './Modal';
+
+const renderWithMotion = (ui: React.ReactElement) =>
+  render(
+    <MotionConfig reducedMotion="always">
+      <LazyMotion features={domMax}>{ui}</LazyMotion>
+    </MotionConfig>
+  );
 
 describe('Modal Primitive (WCAG 2.2 AA Accessible Dialog)', () => {
   beforeEach(() => {
@@ -12,7 +20,7 @@ describe('Modal Primitive (WCAG 2.2 AA Accessible Dialog)', () => {
 
   it('renders with role="dialog", aria-modal="true", and aria-labelledby', () => {
     const handleClose = vi.fn();
-    render(
+    renderWithMotion(
       <Modal isOpen={true} onClose={handleClose} title="Test Sanctuary Title">
         <p>Modal body content</p>
       </Modal>
@@ -27,9 +35,9 @@ describe('Modal Primitive (WCAG 2.2 AA Accessible Dialog)', () => {
     expect(titleEl.id).toBe(dialog.getAttribute('aria-labelledby'));
   });
 
-  it('locks body scrolling when open and restores it when closed', () => {
+  it('locks body scrolling when open and restores it when closed', async () => {
     const handleClose = vi.fn();
-    const { rerender } = render(
+    const { rerender } = renderWithMotion(
       <Modal isOpen={true} onClose={handleClose} title="Scroll Lock Test">
         <div>Content</div>
       </Modal>
@@ -38,17 +46,24 @@ describe('Modal Primitive (WCAG 2.2 AA Accessible Dialog)', () => {
     expect(document.body.style.overflow).toBe('hidden');
 
     rerender(
-      <Modal isOpen={false} onClose={handleClose} title="Scroll Lock Test">
-        <div>Content</div>
-      </Modal>
+      <MotionConfig reducedMotion="always">
+        <LazyMotion features={domMax}>
+          <Modal isOpen={false} onClose={handleClose} title="Scroll Lock Test">
+            <div>Content</div>
+          </Modal>
+        </LazyMotion>
+      </MotionConfig>
     );
 
     expect(document.body.style.overflow).toBe('visible');
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('closes on Escape key press', () => {
     const handleClose = vi.fn();
-    render(
+    renderWithMotion(
       <Modal isOpen={true} onClose={handleClose} title="Escape Key Test">
         <button>Inside Button</button>
       </Modal>
@@ -60,7 +75,7 @@ describe('Modal Primitive (WCAG 2.2 AA Accessible Dialog)', () => {
 
   it('closes when clicking the close button', () => {
     const handleClose = vi.fn();
-    render(
+    renderWithMotion(
       <Modal isOpen={true} onClose={handleClose} title="Close Button Test" closeLabel="Close this test modal">
         <div>Content</div>
       </Modal>

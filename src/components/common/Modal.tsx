@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useId } from 'react';
+import React, { useEffect, useRef, useId, useState } from 'react';
+import { m, AnimatePresence, useReducedMotion, PanInfo } from 'framer-motion';
 import { X } from 'lucide-react';
+import { CATHEDRAL_EASE, SPRING_TACTILE } from '../motion';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -27,18 +29,26 @@ export const Modal: React.FC<ModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
   const titleId = useId();
+  const prefersReduced = useReducedMotion();
+  const [isMobileSheet, setIsMobileSheet] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < 640
+  );
 
-  // Escape key handler & focus restoration & body scroll lock
+  useEffect(() => {
+    const checkViewport = () => setIsMobileSheet(window.innerWidth < 640);
+    window.addEventListener('resize', checkViewport, { passive: true });
+    return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
+  // Escape key handler, Tab focus trap, focus restoration & body scroll lock
   useEffect(() => {
     if (!isOpen) return;
 
     previousActiveElement.current = document.activeElement as HTMLElement;
 
-    // Lock body scrolling
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // Focus first focusable element or modal container
     const focusTimer = setTimeout(() => {
       if (modalRef.current) {
         const focusable = modalRef.current.querySelectorAll<HTMLElement>(
@@ -59,7 +69,6 @@ export const Modal: React.FC<ModalProps> = ({
         return;
       }
 
-      // Trap Tab key inside modal
       if (e.key === 'Tab' && modalRef.current) {
         const focusables = modalRef.current.querySelectorAll<HTMLElement>(
           'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -95,59 +104,100 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (info.offset.y > 100 || info.velocity.y > 400) {
+      onClose();
+    }
+  };
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={titleId}
-    >
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-sanctuary-950/75 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
-        onClick={closeOnBackdrop ? onClose : undefined}
-        aria-hidden="true"
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+        >
+          {/* Animated Backdrop */}
+          <m.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: prefersReduced ? 0.1 : 0.22, ease: CATHEDRAL_EASE }}
+            className="fixed inset-0 bg-sanctuary-950/75 backdrop-blur-md"
+            onClick={closeOnBackdrop ? onClose : undefined}
+            aria-hidden="true"
+          />
 
-      {/* Modal Card */}
-      <div
-        ref={modalRef}
-        tabIndex={-1}
-        className={`relative w-full ${maxWidthClass} bg-sanctuary-alabaster text-ink-primary border border-sanctuary-stone rounded-3xl shadow-2xl overflow-hidden z-10 my-6 max-h-[92vh] flex flex-col focus:outline-none animate-in zoom-in-95 duration-200`}
-      >
-        {/* Header */}
-        <div className="p-5 sm:p-7 bg-sanctuary-950 text-sanctuary-alabaster flex items-center justify-between border-b border-white/10 shrink-0">
-          <div className="flex items-center gap-3">
-            {icon && (
-              <div className="w-11 h-11 rounded-2xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 shrink-0">
-                {icon}
-              </div>
-            )}
-            <div>
-              <h2 id={titleId} className="text-lg sm:text-xl font-bold font-serif text-sanctuary-alabaster leading-snug">
-                {title}
-              </h2>
-              {subtitle && <p className="text-xs text-gold-400 font-medium mt-0.5">{subtitle}</p>}
-            </div>
-          </div>
-
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-sanctuary-alabaster/75 hover:text-white flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold-400 shrink-0"
-            aria-label={closeLabel}
+          {/* Modal Dialog / Mobile Drag Bottom Sheet */}
+          <m.div
+            ref={modalRef}
+            tabIndex={-1}
+            drag={isMobileSheet && !prefersReduced ? 'y' : false}
+            dragConstraints={{ top: 0 }}
+            dragElastic={{ top: 0, bottom: 0.35 }}
+            onDragEnd={handleDragEnd}
+            initial={
+              prefersReduced
+                ? { opacity: 0 }
+                : isMobileSheet
+                ? { opacity: 0, y: '100%' }
+                : { opacity: 0, scale: 0.96, y: 12 }
+            }
+            animate={
+              prefersReduced
+                ? { opacity: 1 }
+                : { opacity: 1, scale: 1, y: 0 }
+            }
+            exit={
+              prefersReduced
+                ? { opacity: 0 }
+                : isMobileSheet
+                ? { opacity: 0, y: '100%' }
+                : { opacity: 0, scale: 0.96, y: 10 }
+            }
+            transition={prefersReduced ? { duration: 0.12 } : SPRING_TACTILE}
+            className={`relative w-full ${maxWidthClass} bg-sanctuary-alabaster text-ink-primary border border-sanctuary-stone rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden z-10 sm:my-6 max-h-[92vh] flex flex-col focus:outline-none`}
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            {/* Mobile Sheet Grab Handle */}
+            <div className="sm:hidden flex justify-center pt-2.5 pb-1 bg-sanctuary-950 shrink-0" aria-hidden="true">
+              <span className="w-10 h-1.5 rounded-full bg-sanctuary-stone/35" />
+            </div>
 
-        {/* Content Area */}
-        <div className="p-5 sm:p-7 overflow-y-auto flex-1">
-          {children}
+            {/* Header */}
+            <div className="p-5 sm:p-7 pt-3 sm:pt-7 bg-sanctuary-950 text-sanctuary-alabaster flex items-center justify-between border-b border-white/10 shrink-0">
+              <div className="flex items-center gap-3 min-w-0">
+                {icon && (
+                  <div className="w-11 h-11 rounded-2xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 shrink-0">
+                    {icon}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <h2 id={titleId} className="text-lg sm:text-xl font-bold font-serif text-sanctuary-alabaster leading-snug">
+                    {title}
+                  </h2>
+                  {subtitle && <p className="text-caption text-gold-400 font-medium mt-0.5">{subtitle}</p>}
+                </div>
+              </div>
+
+              <button
+                onClick={onClose}
+                className="min-w-[44px] min-h-[44px] rounded-xl bg-white/10 hover:bg-white/20 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+                aria-label={closeLabel}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Content Area */}
+            <div className="p-5 sm:p-7 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:pb-7 overflow-y-auto flex-1">
+              {children}
+            </div>
+          </m.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 };
 
