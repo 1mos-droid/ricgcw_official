@@ -349,31 +349,31 @@ export const LEADERSHIP: LeadershipMember[] = [
 export const CHURCH_COLORS: ChurchColor[] = [
   {
     name: 'White',
-    hex: '#FAF8F5',
+    hex: '#FFFFFF',
     spiritualMeaning: 'Light, Purity, Bride of Christ, Surrender, Joy, Angels, Holiness',
     biblicalReference: 'Revelation 19:8, Isaiah 1:18',
   },
   {
     name: 'Gold',
-    hex: '#B8860B',
+    hex: '#E4CB6B',
     spiritualMeaning: 'Glory of God, Divine Nature, Refining Process, Kingship, Wisdom, Truth, Anointing Oil',
     biblicalReference: '1 Peter 1:7, Revelation 3:18',
   },
   {
     name: 'Deep Orange',
-    hex: '#C84B31',
+    hex: '#F48B22',
     spiritualMeaning: 'Holy Spirit Fire, Prophetic Ministry, Harvest, Zeal, Strength, Endurance, Awakening',
     biblicalReference: 'Acts 2:3, Matthew 3:11',
   },
   {
     name: 'Lemon Green',
-    hex: '#3B6E4C',
+    hex: '#7CBA79',
     spiritualMeaning: 'Prosperity, New Life, Fruitfulness, Spiritual Growth, Healing, Divine Rest, Victory',
     biblicalReference: 'Psalm 1:3, Psalm 23:2',
   },
   {
     name: 'Black',
-    hex: '#141619',
+    hex: '#07090D',
     spiritualMeaning: 'Death to Flesh, Humility, Holy Reverence, Fear of the Lord, Total Consecration',
     biblicalReference: 'Galatians 2:20, Proverbs 9:10',
   },

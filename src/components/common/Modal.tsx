@@ -40,7 +40,6 @@ export const Modal: React.FC<ModalProps> = ({
     return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
-  // Escape key handler, Tab focus trap, focus restoration & body scroll lock
   useEffect(() => {
     if (!isOpen) return;
 
@@ -125,12 +124,12 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: prefersReduced ? 0.1 : 0.22, ease: CATHEDRAL_EASE }}
-            className="fixed inset-0 bg-sanctuary-950/75 backdrop-blur-md"
+            className="fixed inset-0 bg-sanctuary-950/78 backdrop-blur-sm"
             onClick={closeOnBackdrop ? onClose : undefined}
             aria-hidden="true"
           />
 
-          {/* Modal Dialog / Mobile Drag Bottom Sheet */}
+          {/* Sharp Architectural Dialog / Mobile Drag Sheet */}
           <m.div
             ref={modalRef}
             tabIndex={-1}
@@ -158,32 +157,32 @@ export const Modal: React.FC<ModalProps> = ({
                 : { opacity: 0, scale: 0.96, y: 10 }
             }
             transition={prefersReduced ? { duration: 0.12 } : SPRING_TACTILE}
-            className={`relative w-full ${maxWidthClass} bg-sanctuary-alabaster text-ink-primary border border-sanctuary-stone rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden z-10 sm:my-6 max-h-[92vh] flex flex-col focus:outline-none`}
+            className={`relative w-full ${maxWidthClass} bg-sanctuary-alabaster text-ink-primary border border-sanctuary-stone rounded-t-xl sm:rounded-sm shadow-2xl overflow-hidden z-10 sm:my-6 max-h-[92vh] flex flex-col focus:outline-none`}
           >
             {/* Mobile Sheet Grab Handle */}
             <div className="sm:hidden flex justify-center pt-2.5 pb-1 bg-sanctuary-950 shrink-0" aria-hidden="true">
-              <span className="w-10 h-1.5 rounded-full bg-sanctuary-stone/35" />
+              <span className="w-10 h-1 rounded-full bg-gold-400/40" />
             </div>
 
             {/* Header */}
-            <div className="p-5 sm:p-7 pt-3 sm:pt-7 bg-sanctuary-950 text-sanctuary-alabaster flex items-center justify-between border-b border-white/10 shrink-0">
-              <div className="flex items-center gap-3 min-w-0">
+            <div className="p-5 sm:p-7 pt-3 sm:pt-7 logo-obsidian-bg text-sanctuary-alabaster flex items-center justify-between border-b border-gold-400/20 shrink-0">
+              <div className="flex items-center gap-3.5 min-w-0">
                 {icon && (
-                  <div className="w-11 h-11 rounded-2xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 shrink-0">
+                  <div className="w-11 h-11 rounded-sm bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 shrink-0">
                     {icon}
                   </div>
                 )}
                 <div className="min-w-0">
-                  <h2 id={titleId} className="text-lg sm:text-xl font-bold font-serif text-sanctuary-alabaster leading-snug">
+                  <h2 id={titleId} className="text-2xl sm:text-3xl font-normal font-serif text-sanctuary-alabaster leading-tight">
                     {title}
                   </h2>
-                  {subtitle && <p className="text-caption text-gold-400 font-medium mt-0.5">{subtitle}</p>}
+                  {subtitle && <p className="text-caption font-mono uppercase tracking-wider text-gold-400 mt-0.5">{subtitle}</p>}
                 </div>
               </div>
 
               <button
                 onClick={onClose}
-                className="min-w-[44px] min-h-[44px] rounded-xl bg-white/10 hover:bg-white/20 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+                className="min-w-[44px] min-h-[44px] rounded-sm bg-white/8 hover:bg-white/20 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
                 aria-label={closeLabel}
               >
                 <X className="w-5 h-5" />

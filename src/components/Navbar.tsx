@@ -3,6 +3,7 @@ import {
   m,
   AnimatePresence,
   useScroll,
+  useSpring,
   useMotionValueEvent,
   useReducedMotion,
 } from 'framer-motion';
@@ -38,17 +39,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
   const mobileOverlayRef = useRef<HTMLDivElement>(null);
 
   const { scrollY, scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 180, damping: 28, mass: 0.25 });
   const activeSection = useActiveSection(SECTION_IDS, isHome);
 
-  // Only update React state on threshold crossings; scroll progress drives GPU transform directly
   useMotionValueEvent(scrollY, 'change', (latest) => {
-    const scrolledNow = latest > 40;
+    const scrolledNow = latest > 48;
     setIsScrolled((prev) => (prev !== scrolledNow ? scrolledNow : prev));
 
     const prevY = lastScrollYRef.current;
-    if (latest <= 120) {
+    if (latest <= 140) {
       setIsHidden((prev) => (prev ? false : prev));
-    } else if (latest > prevY + 10) {
+    } else if (latest > prevY + 12) {
       setIsHidden((prev) => (!prev ? true : prev));
     } else if (latest < prevY - 6) {
       setIsHidden((prev) => (prev ? false : prev));
@@ -107,6 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
 
   const handleNavClick = (sectionId?: string, route?: string) => {
     setIsOpen(false);
+    setIsHidden(false);
     if (route) {
       navigate(route);
       return;
@@ -124,44 +126,41 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
   };
 
   const navLinks = [
-    { name: 'About', id: 'about' },
-    { name: 'Sanctuaries', id: 'sanctuaries' },
-    { name: 'Ministries', id: 'ministries' },
-    { name: 'Media', id: 'media' },
-    { name: 'Partner', route: '/sponsorship' },
-    { name: 'Connect', id: 'connect' },
+    { name: 'About', id: 'about', num: '01' },
+    { name: 'Sanctuaries', id: 'sanctuaries', num: '02' },
+    { name: 'Ministries', id: 'ministries', num: '03' },
+    { name: 'Media', id: 'media', num: '04' },
+    { name: 'Partner', route: '/sponsorship', num: '05' },
+    { name: 'Connect', id: 'connect', num: '06' },
   ];
 
-  const useLightPill = !isHome || isScrolled;
+  const useLightMasthead = !isHome || isScrolled;
 
   return (
     <>
       <m.header
         initial={false}
-        animate={{ y: isHidden && !isOpen ? '-120%' : '0%' }}
+        animate={{ y: isHidden && !isOpen ? '-108%' : '0%' }}
         transition={prefersReduced ? { duration: 0.01 } : SPRING_TACTILE}
-        className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 pt-3 pointer-events-none"
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 border-b ${
+          useLightMasthead
+            ? 'bg-sanctuary-alabaster/95 backdrop-blur-md border-sanctuary-stone text-ink-primary'
+            : 'bg-sanctuary-950/55 backdrop-blur-md border-white/10 text-sanctuary-alabaster'
+        }`}
       >
-        {/* Floating Centered Pill Nav Container */}
-        <div
-          className={`pointer-events-auto relative max-w-5xl mx-auto rounded-full px-3.5 sm:px-5 py-2 flex items-center justify-between gap-3 transition-colors duration-300 overflow-hidden backdrop-blur-xl ${
-            useLightPill
-              ? 'bg-sanctuary-alabaster/90 border border-sanctuary-stone shadow-[0_10px_30px_-10px_rgba(20,22,25,0.12)]'
-              : 'bg-sanctuary-950/75 border border-white/15 shadow-xl'
-          }`}
-        >
-          {/* Left: Brand Logo + Name */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-16 sm:h-[72px] flex items-center justify-between gap-4">
+          {/* Left: Church Seal & Editorial Wordmark */}
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-2.5 group shrink-0 min-h-[40px]"
+            className="flex items-center gap-3 group shrink-0 min-h-[44px]"
             aria-label="Rhema Inner Court Gospel Church Home"
           >
             <div
-              className={`w-9 h-9 rounded-xl overflow-hidden border transition-colors shrink-0 ${
-                useLightPill
-                  ? 'border-gold-500/35 bg-sanctuary-parchment'
-                  : 'border-gold-500/40 bg-sanctuary-900'
+              className={`w-9 h-9 rounded-full overflow-hidden border transition-colors shrink-0 ${
+                useLightMasthead
+                  ? 'border-gold-500/60 bg-sanctuary-parchment'
+                  : 'border-gold-400/60 bg-sanctuary-900'
               }`}
             >
               <img
@@ -169,31 +168,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                 alt="RICGCW Logo"
                 width={IMAGE_DIMENSIONS.logo.width}
                 height={IMAGE_DIMENSIONS.logo.height}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="leading-tight">
+            <div className="leading-none">
               <span
-                className={`font-serif font-bold text-base sm:text-lg tracking-wider block transition-colors ${
-                  useLightPill ? 'text-ink-primary group-hover:text-gold-600' : 'text-sanctuary-alabaster group-hover:text-gold-400'
+                className={`font-serif text-xl sm:text-2xl tracking-tight block transition-colors ${
+                  useLightMasthead
+                    ? 'text-ink-primary group-hover:text-gold-600'
+                    : 'text-sanctuary-alabaster group-hover:text-gold-400'
                 }`}
               >
                 {churchInfo.shortName}
               </span>
               <span
-                className={`hidden lg:block text-eyebrow tracking-wide font-normal ${
-                  useLightPill ? 'text-ink-muted' : 'text-sanctuary-alabaster/70'
+                className={`hidden xl:block text-[10px] font-mono uppercase tracking-[0.2em] mt-0.5 ${
+                  useLightMasthead ? 'text-ink-muted' : 'text-gold-400/80'
                 }`}
               >
-                Inner Court Sanctuary
+                Accra · Worldwide
               </span>
             </div>
           </Link>
 
-          {/* Center (Desktop md+): Frosted Pill Links with sliding layoutId indicator */}
+          {/* Center (Desktop md+): Architectural Editorial Nav with sliding brass underline */}
           <nav
             aria-label="Primary sanctuary navigation"
-            className="hidden md:flex items-center gap-1"
+            className="hidden md:flex items-center gap-1 lg:gap-4 min-w-0"
           >
             {navLinks.map((link) => {
               const isActive =
@@ -204,60 +205,73 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                   key={link.name}
                   type="button"
                   onClick={() => handleNavClick(link.id, link.route)}
-                  className={`relative px-3.5 py-2 rounded-full text-caption font-medium tracking-wide transition-colors cursor-pointer min-h-[40px] flex items-center ${
-                    useLightPill
+                  className={`relative px-2.5 lg:px-3 py-2 text-xs lg:text-caption tracking-wide transition-colors cursor-pointer min-h-[44px] flex items-center gap-1.5 whitespace-nowrap ${
+                    useLightMasthead
                       ? isActive
                         ? 'text-ink-primary font-semibold'
                         : 'text-ink-secondary hover:text-ink-primary'
                       : isActive
-                      ? 'text-sanctuary-950 font-semibold'
-                      : 'text-sanctuary-alabaster/85 hover:text-white'
+                      ? 'text-gold-400 font-semibold'
+                      : 'text-sanctuary-alabaster/80 hover:text-white'
                   }`}
                 >
+                  <span
+                    className={`hidden lg:inline text-[10px] font-mono tabular-nums ${
+                      isActive
+                        ? useLightMasthead
+                          ? 'text-gold-600'
+                          : 'text-gold-400'
+                        : 'opacity-45'
+                    }`}
+                  >
+                    {link.num}
+                  </span>
+                  <span>{link.name}</span>
+
                   {isActive && (
                     <m.span
                       layoutId="nav-active"
                       transition={SPRING_TACTILE}
-                      className={`absolute inset-0 rounded-full -z-10 ${
-                        useLightPill
-                          ? 'bg-gold-500/18 border border-gold-500/35'
-                          : 'bg-gold-400'
+                      className={`absolute left-2.5 right-2.5 bottom-1.5 h-[2px] ${
+                        useLightMasthead ? 'bg-gold-600' : 'bg-gold-400'
                       }`}
                     />
                   )}
-                  <span className="relative z-10">{link.name}</span>
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Controls */}
-          <div className="flex items-center gap-2 shrink-0">
-            <Magnetic strength={0.18}>
+          {/* Right: Sharp Architectural Give CTA + Mobile Curtain Menu Toggle */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <Magnetic strength={0.14}>
               <button
                 type="button"
                 onClick={() => {
                   trackEvent('conversion', 'giving_modal_opened', 'Navbar');
                   onOpenGivingModal?.();
                 }}
-                className="min-h-[40px] px-4 py-2 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster text-caption font-semibold tracking-wide shadow-sm flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+                className={`min-h-[42px] px-4 sm:px-5 py-2 rounded-sm text-xs uppercase tracking-[0.16em] font-semibold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
+                  useLightMasthead
+                    ? 'bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster'
+                    : 'bg-gold-400 hover:bg-gold-300 text-sanctuary-950'
+                }`}
               >
-                <Heart className="w-3.5 h-3.5 fill-sanctuary-alabaster" />
+                <Heart className="w-3.5 h-3.5 fill-current" />
                 <span>Give</span>
               </button>
             </Magnetic>
 
-            {/* Mobile Menu Toggle Button with Menu ⇄ X morph */}
             <button
               ref={menuButtonRef}
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
               aria-expanded={isOpen}
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              className={`md:hidden min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center border transition-colors cursor-pointer ${
-                useLightPill
+              className={`md:hidden min-w-[44px] min-h-[44px] rounded-sm flex items-center justify-center border transition-colors cursor-pointer ${
+                useLightMasthead
                   ? 'bg-sanctuary-parchment hover:bg-sanctuary-stone text-ink-primary border-sanctuary-stone'
-                  : 'bg-white/10 hover:bg-white/20 text-sanctuary-alabaster border-white/15'
+                  : 'bg-white/5 hover:bg-white/15 text-sanctuary-alabaster border-white/20'
               }`}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -267,7 +281,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
                     animate={{ rotate: 0, opacity: 1, scale: 1 }}
                     exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
-                    transition={{ duration: 0.18, ease: CATHEDRAL_EASE }}
+                    transition={{ duration: 0.16, ease: CATHEDRAL_EASE }}
                     className="flex items-center justify-center"
                   >
                     <X className="w-5 h-5" />
@@ -278,7 +292,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
                     animate={{ rotate: 0, opacity: 1, scale: 1 }}
                     exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
-                    transition={{ duration: 0.18, ease: CATHEDRAL_EASE }}
+                    transition={{ duration: 0.16, ease: CATHEDRAL_EASE }}
                     className="flex items-center justify-center"
                   >
                     <Menu className="w-5 h-5" />
@@ -287,18 +301,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
               </AnimatePresence>
             </button>
           </div>
-
-          {/* Continuous Scroll Reading Progress Bar along pill bottom */}
-          <m.div
-            aria-hidden="true"
-            style={{ scaleX: scrollYProgress }}
-            className="absolute bottom-0 left-4 right-4 h-[2px] origin-left bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 opacity-85 pointer-events-none"
-          />
         </div>
+
+        {/* Continuous Scroll Progress Hairline */}
+        <m.div
+          aria-hidden="true"
+          style={prefersReduced ? undefined : { scaleX: smoothProgress }}
+          className="h-[2px] w-full origin-left bg-gradient-to-r from-gold-600 via-gold-400 to-gold-500 pointer-events-none"
+        />
       </m.header>
 
       {/* =====================================================================
-          MOBILE FULL-SCREEN CIRCULAR CLIP-PATH OVERLAY (<md)
+          MOBILE FULL-SCREEN EMERALD CURTAIN OVERLAY (<md)
       ===================================================================== */}
       <AnimatePresence>
         {isOpen && (
@@ -310,25 +324,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
             initial={
               prefersReduced
                 ? { opacity: 0 }
-                : { clipPath: 'circle(0% at calc(100% - 2.25rem) 2.25rem)', opacity: 0.9 }
+                : { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0.96 }
             }
             animate={
               prefersReduced
                 ? { opacity: 1 }
-                : { clipPath: 'circle(150% at calc(100% - 2.25rem) 2.25rem)', opacity: 1 }
+                : { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }
             }
             exit={
               prefersReduced
                 ? { opacity: 0 }
-                : { clipPath: 'circle(0% at calc(100% - 2.25rem) 2.25rem)', opacity: 0.9 }
+                : { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0.96 }
             }
-            transition={{ duration: prefersReduced ? 0.15 : 0.45, ease: CATHEDRAL_EASE }}
-            className="md:hidden fixed inset-0 z-[60] bg-sanctuary-950/98 backdrop-blur-xl text-sanctuary-alabaster flex flex-col justify-between p-6 pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto"
+            transition={{ duration: prefersReduced ? 0.15 : 0.48, ease: CATHEDRAL_EASE }}
+            className="md:hidden fixed inset-0 z-[60] logo-obsidian-bg text-sanctuary-alabaster flex flex-col justify-between p-6 pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto"
           >
-            {/* Top Bar inside Overlay */}
-            <div className="flex items-center justify-between">
+            {/* Top Bar */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/12">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl overflow-hidden border border-gold-500/40 bg-sanctuary-900">
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-gold-400/50 bg-sanctuary-900">
                   <img
                     src={IMAGES.logo}
                     alt="RICGCW Logo"
@@ -338,11 +352,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                   />
                 </div>
                 <div>
-                  <span className="font-serif font-bold text-lg text-sanctuary-alabaster block leading-tight">
+                  <span className="font-serif text-xl text-sanctuary-alabaster block leading-tight">
                     {churchInfo.shortName}
                   </span>
-                  <span className="text-eyebrow uppercase tracking-widest text-gold-400">
-                    2026: Divine Manifestation
+                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-gold-400">
+                    2026 · Divine Manifestation
                   </span>
                 </div>
               </div>
@@ -351,14 +365,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close navigation menu"
-                className="min-w-[44px] min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-sanctuary-alabaster flex items-center justify-center transition-colors cursor-pointer"
+                className="min-w-[44px] min-h-[44px] rounded-sm bg-white/10 hover:bg-white/20 text-sanctuary-alabaster flex items-center justify-center transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Large Staggered Serif Links */}
-            <nav className="py-8 flex flex-col gap-2" aria-label="Sanctuary sections">
+            {/* Oversized Editorial Navigation Links */}
+            <nav className="py-6 flex flex-col divide-y divide-white/10" aria-label="Sanctuary sections">
               {navLinks.map((link, idx) => {
                 const isActive =
                   (link.route && location.pathname === link.route) ||
@@ -371,16 +385,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
                       duration: prefersReduced ? 0.15 : 0.45,
-                      delay: prefersReduced ? 0 : 0.08 + idx * 0.06,
+                      delay: prefersReduced ? 0 : 0.08 + idx * 0.055,
                       ease: CATHEDRAL_EASE,
                     }}
                     onClick={() => handleNavClick(link.id, link.route)}
-                    className={`min-h-[48px] text-left py-2 font-serif text-3xl sm:text-4xl tracking-tight transition-colors flex items-baseline gap-4 cursor-pointer ${
+                    className={`min-h-[56px] text-left py-3 font-serif text-4xl tracking-tight transition-colors flex items-baseline gap-4 cursor-pointer ${
                       isActive ? 'text-gold-400 italic' : 'text-sanctuary-alabaster hover:text-gold-400'
                     }`}
                   >
-                    <span className="text-eyebrow font-mono text-gold-400/70 not-italic">
-                      0{idx + 1}
+                    <span className="text-eyebrow font-mono text-gold-400/75 not-italic tabular-nums">
+                      {link.num}
                     </span>
                     <span>{link.name}</span>
                   </m.button>
@@ -389,7 +403,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
             </nav>
 
             {/* Bottom Give CTA & Social Links */}
-            <div className="space-y-4 pt-6 border-t border-white/10">
+            <div className="space-y-4 pt-5 border-t border-white/12">
               <button
                 type="button"
                 onClick={() => {
@@ -397,14 +411,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                   trackEvent('conversion', 'giving_modal_opened', 'Mobile Overlay');
                   onOpenGivingModal?.();
                 }}
-                className="w-full min-h-[48px] py-3.5 px-6 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+                className="w-full min-h-[48px] py-3.5 px-6 rounded-sm bg-gold-500 hover:bg-gold-400 text-sanctuary-950 font-semibold text-xs uppercase tracking-[0.18em] flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
-                <Heart className="w-4 h-4 fill-sanctuary-alabaster" />
+                <Heart className="w-4 h-4 fill-current" />
                 <span>Give &amp; Partner Online</span>
               </button>
 
               <div className="flex items-center justify-between pt-1">
-                <span className="text-caption text-sanctuary-alabaster/65">
+                <span className="text-caption font-serif italic text-gold-400">
                   Touching Lives Worldwide
                 </span>
                 <div className="flex items-center gap-2">
@@ -413,7 +427,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="YouTube"
-                    className="min-w-[44px] min-h-[44px] rounded-xl bg-white/5 hover:bg-red-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
+                    className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 bg-white/5 hover:bg-red-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
                   >
                     <YoutubeIcon className="w-4 h-4" />
                   </a>
@@ -422,7 +436,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Facebook"
-                    className="min-w-[44px] min-h-[44px] rounded-xl bg-white/5 hover:bg-blue-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
+                    className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 bg-white/5 hover:bg-blue-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
                   >
                     <FacebookIcon className="w-4 h-4" />
                   </a>
@@ -431,7 +445,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenGivingModal }) => {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Instagram"
-                    className="min-w-[44px] min-h-[44px] rounded-xl bg-white/5 hover:bg-pink-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
+                    className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 bg-white/5 hover:bg-pink-600 text-sanctuary-alabaster/80 hover:text-white flex items-center justify-center transition-colors"
                   >
                     <InstagramIcon className="w-4 h-4" />
                   </a>

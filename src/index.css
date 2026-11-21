@@ -3,65 +3,79 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* 1. Primary Surfaces — Warm Cathedral Daylight (80% of site) */
-  --color-sanctuary-alabaster: #faf8f5;
-  --color-sanctuary-parchment: #f3efe6;
-  --color-sanctuary-stone: #e6e0d3;
-  --color-sanctuary-stone-strong: #d4cbb8;
+  /* 1. Crisp Pure White & Cool Pearl Surfaces (Sampled from Logo Lettering & Halo) */
+  --color-sanctuary-alabaster: #ffffff;
+  --color-sanctuary-parchment: #f3f6f9;
+  --color-sanctuary-stone: #dde3ea;
+  --color-sanctuary-stone-strong: #c2ccd6;
 
-  /* 2. Deep Contrast Surfaces — Reserved for Hero Overlay, Media Theater & Liturgical Mode */
-  --color-sanctuary-950: #080b11;
-  --color-sanctuary-900: #0f1420;
-  --color-sanctuary-850: #141b2a;
-  --color-sanctuary-800: #1c2436;
-  --color-sanctuary-700: #25314c;
-  --color-sanctuary-600: #334466;
+  /* 2. Seal Obsidian Black Surfaces (Sampled from Logo Exterior Field #010409) */
+  --color-sanctuary-950: #07090d;
+  --color-sanctuary-900: #0f131a;
+  --color-sanctuary-850: #161b24;
+  --color-sanctuary-800: #1f2633;
+  --color-sanctuary-700: #2c3545;
+  --color-sanctuary-600: #3d485c;
+
+  /* Warm / Theater Obsidian */
+  --color-obsidian-warm: #07090d;
+  --color-obsidian-elevated: #11151d;
+
+  /* Logo Globe Ocean Blues (#14B9E7 azure -> #071929 deep ocean) */
+  --color-globe-azure: #14b9e7;
+  --color-globe-royal: #0c7bb3;
+  --color-globe-deep: #071929;
+  --color-globe-mid: #0c2c47;
+
+  /* Sacred Night Mode (Reserved strictly for /consecration liturgical page) */
   --color-sanctuary-midnight: #070c18;
   --color-sanctuary-deep: #0a1020;
   --color-sanctuary-card-dark: #121c33;
 
-  /* 3. Typography Ink Hierarchy (WCAG AA on Alabaster & Parchment) */
-  --color-ink-primary: #141619;
-  --color-ink-secondary: #4a5058;
-  --color-ink-muted: #5c636b;
+  /* 3. Typography Ink Hierarchy (WCAG AA+ on White & Pearl) */
+  --color-ink-primary: #0b0e14;
+  --color-ink-secondary: #3f4856;
+  --color-ink-muted: #5c6675;
 
-  /* 4. The 5 Sacred Tabernacle Colors & Gold Scale */
-  --color-tabernacle-white: #faf8f5;
-  --color-tabernacle-gold: #b8860b;
-  --color-tabernacle-gold-soft: #dfc57b;
-  --color-tabernacle-orange: #c84b31;
-  --color-tabernacle-green: #3b6e4c;
-  --color-tabernacle-black: #141619;
+  /* 4. Exact Sampled Metallic Seal Gold, Open Bible Flame & Globe Green */
+  --color-tabernacle-white: #ffffff;
+  --color-tabernacle-gold: #b18433;
+  --color-tabernacle-gold-soft: #e4cb6b;
+  --color-tabernacle-orange: #d97218;
+  --color-tabernacle-green: #2e7d32;
+  --color-tabernacle-black: #0b0e14;
 
-  --color-gold-300: #fef3c7;
-  --color-gold-400: #dfc57b;
-  --color-gold-500: #b8860b;
-  --color-gold-600: #8c5e0b;
-  --color-gold-700: #7b4f0b;
-  --color-gold-champagne: #dfc57b;
-  --color-flame-300: #f5a898;
-  --color-flame-400: #e06d53;
-  --color-flame-500: #c84b31;
-  --color-emerald-500: #3b6e4c;
-  --color-olive-500: #3b6e4c;
-  --color-olive-600: #2f593d;
+  --color-gold-300: #f7efa6;
+  --color-gold-400: #e4cb6b;
+  --color-gold-500: #b18433;
+  --color-gold-600: #906328;
+  --color-gold-700: #5f3a17;
+  --color-gold-champagne: #e4cb6b;
+  --color-flame-300: #f9b87a;
+  --color-flame-400: #f48b22;
+  --color-flame-500: #c86414;
+  --color-emerald-500: #2e7d32;
+  --color-olive-400: #7cba79;
+  --color-olive-500: #2e7d32;
+  --color-olive-600: #226026;
 
-  /* 5. Strict 2-Font Editorial System */
+  /* 5. Editorial Typography System */
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-cinzel: "Instrument Serif", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-cinzel: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* 6. Fluid Editorial Type Scale */
-  --text-display: clamp(2.75rem, 6vw, 5rem);
-  --text-display--line-height: 1.04;
-  --text-h1: clamp(2.25rem, 4.5vw, 3.75rem);
-  --text-h1--line-height: 1.08;
-  --text-h2: clamp(1.875rem, 3.5vw, 3rem);
-  --text-h2--line-height: 1.12;
-  --text-h3: clamp(1.375rem, 2vw, 1.75rem);
-  --text-h3--line-height: 1.25;
-  --text-body: 0.9375rem;
-  --text-body--line-height: 1.65;
+  /* 6. Monumental Fluid Editorial Scale */
+  --text-display: clamp(3rem, 6.8vw, 6.25rem);
+  --text-display--line-height: 0.98;
+  --text-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --text-h1--line-height: 1.02;
+  --text-h2: clamp(2rem, 3.8vw, 3.35rem);
+  --text-h2--line-height: 1.08;
+  --text-h3: clamp(1.375rem, 2.1vw, 1.85rem);
+  --text-h3--line-height: 1.2;
+  --text-body: 0.96875rem;
+  --text-body--line-height: 1.68;
   --text-caption: 0.875rem;
   --text-caption--line-height: 1.55;
   --text-eyebrow: 0.6875rem;
@@ -91,7 +105,7 @@
     line-height: var(--text-body--line-height);
     background-color: var(--color-sanctuary-alabaster);
     color: var(--color-ink-primary);
-    overflow-x: hidden;
+    overflow-x: clip;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -120,12 +134,10 @@
     }
   }
 
-  /* Force tabular numbers on countdowns, liturgy items, and financial amounts */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
 
-  /* Fast, clean scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -135,7 +147,7 @@
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-sanctuary-stone-strong);
-    border-radius: 9999px;
+    border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gold-500);
@@ -177,58 +189,89 @@
     font-family: var(--font-serif);
   }
 
-  /* Editorial & Sanctuary Surfaces */
+  .arch-top {
+    border-radius: 999px 999px 0 0;
+  }
+
+  /* Subtle neutral paper texture (kept ultra-faint so pure white stays crisp) */
+  .paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
+  }
+
+  /* Logo Seal Obsidian Cosmos (#07090D with Metallic Gold #E4CB6B + Azure #14B9E7 halo) */
+  .logo-obsidian-bg {
+    background-color: #07090d;
+    background-image:
+      radial-gradient(ellipse 65% 52% at 72% 36%, rgba(228, 203, 107, 0.14) 0%, transparent 66%),
+      radial-gradient(ellipse 48% 42% at 18% 82%, rgba(20, 185, 231, 0.09) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 35% at 50% 100%, rgba(177, 132, 51, 0.1) 0%, transparent 65%);
+  }
+
+  /* Logo Globe Ocean Blue Canvas (#071929 into #07090D with #14B9E7 + #E4CB6B gleam) */
+  .logo-globe-bg {
+    background-color: #071929;
+    background-image:
+      radial-gradient(ellipse 64% 50% at 78% 24%, rgba(20, 185, 231, 0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 16% 78%, rgba(228, 203, 107, 0.11) 0%, transparent 70%),
+      linear-gradient(180deg, #071929 0%, #09131f 62%, #07090d 100%);
+  }
+
+  /* Metallic Seal Gold Ring Gradient (#B18433 -> #F7EFA6 -> #B18433) */
+  .logo-gold-ribbon {
+    background: linear-gradient(
+      90deg,
+      #b18433 0%,
+      #e4cb6b 28%,
+      #f7efa6 50%,
+      #e4cb6b 72%,
+      #b18433 100%
+    );
+  }
+
+  /* Media Theater Canvas (#07090D Seal Obsidian + Open Bible Flame #F48B22 + Gold #E4CB6B) */
+  .obsidian-theater-bg {
+    background-color: #07090d;
+    background-image:
+      radial-gradient(ellipse 58% 44% at 24% 22%, rgba(228, 203, 107, 0.1) 0%, transparent 68%),
+      radial-gradient(ellipse 48% 42% at 84% 78%, rgba(244, 139, 34, 0.11) 0%, transparent 68%);
+  }
+
+  /* Crisp White Sanctuary Canvas for secondary sub-pages */
+  .sanctuary-composite-canvas {
+    background-color: var(--color-sanctuary-alabaster);
+    background-image:
+      radial-gradient(ellipse 68% 42% at 50% -4%, rgba(228, 203, 107, 0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 48% 40% at 8% 32%, rgba(20, 185, 231, 0.06) 0%, transparent 72%);
+  }
+
   .card-clean {
     background-color: #ffffff;
     border: 1px solid var(--color-sanctuary-stone);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-    transition: transform 0.3s var(--ease-cathedral), box-shadow 0.3s var(--ease-cathedral), border-color 0.3s var(--ease-cathedral);
+    transition: transform 0.35s var(--ease-cathedral), box-shadow 0.35s var(--ease-cathedral), border-color 0.35s var(--ease-cathedral);
   }
 
   .card-clean:hover {
-    border-color: var(--color-sanctuary-stone-strong);
-    box-shadow: 0 10px 25px -5px rgba(20, 22, 25, 0.06);
-    transform: translateY(-2px);
+    border-color: var(--color-gold-500);
+    box-shadow: 0 12px 30px -12px rgba(7, 9, 13, 0.1);
   }
 
   .card-gold {
-    background: linear-gradient(135deg, #ffffff 0%, #fffdfa 100%);
-    border: 1px solid rgba(184, 134, 11, 0.25);
-    box-shadow: 0 4px 20px -4px rgba(184, 134, 11, 0.08);
-  }
-
-  .card-gold:hover {
-    border-color: var(--color-gold-500);
-    box-shadow: 0 12px 30px -5px rgba(184, 134, 11, 0.15);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ffffff 0%, #f3f6f9 100%);
+    border: 1px solid rgba(177, 132, 51, 0.35);
   }
 
   .card-navy {
     background-color: var(--color-sanctuary-950);
-    border: 1px solid rgba(223, 197, 123, 0.2);
+    border: 1px solid rgba(228, 203, 107, 0.25);
     color: var(--color-sanctuary-alabaster);
   }
 
-  /* Warm Gold Shimmer Text */
-  .text-gold-gradient {
-    background: linear-gradient(135deg, var(--color-gold-700) 0%, var(--color-gold-500) 50%, var(--color-gold-600) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .text-gold-light-gradient {
-    background: linear-gradient(135deg, var(--color-gold-300) 0%, var(--color-gold-400) 60%, var(--color-gold-500) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* One-shot metallic light sweep for Hero accent phrase */
   .animate-gold-sweep {
     background-image: linear-gradient(
       110deg,
       var(--color-gold-400) 0%,
       var(--color-gold-400) 36%,
-      #fff7d6 50%,
+      #ffffff 50%,
       var(--color-gold-400) 64%,
       var(--color-gold-400) 100%
     );
@@ -245,51 +288,27 @@
   }
 
   .animate-god-ray {
-    animation: god-ray-spin 56s linear infinite;
+    animation: god-ray-spin 64s linear infinite;
   }
 
   .animate-god-ray-reverse {
-    animation: god-ray-spin 74s linear infinite reverse;
+    animation: god-ray-spin 84s linear infinite reverse;
   }
 
-  /* Single GPU-friendly composite daylight sanctuary canvas (0 blur filter layers) */
-  .sanctuary-composite-canvas {
-    background-color: var(--color-sanctuary-alabaster);
-    background-image:
-      radial-gradient(ellipse 68% 42% at 50% -4%, rgba(184, 134, 11, 0.14) 0%, transparent 70%),
-      radial-gradient(ellipse 48% 40% at 8% 32%, rgba(223, 197, 123, 0.14) 0%, transparent 72%),
-      radial-gradient(ellipse 52% 44% at 92% 64%, rgba(184, 134, 11, 0.11) 0%, transparent 72%),
-      radial-gradient(ellipse 45% 36% at 32% 92%, rgba(200, 75, 49, 0.05) 0%, transparent 72%),
-      radial-gradient(circle at center, transparent 40%, rgba(230, 224, 211, 0.45) 100%);
-  }
-
-  /* Background Grid Pattern */
   .bg-subtle-pattern {
-    background-image: radial-gradient(var(--color-sanctuary-stone) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-image:
+      linear-gradient(to right, rgba(12, 123, 179, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(12, 123, 179, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
   .bg-navy-pattern {
-    background-image: radial-gradient(rgba(223, 197, 123, 0.12) 1px, transparent 1px);
-    background-size: 28px 28px;
+    background-image:
+      linear-gradient(to right, rgba(228, 203, 107, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(228, 203, 107, 0.055) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
-  /* Sanctuary Frosted Parchment & Daylight Surfaces */
-  .sanctuary-card {
-    background-color: rgba(243, 239, 230, 0.78);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(230, 224, 211, 0.9);
-  }
-
-  .sanctuary-glass {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(230, 224, 211, 0.95);
-  }
-
-  /* Hide scrollbars cleanly for horizontal nav strips & mobile carousels */
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;

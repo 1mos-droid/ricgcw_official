@@ -28,7 +28,6 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
   const lastYRef = useRef(0);
   const { scrollY } = useScroll();
 
-  // Spring up once Hero leaves view on Home, auto-hide when scrolling down further
   useMotionValueEvent(scrollY, 'change', (latest) => {
     const prevY = lastYRef.current;
     if (isHome && latest < 340) {
@@ -96,7 +95,7 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
     {
       id: 'give',
       label: 'Give',
-      icon: <Heart className="w-4 h-4 fill-sanctuary-alabaster text-sanctuary-alabaster" />,
+      icon: <Heart className="w-4 h-4 fill-sanctuary-950 text-sanctuary-950" />,
       onClick: handleGivingClick,
       isPrimary: true,
     },
@@ -108,7 +107,7 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
       initial={false}
       animate={{ y: isVisible ? 0 : '115%' }}
       transition={prefersReduced ? { duration: 0.01 } : SPRING_TACTILE}
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sanctuary-950/92 border-t border-gold-400/15 px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-2xl backdrop-blur-xl"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sanctuary-950/95 border-t border-gold-400/25 px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-2xl backdrop-blur-md"
     >
       <div className="grid grid-cols-4 gap-2 text-center">
         {actions.map((item) => {
@@ -117,12 +116,12 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
             <m.button
               key={item.id}
               type="button"
-              whileTap={prefersReduced ? undefined : { scale: 0.92 }}
+              whileTap={prefersReduced ? undefined : { scale: 0.94 }}
               transition={SPRING_TACTILE}
               onClick={item.onClick}
-              className={`relative min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl transition-colors cursor-pointer ${
+              className={`relative min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-sm transition-colors cursor-pointer ${
                 item.isPrimary
-                  ? 'bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold shadow-sm'
+                  ? 'bg-gold-500 hover:bg-gold-400 text-sanctuary-950 font-semibold'
                   : 'text-sanctuary-alabaster/85 hover:text-white'
               }`}
             >
@@ -130,11 +129,11 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
                 <m.span
                   layoutId="quickbar-active"
                   transition={SPRING_TACTILE}
-                  className="absolute inset-0 rounded-xl bg-white/10 -z-0"
+                  className="absolute inset-0 rounded-sm bg-white/10 -z-0"
                 />
               )}
               <span className="relative z-10 mb-0.5">{item.icon}</span>
-              <span className="relative z-10 text-eyebrow font-medium">{item.label}</span>
+              <span className="relative z-10 text-eyebrow font-mono uppercase tracking-wider">{item.label}</span>
             </m.button>
           );
         })}
