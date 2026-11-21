@@ -44,9 +44,13 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
   };
 
   return (
-    <section id="events" className="py-14 lg:py-20 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <section
+      id="events"
+      className="bg-sanctuary-parchment text-ink-primary py-20 lg:py-28 px-4 sm:px-6 lg:px-10 overflow-x-clip"
+    >
+      <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
+          index="06"
           eyebrow="Sacred Gatherings & Conventions"
           title="Upcoming"
           accent="Calendar Ledger"
@@ -57,10 +61,10 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                 trackEvent('interaction', 'branch_modal_opened', 'Events Ledger');
                 onOpenBranchModal?.();
               }}
-              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-sanctuary-parchment border border-sanctuary-stone text-ink-primary text-caption uppercase tracking-wider font-semibold hover:bg-white transition-colors cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-transparent border border-sanctuary-stone-strong text-ink-primary text-caption uppercase tracking-[0.14em] font-semibold hover:bg-sanctuary-950 hover:text-sanctuary-alabaster hover:border-sanctuary-950 transition-colors cursor-pointer"
             >
               <span>View Weekly Sanctuaries</span>
-              <ArrowRight className="w-4 h-4 text-gold-600" />
+              <ArrowRight className="w-4 h-4" />
             </button>
           }
         />
@@ -68,27 +72,27 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
         {/* Always-mounted timeline container for safe useScroll hydration */}
         <div ref={timelineRef} className="relative">
           {events.length === 0 ? (
-            <div className="space-y-6">
-              <Reveal className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/85 border border-sanctuary-stone shadow-xs">
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
-                  <div className="w-12 h-12 rounded-2xl bg-gold-500/12 border border-gold-500/25 text-gold-600 flex items-center justify-center shrink-0">
-                    <CalendarIcon className="w-6 h-6" />
+            <div className="space-y-8">
+              <Reveal className="pb-6 border-b border-sanctuary-stone-strong/70 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-sm bg-gold-500/15 border border-gold-500/35 text-gold-700 flex items-center justify-center shrink-0">
+                    <CalendarIcon className="w-5 h-5" />
                   </div>
-                  <div className="space-y-1.5">
-                    <h3 className="font-serif text-h3 font-bold text-ink-primary">
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-2xl sm:text-3xl font-normal text-ink-primary">
                       Upcoming Holy Gatherings Announced Soon
                     </h3>
                     <p className="text-body text-ink-secondary max-w-2xl leading-relaxed">
-                      Special conventions and revival vigils are currently being scheduled by the Pastoral Council. Join any of our regular weekly worship gatherings across our three sanctuaries below.
+                      Special conventions and revival vigils are currently being scheduled by the Pastoral Council. Join any of our regular weekly worship gatherings across our three sanctuaries.
                     </p>
                   </div>
                 </div>
               </Reveal>
 
-              {/* Mobile Horizontal Snap Carousel (<md) */}
+              {/* Mobile Horizontal Snap Exhibition Cards (<md) */}
               <div className="md:hidden relative -mx-4 px-4">
                 <div className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 pb-2">
-                  {branches.slice(0, 3).map((b) => {
+                  {branches.slice(0, 3).map((b, idx) => {
                     const mainSrv = b.services.find((s) => s.isMain) || b.services[0];
                     return (
                       <button
@@ -98,18 +102,18 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                           trackEvent('interaction', 'branch_modal_opened', `Events Empty ${b.name}`);
                           onOpenBranchModal?.(b.id);
                         }}
-                        className="snap-center shrink-0 w-[82vw] sm:w-[62vw] p-5 rounded-2xl bg-white/95 border border-sanctuary-stone hover:border-gold-500 text-left space-y-2 shadow-xs cursor-pointer"
+                        className="snap-center shrink-0 w-[82vw] sm:w-[62vw] p-6 rounded-sm bg-white border border-sanctuary-stone hover:border-gold-500 text-left space-y-2.5 cursor-pointer"
                       >
-                        <span className="text-eyebrow font-mono font-bold uppercase tracking-wider text-gold-600 block">
-                          Every Sunday
+                        <span className="text-eyebrow font-mono uppercase tracking-[0.18em] text-gold-600 block">
+                          0{idx + 1} · Every Sunday
                         </span>
-                        <p className="font-serif text-xl font-bold text-ink-primary">
+                        <p className="font-serif text-2xl text-ink-primary">
                           {b.name.split('(')[0].trim()}
                         </p>
                         <p className="text-caption font-mono text-ink-muted tabular-nums">
                           {mainSrv?.time || '9:00 AM GMT'}
                         </p>
-                        <span className="inline-flex items-center gap-1 text-caption font-semibold text-gold-600 pt-1">
+                        <span className="inline-flex items-center gap-1.5 text-caption font-semibold text-gold-700 pt-2">
                           <span>View Schedule</span>
                           <ArrowRight className="w-4 h-4" />
                         </span>
@@ -119,76 +123,77 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                 </div>
               </div>
 
-              {/* Desktop Vertical Timeline with Scroll-Linked Gold Spine (md+) */}
-              <div className="hidden md:block relative pl-10 space-y-5">
+              {/* Desktop Vertical Scroll-Linked Calendar Spine (md+) */}
+              <div className="hidden md:block relative pl-10">
                 <div
                   aria-hidden="true"
-                  className="absolute left-3 top-3 bottom-3 w-0.5 bg-sanctuary-stone/80 rounded-full"
+                  className="absolute left-3 top-3 bottom-3 w-px bg-sanctuary-stone-strong/70"
                 />
                 <m.div
                   aria-hidden="true"
                   style={prefersReduced ? { scaleY: 1 } : { scaleY: scrollYProgress }}
-                  className="origin-top absolute left-3 top-3 bottom-3 w-0.5 bg-gradient-to-b from-gold-500 via-gold-400 to-gold-600 rounded-full"
+                  className="origin-top absolute left-3 top-3 bottom-3 w-[2px] bg-gradient-to-b from-globe-royal via-gold-500 to-sanctuary-950"
                 />
 
-                {branches.slice(0, 3).map((b, idx) => {
-                  const mainSrv = b.services.find((s) => s.isMain) || b.services[0];
-                  return (
-                    <div key={b.id} className="relative flex items-center gap-6">
-                      <span
-                        aria-hidden="true"
-                        className="absolute -left-[34px] w-4 h-4 rounded-full bg-sanctuary-alabaster border-2 border-gold-500 shadow-xs"
-                      />
+                <div className="divide-y divide-sanctuary-stone-strong/60 border-t border-b border-sanctuary-stone-strong/60">
+                  {branches.slice(0, 3).map((b, idx) => {
+                    const mainSrv = b.services.find((s) => s.isMain) || b.services[0];
+                    return (
+                      <div key={b.id} className="relative py-6 grid grid-cols-12 gap-6 items-center">
+                        <span
+                          aria-hidden="true"
+                          className="absolute -left-[33px] w-3.5 h-3.5 rounded-full bg-sanctuary-parchment border-2 border-gold-600"
+                        />
 
-                      {/* Flipping Date/Day Tile */}
-                      <m.div
-                        initial={prefersReduced ? { opacity: 0 } : { rotateX: -20, opacity: 0 }}
-                        whileInView={{ rotateX: 0, opacity: 1 }}
-                        viewport={VIEWPORT_ONCE}
-                        transition={{
-                          duration: prefersReduced ? 0.15 : 0.6,
-                          delay: prefersReduced ? 0 : idx * 0.08,
-                          ease: CATHEDRAL_EASE,
-                        }}
-                        style={{ transformPerspective: 800 }}
-                        className="w-40 shrink-0 p-4 rounded-2xl bg-white border border-sanctuary-stone text-center shadow-2xs"
-                      >
-                        <span className="text-eyebrow font-mono font-bold uppercase tracking-wider text-gold-600 block">
-                          Every Sunday
-                        </span>
-                        <span className="font-mono text-caption font-bold text-ink-primary tabular-nums mt-0.5 block">
-                          {mainSrv ? mainSrv.time.split(/[-–]/)[0].trim() : '9:00 AM'}
-                        </span>
-                      </m.div>
+                        <m.div
+                          initial={prefersReduced ? { opacity: 0 } : { rotateX: -18, opacity: 0 }}
+                          whileInView={{ rotateX: 0, opacity: 1 }}
+                          viewport={VIEWPORT_ONCE}
+                          transition={{
+                            duration: prefersReduced ? 0.15 : 0.6,
+                            delay: prefersReduced ? 0 : idx * 0.08,
+                            ease: CATHEDRAL_EASE,
+                          }}
+                          style={{ transformPerspective: 800 }}
+                          className="col-span-3 space-y-0.5"
+                        >
+                          <span className="text-eyebrow font-mono uppercase tracking-[0.2em] text-gold-600 block">
+                            Every Sunday
+                          </span>
+                          <span className="font-serif text-3xl text-ink-primary tabular-nums block">
+                            {mainSrv ? mainSrv.time.split(/[-–]/)[0].trim() : '9:00 AM'}
+                          </span>
+                        </m.div>
 
-                      <button
-                        type="button"
-                        onClick={() => {
-                          trackEvent('interaction', 'branch_modal_opened', `Events Empty ${b.name}`);
-                          onOpenBranchModal?.(b.id);
-                        }}
-                        className="flex-1 p-5 rounded-2xl bg-sanctuary-parchment/85 hover:bg-white border border-sanctuary-stone hover:border-gold-500/60 transition-all text-left flex items-center justify-between gap-4 group cursor-pointer shadow-xs"
-                      >
-                        <div>
-                          <h4 className="font-serif text-xl font-bold text-ink-primary group-hover:text-gold-600 transition-colors">
-                            {b.name}
-                          </h4>
-                          <p className="text-caption text-ink-secondary mt-0.5">
-                            {mainSrv?.name} • {b.location}
-                          </p>
-                        </div>
-                        <span className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2 rounded-full bg-ink-primary group-hover:bg-gold-600 text-sanctuary-alabaster text-caption font-semibold uppercase tracking-wider transition-colors shrink-0">
-                          <span>Details</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </span>
-                      </button>
-                    </div>
-                  );
-                })}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            trackEvent('interaction', 'branch_modal_opened', `Events Empty ${b.name}`);
+                            onOpenBranchModal?.(b.id);
+                          }}
+                          className="col-span-9 text-left flex items-center justify-between gap-6 group cursor-pointer py-1"
+                        >
+                          <div>
+                            <h4 className="font-serif text-2xl sm:text-3xl text-ink-primary group-hover:text-gold-600 transition-colors">
+                              {b.name}
+                            </h4>
+                            <p className="text-caption text-ink-secondary mt-1">
+                              {mainSrv?.name} · {b.location}
+                            </p>
+                          </div>
+                          <span className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2 rounded-sm bg-sanctuary-950 group-hover:bg-gold-600 text-sanctuary-alabaster text-caption font-semibold uppercase tracking-[0.14em] transition-colors shrink-0">
+                            <span>Details</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Mobile Horizontal Snap Carousel (<md) */}
               <div className="md:hidden relative -mx-4 px-4">
                 <div className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 pb-2">
@@ -197,18 +202,14 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                     return (
                       <div
                         key={ev.id}
-                        className="snap-center shrink-0 w-[85vw] sm:w-[68vw] p-5 rounded-2xl bg-sanctuary-parchment/90 border border-sanctuary-stone flex flex-col justify-between gap-4 shadow-xs"
+                        className="snap-center shrink-0 w-[85vw] sm:w-[68vw] p-6 rounded-sm bg-white border border-sanctuary-stone flex flex-col justify-between gap-4"
                       >
                         <div className="space-y-2.5">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="px-3 py-1 rounded-full bg-white border border-sanctuary-stone font-mono text-eyebrow font-bold uppercase tracking-wider text-gold-600">
-                              {ev.date}
-                            </span>
-                            <span className="text-eyebrow font-mono uppercase tracking-widest text-ink-muted">
-                              {ev.category}
-                            </span>
+                          <div className="flex items-center justify-between gap-2 text-eyebrow font-mono uppercase tracking-[0.16em]">
+                            <span className="text-gold-600 font-semibold">{ev.date}</span>
+                            <span className="text-ink-muted">{ev.category}</span>
                           </div>
-                          <h3 className="font-serif text-2xl font-bold text-ink-primary">{ev.title}</h3>
+                          <h3 className="font-serif text-2xl text-ink-primary">{ev.title}</h3>
                           <div className="space-y-1 text-caption text-ink-secondary">
                             <p className="flex items-center gap-1.5">
                               <Clock className="w-4 h-4 text-gold-600 shrink-0" /> {ev.time}
@@ -222,8 +223,8 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                         <button
                           type="button"
                           onClick={() => handleDownloadCalendar(ev)}
-                          className={`w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-caption uppercase tracking-wider font-semibold transition-all cursor-pointer ${
-                            isSaved ? 'bg-olive-500 text-white' : 'bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster'
+                          className={`w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm text-caption uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer ${
+                            isSaved ? 'bg-olive-500 text-white' : 'bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster'
                           }`}
                         >
                           {isSaved ? <CheckCircle2 className="w-4 h-4" /> : <CalendarPlus className="w-4 h-4 text-gold-400" />}
@@ -235,94 +236,93 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                 </div>
               </div>
 
-              {/* Desktop Vertical Timeline with Scroll-Linked Spine & Flipping Date Tiles (md+) */}
-              <div className="hidden md:block relative pl-10 space-y-5">
+              {/* Desktop Vertical Scroll-Linked Spine & Architectural Rows (md+) */}
+              <div className="hidden md:block relative pl-10">
                 <div
                   aria-hidden="true"
-                  className="absolute left-3 top-4 bottom-4 w-0.5 bg-sanctuary-stone/80 rounded-full"
+                  className="absolute left-3 top-4 bottom-4 w-px bg-sanctuary-stone-strong/70"
                 />
                 <m.div
                   aria-hidden="true"
                   style={prefersReduced ? { scaleY: 1 } : { scaleY: scrollYProgress }}
-                  className="origin-top absolute left-3 top-4 bottom-4 w-0.5 bg-gradient-to-b from-gold-500 via-gold-400 to-gold-600 rounded-full"
+                  className="origin-top absolute left-3 top-4 bottom-4 w-[2px] bg-gradient-to-b from-globe-royal via-gold-500 to-sanctuary-950"
                 />
 
-                {events.map((ev, index) => {
-                  const isSaved = downloadedEventId === ev.id;
-                  return (
-                    <div key={ev.id} className="relative flex items-center gap-5">
-                      <span
-                        aria-hidden="true"
-                        className="absolute -left-[34px] w-4 h-4 rounded-full bg-sanctuary-alabaster border-2 border-gold-500 shadow-xs"
-                      />
+                <div className="divide-y divide-sanctuary-stone-strong/60 border-t border-b border-sanctuary-stone-strong/60">
+                  {events.map((ev, index) => {
+                    const isSaved = downloadedEventId === ev.id;
+                    return (
+                      <div key={ev.id} className="relative py-6 grid grid-cols-12 gap-6 items-center">
+                        <span
+                          aria-hidden="true"
+                          className="absolute -left-[33px] w-3.5 h-3.5 rounded-full bg-sanctuary-parchment border-2 border-gold-600"
+                        />
 
-                      {/* Flipping Date Tile */}
-                      <m.div
-                        initial={prefersReduced ? { opacity: 0 } : { rotateX: -20, opacity: 0 }}
-                        whileInView={{ rotateX: 0, opacity: 1 }}
-                        viewport={VIEWPORT_ONCE}
-                        transition={{
-                          duration: prefersReduced ? 0.15 : 0.6,
-                          delay: prefersReduced ? 0 : index * 0.08,
-                          ease: CATHEDRAL_EASE,
-                        }}
-                        style={{ transformPerspective: 800 }}
-                        className="w-36 px-3.5 py-4 rounded-2xl bg-white border border-sanctuary-stone text-center shrink-0 shadow-2xs"
-                      >
-                        <span className="font-mono text-caption font-bold uppercase tracking-wider text-gold-600 block">
-                          {ev.date}
-                        </span>
-                      </m.div>
+                        <m.div
+                          initial={prefersReduced ? { opacity: 0 } : { rotateX: -18, opacity: 0 }}
+                          whileInView={{ rotateX: 0, opacity: 1 }}
+                          viewport={VIEWPORT_ONCE}
+                          transition={{
+                            duration: prefersReduced ? 0.15 : 0.6,
+                            delay: prefersReduced ? 0 : index * 0.08,
+                            ease: CATHEDRAL_EASE,
+                          }}
+                          style={{ transformPerspective: 800 }}
+                          className="col-span-3 space-y-0.5"
+                        >
+                          <span className="font-serif text-2xl sm:text-3xl text-ink-primary block">
+                            {ev.date}
+                          </span>
+                          <span className="text-eyebrow font-mono uppercase tracking-[0.18em] text-gold-600 block">
+                            {ev.category}
+                          </span>
+                        </m.div>
 
-                      <div className="flex-1 p-5 rounded-2xl bg-sanctuary-parchment/85 border border-sanctuary-stone hover:border-gold-500/50 transition-all flex items-center justify-between gap-4 shadow-xs">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-eyebrow font-mono uppercase tracking-widest text-ink-muted">
-                              {ev.category}
-                            </span>
+                        <div className="col-span-9 flex items-center justify-between gap-6">
+                          <div className="space-y-1">
                             {ev.isFeatured && (
-                              <span className="text-eyebrow font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-gold-500/15 text-gold-700">
-                                Featured
+                              <span className="text-[10px] font-mono uppercase tracking-[0.18em] px-2 py-0.5 bg-gold-500/20 text-gold-700 font-semibold inline-block mb-1">
+                                Featured Gathering
                               </span>
                             )}
+                            <h3 className="font-serif text-2xl sm:text-3xl text-ink-primary">{ev.title}</h3>
+                            <div className="flex flex-wrap items-center gap-4 text-caption text-ink-secondary">
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-4 h-4 text-gold-600" /> {ev.time}
+                              </span>
+                              <span>·</span>
+                              <span className="flex items-center gap-1.5">
+                                <MapPin className="w-4 h-4 text-gold-600" /> {ev.location}
+                              </span>
+                            </div>
                           </div>
-                          <h3 className="font-serif text-2xl font-bold text-ink-primary">{ev.title}</h3>
-                          <div className="flex flex-wrap items-center gap-4 text-caption text-ink-secondary pt-0.5">
-                            <span className="flex items-center gap-1.5">
-                              <Clock className="w-4 h-4 text-gold-600" /> {ev.time}
-                            </span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1.5">
-                              <MapPin className="w-4 h-4 text-gold-600" /> {ev.location}
-                            </span>
-                          </div>
-                        </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleDownloadCalendar(ev)}
-                          className={`min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-caption uppercase tracking-wider font-semibold transition-all cursor-pointer shrink-0 ${
-                            isSaved
-                              ? 'bg-olive-500 text-white'
-                              : 'bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster'
-                          }`}
-                        >
-                          {isSaved ? (
-                            <>
-                              <CheckCircle2 className="w-4 h-4" />
-                              <span>Saved (.ics)</span>
-                            </>
-                          ) : (
-                            <>
-                              <CalendarPlus className="w-4 h-4 text-gold-400" />
-                              <span>Add to Calendar (.ics)</span>
-                            </>
-                          )}
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDownloadCalendar(ev)}
+                            className={`min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm text-caption uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer shrink-0 ${
+                              isSaved
+                                ? 'bg-olive-500 text-white'
+                                : 'bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster'
+                            }`}
+                          >
+                            {isSaved ? (
+                              <>
+                                <CheckCircle2 className="w-4 h-4" />
+                                <span>Saved (.ics)</span>
+                              </>
+                            ) : (
+                              <>
+                                <CalendarPlus className="w-4 h-4 text-gold-400" />
+                                <span>Add to Calendar (.ics)</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}

@@ -12,10 +12,8 @@ import { BranchModal } from '../components/BranchModal';
 import { GivingModal } from '../components/GivingModal';
 import { PrayerModal } from '../components/PrayerModal';
 import { MobileQuickBar } from '../components/MobileQuickBar';
-import { PICTURES, IMAGE_DIMENSIONS } from '../data/churchData';
 import { trackPageView } from '../utils/analytics';
 import { usePageTitle } from '../utils/usePageTitle';
-import ResponsiveImage from '../components/ResponsiveImage';
 
 interface PrayerPrefill {
   category?: string;
@@ -45,28 +43,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="relative isolate min-h-screen bg-sanctuary-alabaster text-ink-primary selection:bg-gold-600 selection:text-sanctuary-alabaster pb-16 md:pb-0 overflow-x-clip">
-      {/* =====================================================================
-          CONSTANT COMPOSITE SANCTUARY CANVAS (Fixed GPU-friendly Background)
-          Uses a single multi-stop CSS radial gradient + soft ambient motif
-          (zero heavy blur filter stacking for smooth 60fps scrolling).
-      ===================================================================== */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden sanctuary-composite-canvas" aria-hidden="true">
-        <div className="absolute inset-0 opacity-[0.06] mix-blend-multiply">
-          <ResponsiveImage
-            src={PICTURES.theme}
-            alt=""
-            decorative
-            width={IMAGE_DIMENSIONS.theme.width}
-            height={IMAGE_DIMENSIONS.theme.height}
-            sizes="100vw"
-            pictureClassName="w-full h-full block"
-            className="w-full h-full object-cover object-center saturate-75"
-          />
-        </div>
-        <div className="absolute inset-0 bg-subtle-pattern opacity-35" />
-      </div>
-
+    <div className="relative min-h-screen bg-sanctuary-alabaster text-ink-primary selection:bg-sanctuary-950 selection:text-gold-400 pb-16 md:pb-0 overflow-x-clip">
       {/* Navigation */}
       <Navbar
         onOpenBranchModal={openBranchModal}
@@ -74,32 +51,27 @@ export const Home = () => {
         onOpenPrayerModal={() => openPrayerModal()}
       />
 
-      {/* Main Content Sections */}
-      <main id="main-content" className="relative z-10">
-        {/* Movement I: The Threshold (Hero + Integrated Campus Dock) */}
+      {/* Seamless Architectural Color-World Chapters */}
+      <main id="main-content" className="relative">
+        {/* Chapter 00: Deep Forest Emerald Threshold & Kinetic Scroll Ribbon */}
         <Hero
           onOpenBranchModal={openBranchModal}
           onOpenGivingModal={() => setIsGivingModalOpen(true)}
           onOpenPrayerModal={() => openPrayerModal()}
         />
 
-        {/* Movement II: The Shepherd's Welcome & Covenant Identity */}
+        {/* Chapter 01–02: Sunlit Travertine Apostolic Monograph & Tabernacle Monoliths */}
         <WelcomeOverseer
           onOpenBranchModal={openBranchModal}
           onOpenPrayerModal={() => openPrayerModal()}
         />
 
-        {/* Movement III: The Three Sanctuaries (Split Architectural Showcase) */}
+        {/* Chapter 03: Deep Forest Emerald Sanctuaries & Panoramic Fellowship */}
         <BranchesSchedules
           onOpenBranchModal={openBranchModal}
         />
 
-        {/* Movement IV: The Living Word & Prayer Altar */}
-        <MediaHub
-          onOpenPrayerModal={() => openPrayerModal()}
-        />
-
-        {/* Movement V: Life in the Kingdom (Ministries Bento, Calendar & Connect) */}
+        {/* Chapter 04: Sunlit Travertine Interactive Ministry Index */}
         <Ministries
           onOpenBranchModal={openBranchModal}
           onOpenPrayerModal={() => openPrayerModal()}
@@ -110,24 +82,31 @@ export const Home = () => {
             })
           }
         />
+
+        {/* Chapter 05: Warm Espresso Obsidian Broadcast Cinema & Prayer Altar */}
+        <MediaHub
+          onOpenPrayerModal={() => openPrayerModal()}
+        />
+
+        {/* Chapter 06: Warm Sand Linen Calendar Exhibition */}
         <Events
           onOpenBranchModal={openBranchModal}
           onOpenPrayerModal={() => openPrayerModal()}
         />
+
+        {/* Chapter 07: Sunlit Travertine Concierge & Pastoral Correspondence */}
         <Connect
           onOpenBranchModal={openBranchModal}
           onOpenPrayerModal={() => openPrayerModal()}
         />
       </main>
 
-      {/* Footer */}
-      <div className="relative z-10">
-        <Footer
-          onOpenBranchModal={openBranchModal}
-          onOpenGivingModal={() => setIsGivingModalOpen(true)}
-          onOpenPrayerModal={() => openPrayerModal()}
-        />
-      </div>
+      {/* Deep Forest Emerald Monumental Finale */}
+      <Footer
+        onOpenBranchModal={openBranchModal}
+        onOpenGivingModal={() => setIsGivingModalOpen(true)}
+        onOpenPrayerModal={() => openPrayerModal()}
+      />
 
       {/* Mobile Sticky Action Bar */}
       <MobileQuickBar

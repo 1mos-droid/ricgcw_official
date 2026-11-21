@@ -6,13 +6,13 @@ import {
   MapPin,
   Send,
   Sparkles,
-  ChevronDown,
-  HelpCircle,
+  Plus,
   MessageCircle,
   Users,
   Copy,
   Check,
   AlertCircle,
+  ArrowUpRight,
 } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { db } from '../firebase';
@@ -25,7 +25,7 @@ import {
   toLocalDigits,
   toTelUrl,
 } from '../utils/phoneUtils';
-import { CATHEDRAL_EASE, SPRING_TACTILE, shakeX, Reveal, Stagger, StaggerItem } from '../components/motion';
+import { CATHEDRAL_EASE, SPRING_TACTILE, shakeX, Reveal } from '../components/motion';
 import SectionHeader from '../components/SectionHeader';
 
 interface ConnectProps {
@@ -68,7 +68,6 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    // Spam honeypot detection
     if (honeypot.trim().length > 0) {
       console.warn('Bot submission trapped by honeypot.');
       setFormSubmitted(true);
@@ -128,45 +127,51 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
     {
       step: '01',
       title: 'Choose a Sanctuary',
-      desc: `Join us at any of our branches in ${branchListText || 'Accra'}. Parking and usher assistance is available on arrival.`,
+      desc: `Join us at our branches in ${branchListText || 'Accra'}. Usher welcome and parking assistance await your arrival.`,
       icon: MapPin,
     },
     {
       step: '02',
       title: 'Family & Kids Care',
-      desc: 'Our Kids Court provides a secure, fun, and loving Bible atmosphere tailored for children during main Sunday services.',
+      desc: 'Kids Court nurtures children in a warm, supervised Bible atmosphere during main Sunday services.',
       icon: Users,
     },
     {
       step: '03',
       title: 'Expect a Holy Encounter',
-      desc: 'Experience soul-lifting worship, fervent prayer, prophetic ministry, and systematic exposition of the Word.',
+      desc: 'Experience reverent worship, fervent intercession, prophetic ministry, and verse-by-verse teaching.',
       icon: Sparkles,
     },
   ];
 
-  const floatingFieldClass =
-    'peer w-full px-4 pt-6 pb-2.5 rounded-xl bg-white/95 border border-sanctuary-stone text-ink-primary text-body outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 placeholder-transparent';
-  const floatingLabelClass =
-    'pointer-events-none absolute left-4 top-2 text-eyebrow font-semibold uppercase tracking-wider text-gold-600 transition-all duration-200 peer-placeholder-shown:top-4 peer-placeholder-shown:text-body peer-placeholder-shown:font-normal peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-placeholder-shown:text-ink-muted peer-focus:top-2 peer-focus:text-eyebrow peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-gold-600';
+  const underlineFieldClass =
+    'peer w-full px-0 pt-6 pb-2.5 bg-transparent border-0 border-b border-ink-primary/25 text-ink-primary text-body outline-none transition-colors focus:border-gold-600 placeholder-transparent rounded-none';
+  const underlineLabelClass =
+    'pointer-events-none absolute left-0 top-1.5 text-eyebrow font-mono uppercase tracking-[0.16em] text-gold-600 transition-all duration-200 peer-placeholder-shown:top-5 peer-placeholder-shown:text-body peer-placeholder-shown:font-sans peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-placeholder-shown:text-ink-muted peer-focus:top-1.5 peer-focus:text-eyebrow peer-focus:font-mono peer-focus:uppercase peer-focus:tracking-[0.16em] peer-focus:text-gold-600';
 
   return (
-    <section id="connect" className="relative py-14 lg:py-20 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary overflow-hidden">
-      <div className="max-w-7xl mx-auto space-y-10 relative z-10">
+    <section
+      id="connect"
+      className="bg-sanctuary-alabaster paper-grain text-ink-primary py-20 lg:py-28 px-4 sm:px-6 lg:px-10 overflow-x-clip"
+    >
+      <div className="max-w-7xl mx-auto space-y-14">
         <SectionHeader
+          index="07"
           eyebrow="Sanctuary Welcome & Fellowship"
           title="Connect With Our"
           accent="Pastoral Family"
-          description="Whether you are planning your first visit, seeking spiritual counseling, or have questions, we are honored to welcome you into the sanctuary."
+          description="Planning your first visit, seeking counsel, or writing to the secretariat? Reach us below."
         />
 
-        {/* First Time Visitor Guide ("Plan Your Visit") */}
-        <Reveal className="p-5 sm:p-7 rounded-3xl bg-sanctuary-parchment/88 border border-sanctuary-stone shadow-xs space-y-5">
-          <div className="text-center md:text-left flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-sanctuary-stone pb-4">
+        {/* Hairline 3-Column First-Time Guest Strip (Zero Boxed Grid) */}
+        <div className="border-b border-sanctuary-stone pb-10 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-h3 font-serif font-bold text-ink-primary">First-Time Guest Experience</h3>
-              <p className="text-caption text-ink-secondary mt-0.5">
-                Everything you need to know before joining us this Sunday
+              <h3 className="font-serif text-2xl sm:text-3xl text-ink-primary">
+                First-Time Guest Experience
+              </h3>
+              <p className="text-caption text-ink-secondary">
+                Everything to expect when stepping into the inner court this Sunday
               </p>
             </div>
             <button
@@ -175,160 +180,132 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                 trackEvent('interaction', 'branch_modal_opened', 'Plan Your Visit Guide');
                 onOpenBranchModal?.();
               }}
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-wider flex items-center gap-2 self-center md:self-auto transition-colors cursor-pointer"
+              className="min-h-[44px] self-start sm:self-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-[0.14em] transition-colors cursor-pointer"
             >
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4 text-gold-400" />
               <span>View Branch Map</span>
             </button>
           </div>
 
-          <Stagger className="grid md:grid-cols-3 gap-4">
-            {planYourVisitSteps.map((step, idx) => {
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-sanctuary-stone border-t border-sanctuary-stone">
+            {planYourVisitSteps.map((step) => {
               const Icon = step.icon;
               return (
-                <StaggerItem
-                  key={idx}
-                  className="p-5 rounded-2xl bg-white/90 border border-sanctuary-stone space-y-2.5"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-gold-500/12 border border-gold-500/25 text-gold-600 flex items-center justify-center">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="font-serif font-bold text-lg text-gold-600/50 tabular-nums">{step.step}</span>
+                <div key={step.step} className="py-5 md:py-6 md:px-6 first:md:pl-0 last:md:pr-0 space-y-2">
+                  <div className="flex items-center justify-between text-eyebrow font-mono uppercase tracking-[0.18em] text-gold-600">
+                    <span>{step.step}</span>
+                    <Icon className="w-4 h-4 text-gold-600" />
                   </div>
-                  <h4 className="font-serif font-bold text-lg text-ink-primary">{step.title}</h4>
+                  <h4 className="font-serif text-2xl text-ink-primary">{step.title}</h4>
                   <p className="text-caption text-ink-secondary leading-relaxed">{step.desc}</p>
-                </StaggerItem>
+                </div>
               );
             })}
-          </Stagger>
-        </Reveal>
+          </div>
+        </div>
 
-        {/* 2-Column: Contact Channels & Inquiry Form */}
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          {/* Left Column: Direct Contacts & FAQs */}
-          <div className="lg:col-span-5 space-y-8">
-            <Stagger className="space-y-3">
-              <StaggerItem>
-                <div className="p-5 rounded-2xl bg-sanctuary-parchment/88 border border-sanctuary-stone flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold-500/12 border border-gold-500/25 text-gold-600 flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-eyebrow text-ink-muted font-semibold uppercase tracking-wider">
-                      Main Cathedral Location
-                    </p>
-                    <p className="font-bold text-body text-ink-primary">{churchInfo.contact.location}</p>
-                    <button
-                      type="button"
-                      onClick={() => onOpenBranchModal?.()}
-                      className="min-h-[36px] text-caption text-gold-600 font-semibold hover:underline mt-0.5 flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>View All {branches.length} Branch Addresses</span>
-                      <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
-                    </button>
-                  </div>
+        {/* 12-Column Secretariat Directory & Underline Inquiry Folio */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* Left 5 Cols: Secretariat Contacts + Clean FAQ Accordion */}
+          <div className="lg:col-span-5 space-y-10">
+            <div className="divide-y divide-sanctuary-stone border-t border-b border-sanctuary-stone">
+              <div className="py-5 space-y-1.5">
+                <p className="text-eyebrow font-mono uppercase tracking-[0.18em] text-ink-muted">
+                  Main Cathedral Location
+                </p>
+                <p className="font-serif text-2xl text-ink-primary">{churchInfo.contact.location}</p>
+                <button
+                  type="button"
+                  onClick={() => onOpenBranchModal?.()}
+                  className="min-h-[38px] text-caption text-gold-600 font-semibold hover:underline inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <span>View All {branches.length} Branch Addresses</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div className="py-5 space-y-3">
+                <p className="text-eyebrow font-mono uppercase tracking-[0.18em] text-ink-muted">
+                  Official Helpline &amp; WhatsApp
+                </p>
+                <div className="flex flex-wrap items-baseline gap-x-2.5">
+                  <a
+                    href={toTelUrl(churchInfo.contact.phone)}
+                    onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section')}
+                    className="font-mono font-bold text-lg text-ink-primary hover:text-gold-600 tabular-nums"
+                  >
+                    {toInternationalDisplay(churchInfo.contact.phone)}
+                  </a>
+                  <span className="text-caption font-mono text-ink-muted tabular-nums">
+                    ({toLocalMoMoDisplay(churchInfo.contact.phone)})
+                  </span>
                 </div>
-              </StaggerItem>
-
-              <StaggerItem>
-                <div className="p-5 rounded-2xl bg-sanctuary-parchment/88 border border-sanctuary-stone flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-olive-500/12 text-olive-500 border border-olive-500/25 flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-eyebrow text-ink-muted font-semibold uppercase tracking-wider">
-                      Official Helpline &amp; WhatsApp
-                    </p>
-                    <div className="flex flex-wrap items-baseline gap-x-2 mt-0.5">
-                      <a
-                        href={toTelUrl(churchInfo.contact.phone)}
-                        onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section')}
-                        className="font-bold font-mono text-body text-ink-primary hover:text-gold-600 tabular-nums"
-                      >
-                        {toInternationalDisplay(churchInfo.contact.phone)}
-                      </a>
-                      <span className="text-caption font-mono text-ink-muted tabular-nums">
-                        ({toLocalMoMoDisplay(churchInfo.contact.phone)})
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2 mt-2.5">
-                      <a
-                        href={toWhatsAppUrl(
-                          churchInfo.contact.phone,
-                          'Shalom Pastor, I am contacting you from the RICGCW website.'
-                        )}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Connect Section')}
-                        className="min-h-[38px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-olive-500/12 hover:bg-olive-500/20 text-olive-600 text-caption font-semibold transition-colors"
-                      >
-                        <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
-                      </a>
-                      <a
-                        href={toTelUrl(churchInfo.contact.phone)}
-                        onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section Pill')}
-                        className="min-h-[38px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-sanctuary-alabaster border border-sanctuary-stone text-ink-primary text-caption font-semibold transition-colors"
-                      >
-                        <Phone className="w-3.5 h-3.5 text-gold-600" /> Call
-                      </a>
-                      <button
-                        type="button"
-                        onClick={handleCopyPhone}
-                        className="min-h-[38px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-sanctuary-alabaster border border-sanctuary-stone text-ink-secondary text-caption font-medium transition-colors cursor-pointer"
-                      >
-                        {copiedPhone ? <Check className="w-3.5 h-3.5 text-olive-500" /> : <Copy className="w-3.5 h-3.5" />}
-                        <span>{copiedPhone ? 'Copied' : 'Copy'}</span>
-                      </button>
-                    </div>
-                  </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <a
+                    href={toWhatsAppUrl(
+                      churchInfo.contact.phone,
+                      'Shalom Pastor, I am contacting you from the RICGCW website.'
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Connect Section')}
+                    className="min-h-[40px] inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-olive-500/12 hover:bg-olive-500/20 text-olive-600 text-caption font-semibold transition-colors"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                  </a>
+                  <a
+                    href={toTelUrl(churchInfo.contact.phone)}
+                    onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section Pill')}
+                    className="min-h-[40px] inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-white border border-sanctuary-stone hover:border-ink-primary text-ink-primary text-caption font-semibold transition-colors"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-gold-600" /> Call
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyPhone}
+                    className="min-h-[40px] inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-white border border-sanctuary-stone hover:border-ink-primary text-ink-secondary text-caption font-medium transition-colors cursor-pointer"
+                  >
+                    {copiedPhone ? <Check className="w-3.5 h-3.5 text-olive-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedPhone ? 'Copied' : 'Copy'}</span>
+                  </button>
                 </div>
-              </StaggerItem>
+              </div>
 
-              <StaggerItem>
-                <div className="p-5 rounded-2xl bg-sanctuary-parchment/88 border border-sanctuary-stone flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold-500/12 border border-gold-500/25 text-gold-600 flex items-center justify-center shrink-0">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-eyebrow text-ink-muted font-semibold uppercase tracking-wider">Official Email</p>
-                    <a
-                      href={`mailto:${churchInfo.contact.email}`}
-                      className="font-bold font-mono text-body text-ink-primary hover:text-gold-600"
-                    >
-                      {churchInfo.contact.email}
-                    </a>
-                    <p className="text-caption text-ink-secondary mt-0.5">For administrative letters &amp; bookings</p>
-                  </div>
-                </div>
-              </StaggerItem>
-            </Stagger>
+              <div className="py-5 space-y-1">
+                <p className="text-eyebrow font-mono uppercase tracking-[0.18em] text-ink-muted">
+                  Official Secretariat Email
+                </p>
+                <a
+                  href={`mailto:${churchInfo.contact.email}`}
+                  className="font-mono font-semibold text-base text-ink-primary hover:text-gold-600 flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4 text-gold-600 shrink-0" />
+                  <span>{churchInfo.contact.email}</span>
+                </a>
+              </div>
+            </div>
 
-            {/* FAQs Accordion */}
+            {/* Clean Architectural FAQ Accordion */}
             <div className="space-y-4">
-              <h4 className="font-serif font-bold text-h3 text-ink-primary flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-gold-600" />
-                <span>Frequently Asked Questions</span>
+              <h4 className="font-serif text-2xl sm:text-3xl text-ink-primary">
+                Frequently Asked Questions
               </h4>
 
-              <div className="space-y-2.5">
+              <div className="divide-y divide-sanctuary-stone border-t border-b border-sanctuary-stone">
                 {faqs.map((faq, idx) => {
                   const isOpen = openFaqIndex === idx;
                   return (
-                    <div
-                      key={faq.id || idx}
-                      className="rounded-2xl bg-sanctuary-parchment/88 border border-sanctuary-stone overflow-hidden transition-all"
-                    >
+                    <div key={faq.id || idx}>
                       <button
                         type="button"
                         aria-expanded={isOpen}
                         onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                        className="min-h-[48px] w-full p-4 text-left font-semibold text-body text-ink-primary flex items-center justify-between gap-3 cursor-pointer hover:bg-white/60 transition-colors"
+                        className="min-h-[52px] w-full py-4 text-left font-medium text-body text-ink-primary flex items-center justify-between gap-4 cursor-pointer hover:text-gold-600 transition-colors"
                       >
                         <span>{faq.q}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 text-ink-muted shrink-0 transition-transform duration-300 ${
-                            isOpen ? 'rotate-180 text-gold-600' : ''
+                        <Plus
+                          className={`w-4 h-4 text-gold-600 shrink-0 transition-transform duration-300 ${
+                            isOpen ? 'rotate-45' : ''
                           }`}
                         />
                       </button>
@@ -341,9 +318,9 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                             transition={{ duration: prefersReduced ? 0.1 : 0.25, ease: CATHEDRAL_EASE }}
                             className="overflow-hidden"
                           >
-                            <div className="p-4 pt-2.5 text-caption text-ink-secondary leading-relaxed border-t border-sanctuary-stone/70">
+                            <p className="pb-4 text-caption text-ink-secondary leading-relaxed">
                               {faq.a}
-                            </div>
+                            </p>
                           </m.div>
                         )}
                       </AnimatePresence>
@@ -354,16 +331,18 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
             </div>
           </div>
 
-          {/* Right Column: Floating-Label Interactive Inquiry Form with Animated Check & Error Shake */}
+          {/* Right 7 Cols: Crisp Architectural Underline Inquiry Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-sanctuary-parchment/95 border border-sanctuary-stone shadow-xs space-y-5">
-              <div className="space-y-1.5">
-                <span className="px-3 py-1 rounded-full text-eyebrow font-semibold uppercase tracking-wider bg-gold-500/12 text-gold-700 border border-gold-500/25 inline-block">
-                  Online Inquiry &amp; Counseling
+            <Reveal className="p-6 sm:p-10 bg-white border border-sanctuary-stone shadow-xs space-y-6">
+              <div className="space-y-2 pb-5 border-b border-sanctuary-stone">
+                <span className="text-eyebrow font-mono uppercase tracking-[0.22em] text-gold-600 block">
+                  Pastoral Correspondence
                 </span>
-                <h3 className="text-h3 font-bold font-serif text-ink-primary">Send a Direct Message to Pastors</h3>
+                <h3 className="text-h2 font-serif font-normal text-ink-primary">
+                  Send a Direct Message to Pastors
+                </h3>
                 <p className="text-caption text-ink-secondary">
-                  Fill out the form below and our secretariat will get back to you promptly.
+                  Complete the correspondence sheet below and our secretariat will respond promptly.
                 </p>
               </div>
 
@@ -375,9 +354,8 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                     transition={SPRING_TACTILE}
-                    className="p-8 rounded-2xl bg-olive-500/10 border border-olive-500/25 text-center space-y-4"
+                    className="py-10 px-6 bg-sanctuary-alabaster border border-olive-500/30 text-center space-y-5"
                   >
-                    {/* Animated SVG Checkmark drawn via pathLength */}
                     <div className="w-16 h-16 rounded-full bg-olive-500/15 text-olive-600 flex items-center justify-center mx-auto">
                       <svg viewBox="0 0 36 36" fill="none" className="w-10 h-10" aria-hidden="true">
                         <m.circle
@@ -408,7 +386,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <h4 className="text-xl font-bold font-serif text-ink-primary">Message Received in Faith</h4>
+                      <h4 className="text-3xl font-serif text-ink-primary">Message Received in Faith</h4>
                       <p className="text-body text-ink-secondary max-w-md mx-auto">
                         Thank you for reaching out. A pastoral representative will contact you shortly. God bless you!
                       </p>
@@ -417,7 +395,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     <button
                       type="button"
                       onClick={handleResetForm}
-                      className="min-h-[44px] px-6 py-2.5 rounded-full bg-white border border-sanctuary-stone text-caption font-semibold text-ink-primary hover:border-gold-500 transition-colors cursor-pointer"
+                      className="min-h-[44px] px-6 py-2.5 rounded-sm bg-white border border-sanctuary-stone-strong text-caption font-semibold uppercase tracking-[0.14em] text-ink-primary hover:border-gold-600 transition-colors cursor-pointer"
                     >
                       Send Another Message
                     </button>
@@ -428,14 +406,13 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     noValidate
                     onSubmit={handleSubmit}
                     animate={shakeCount > 0 && !prefersReduced ? shakeX : undefined}
-                    className="space-y-4"
+                    className="space-y-6"
                   >
-                    {/* Accessible Error Alert Banner */}
                     {formError && (
                       <div
                         role="alert"
                         aria-live="polite"
-                        className="p-3.5 rounded-xl bg-flame-500/12 border border-flame-500/35 text-flame-500 text-caption font-semibold flex items-center gap-2.5"
+                        className="p-3.5 bg-flame-500/10 border border-flame-500/35 text-flame-500 text-caption font-semibold flex items-center gap-2.5"
                       >
                         <AlertCircle className="w-4 h-4 shrink-0" />
                         <span>{formError}</span>
@@ -454,7 +431,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       />
                     </div>
 
-                    <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-2 gap-6">
                       <div className="relative">
                         <input
                           id="connect-name"
@@ -466,9 +443,9 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                             setFormData({ ...formData, name: e.target.value });
                             if (formError) setFormError(null);
                           }}
-                          className={floatingFieldClass}
+                          className={underlineFieldClass}
                         />
-                        <label htmlFor="connect-name" className={floatingLabelClass}>
+                        <label htmlFor="connect-name" className={underlineLabelClass}>
                           Full Name
                         </label>
                       </div>
@@ -484,9 +461,9 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                             setFormData({ ...formData, phone: e.target.value });
                             if (formError) setFormError(null);
                           }}
-                          className={`${floatingFieldClass} tabular-nums font-mono`}
+                          className={`${underlineFieldClass} tabular-nums font-mono`}
                         />
-                        <label htmlFor="connect-phone" className={floatingLabelClass}>
+                        <label htmlFor="connect-phone" className={underlineLabelClass}>
                           Phone / WhatsApp
                         </label>
                       </div>
@@ -503,9 +480,9 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                           setFormData({ ...formData, email: e.target.value });
                           if (formError) setFormError(null);
                         }}
-                        className={floatingFieldClass}
+                        className={underlineFieldClass}
                       />
-                      <label htmlFor="connect-email" className={floatingLabelClass}>
+                      <label htmlFor="connect-email" className={underlineLabelClass}>
                         Email Address
                       </label>
                     </div>
@@ -513,7 +490,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     <div className="relative">
                       <label
                         htmlFor="connect-subject"
-                        className="pointer-events-none absolute left-4 top-2 text-eyebrow font-semibold uppercase tracking-wider text-gold-600"
+                        className="pointer-events-none absolute left-0 top-1.5 text-eyebrow font-mono uppercase tracking-[0.16em] text-gold-600"
                       >
                         Subject / Purpose
                       </label>
@@ -521,12 +498,12 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                         id="connect-subject"
                         value={formData.subject}
                         onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full px-4 pt-6 pb-2.5 rounded-xl bg-white/95 border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                        className="w-full px-0 pt-6 pb-2.5 bg-transparent border-0 border-b border-ink-primary/25 text-ink-primary text-body outline-none focus:border-gold-600 rounded-none"
                       >
                         <option>First-time Visitor Inquiry</option>
                         <option>Pastoral Counseling Booking</option>
-                        <option>Water Baptism & Membership Class</option>
-                        <option>Wedding & Child Dedication</option>
+                        <option>Water Baptism &amp; Membership Class</option>
+                        <option>Wedding &amp; Child Dedication</option>
                         <option>General Administration</option>
                       </select>
                     </div>
@@ -542,9 +519,9 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                           setFormData({ ...formData, message: e.target.value });
                           if (formError) setFormError(null);
                         }}
-                        className={floatingFieldClass}
+                        className={underlineFieldClass}
                       />
-                      <label htmlFor="connect-message" className={floatingLabelClass}>
+                      <label htmlFor="connect-message" className={underlineLabelClass}>
                         How may we serve or pray with you?
                       </label>
                     </div>
@@ -554,15 +531,15 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       disabled={isSubmitting}
                       whileTap={prefersReduced ? undefined : { scale: 0.98 }}
                       transition={SPRING_TACTILE}
-                      className="min-h-[48px] w-full py-3.5 px-6 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                      className="min-h-[48px] w-full py-3.5 px-6 rounded-sm bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-[0.16em] transition-colors flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60"
                     >
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4 h-4 text-gold-400" />
                       <span>{isSubmitting ? 'Sending Message...' : 'Send Message to Pastoral Office'}</span>
                     </m.button>
                   </m.form>
                 )}
               </AnimatePresence>
-            </div>
+            </Reveal>
           </div>
         </div>
       </div>

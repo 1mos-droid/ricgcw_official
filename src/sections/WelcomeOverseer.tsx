@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Sparkles, MessageCircle, ArrowRight, Shield, Scroll } from 'lucide-react';
+import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { PICTURES, IMAGE_DIMENSIONS } from '../data/churchData';
 import { trackEvent } from '../utils/analytics';
 import { toWhatsAppUrl } from '../utils/phoneUtils';
-import { CATHEDRAL_EASE, VIEWPORT_ONCE, Reveal, Stagger, StaggerItem } from '../components/motion';
+import {
+  CATHEDRAL_EASE,
+  SPRING_GENTLE,
+  VIEWPORT_ONCE,
+  Reveal,
+  CurtainReveal,
+  ParallaxFrame,
+  DrawRule,
+} from '../components/motion';
 import SectionHeader from '../components/SectionHeader';
 import ResponsiveImage from '../components/ResponsiveImage';
 
@@ -14,99 +22,100 @@ interface WelcomeOverseerProps {
   onOpenBranchModal?: (branchId?: string) => void;
 }
 
+function isLightHex(hex: string): boolean {
+  const clean = hex.replace('#', '');
+  if (clean.length !== 6) return false;
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  // Relative luminance heuristic for crisp text contrast on pigment blocks
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.56;
+}
+
 export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
   onOpenPrayerModal,
 }) => {
   const { churchInfo, churchColors } = useChurch();
-  const [selectedColorIndex, setSelectedColorIndex] = useState(1); // Default to Gold
+  const [selectedColorIndex, setSelectedColorIndex] = useState(1);
   const prefersReduced = useReducedMotion();
 
   const definitions = churchInfo.definitions || [];
-  const selectedColor = churchColors[selectedColorIndex] || churchColors[0];
+  const mottoItems = [
+    { num: '01', ref: 'Ephesians 4:12', title: 'Perfecting the Saints', copy: 'Equipping every believer through sound Rhema teaching for mature Kingdom stewardship.' },
+    { num: '02', ref: 'Joshua 1:3', title: 'Taking Territories', copy: 'Advancing the light of Christ across families, commerce, leadership, and communities.' },
+    { num: '03', ref: 'Luke 1:37', title: 'Impossibility Possible', copy: 'A living altar of prophetic breakthrough where heaven answers sacrifices of faith.' },
+  ];
 
   return (
-    <section id="about" className="py-14 lg:py-20 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary">
-      <div className="max-w-7xl mx-auto space-y-16">
+    <section
+      id="about"
+      className="relative bg-sanctuary-alabaster paper-grain text-ink-primary py-20 lg:py-28 px-4 sm:px-6 lg:px-10"
+    >
+      <div className="max-w-7xl mx-auto space-y-24 lg:space-y-32">
         {/* =====================================================================
-            12-COLUMN EDITORIAL MAGAZINE SPREAD
+            CHAPTER 01: STICKY MONOGRAPH SPREAD — OVERSEER WELCOME
         ===================================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left 5 Columns: Clip-Path Portrait Wipe + Counter-Scale + Delayed Signature */}
-          <div className="lg:col-span-5 relative">
-            <m.div
-              initial={
-                prefersReduced
-                  ? { opacity: 0 }
-                  : { clipPath: 'inset(0 0 100% 0)', opacity: 0.7 }
-              }
-              whileInView={
-                prefersReduced
-                  ? { opacity: 1 }
-                  : { clipPath: 'inset(0 0 0% 0)', opacity: 1 }
-              }
-              viewport={VIEWPORT_ONCE}
-              transition={{ duration: prefersReduced ? 0.15 : 0.9, ease: CATHEDRAL_EASE }}
-              className="aspect-[4/5] rounded-3xl overflow-hidden bg-sanctuary-parchment/80 relative z-10 shadow-lg border border-sanctuary-stone"
-            >
-              <m.div
-                initial={prefersReduced ? false : { scale: 1.08 }}
-                whileInView={prefersReduced ? undefined : { scale: 1 }}
-                viewport={VIEWPORT_ONCE}
-                transition={{ duration: 1.05, ease: CATHEDRAL_EASE }}
-                className="w-full h-full"
-              >
-                <ResponsiveImage
-                  src={PICTURES.couple1}
-                  alt="Rev. Nicholas Dobeng and First Lady Mrs. Sandra Dobeng"
-                  width={IMAGE_DIMENSIONS.couple1.width}
-                  height={IMAGE_DIMENSIONS.couple1.height}
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  pictureClassName="w-full h-full block"
-                  className="w-full h-full object-cover object-top"
-                />
-              </m.div>
-            </m.div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left 5 Columns: Sticky Clean Studio Portrait of General Overseer */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <div className="relative">
+              {/* Architectural Brass Corner Framing Ticks */}
+              <div aria-hidden="true" className="hidden sm:block absolute -top-2.5 -left-2.5 w-6 h-6 border-t-2 border-l-2 border-gold-500 z-20 pointer-events-none" />
+              <div aria-hidden="true" className="hidden sm:block absolute -bottom-2.5 -right-2.5 w-6 h-6 border-b-2 border-r-2 border-gold-500 z-20 pointer-events-none" />
 
-            {/* Architectural Offset Frame */}
-            <div className="hidden sm:block absolute -bottom-5 -left-5 w-full h-full rounded-3xl border border-gold-500/25 -z-0 bg-sanctuary-parchment/55" />
+              <CurtainReveal className="bg-sanctuary-parchment border border-sanctuary-stone shadow-lg">
+                <ParallaxFrame offsetY={24} zoomFrom={1.06} className="aspect-[3/4]">
+                  <ResponsiveImage
+                    src={PICTURES.pastor2}
+                    alt="Rev. Nicholas Dobeng — General Overseer of RICGCW"
+                    width={IMAGE_DIMENSIONS.pastor2.width}
+                    height={IMAGE_DIMENSIONS.pastor2.height}
+                    priority
+                    sizes="(min-width: 1024px) 38vw, 100vw"
+                    pictureClassName="w-full h-full block"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </ParallaxFrame>
+              </CurtainReveal>
+            </div>
 
-            {/* Overseer Signature — fades in last */}
+            {/* Monograph Figure Caption */}
             <m.div
               initial={{ opacity: 0, y: prefersReduced ? 0 : 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={VIEWPORT_ONCE}
-              transition={{
-                duration: prefersReduced ? 0.15 : 0.65,
-                delay: prefersReduced ? 0 : 0.45,
-                ease: CATHEDRAL_EASE,
-              }}
-              className="mt-6 flex items-baseline justify-between border-b border-sanctuary-stone pb-4"
+              transition={{ duration: prefersReduced ? 0.15 : 0.65, delay: 0.2, ease: CATHEDRAL_EASE }}
+              className="mt-5 pt-4 border-t border-sanctuary-stone flex items-baseline justify-between gap-4"
             >
               <div>
-                <p className="font-serif text-h3 font-bold text-ink-primary">
-                  Rev. &amp; Mrs. Nicholas Dobeng
+                <p className="font-serif text-2xl text-ink-primary">
+                  Rev. Nicholas Dobeng
                 </p>
-                <p className="text-eyebrow uppercase tracking-[0.16em] text-ink-muted mt-0.5">
-                  General Overseer &amp; Founding Family
+                <p className="text-eyebrow font-mono uppercase tracking-[0.18em] text-ink-muted mt-0.5">
+                  General Overseer &amp; Founder
                 </p>
               </div>
-              <span className="font-serif italic text-base text-gold-600 font-medium">Esther 5:1</span>
+              <span className="font-serif italic text-lg text-gold-600 shrink-0">
+                Esther 5:1
+              </span>
             </m.div>
           </div>
 
-          {/* Right 7 Columns: Editorial Typography with Animated SVG Quote Underline */}
-          <div className="lg:col-span-7 lg:pl-6 space-y-6">
-            <Reveal y={14}>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sanctuary-parchment/85 border border-sanctuary-stone text-gold-600 text-eyebrow font-semibold uppercase tracking-[0.2em]">
-                <Sparkles className="w-3.5 h-3.5" />
+          {/* Right 7 Columns: Editorial Statement, Hand-Drawn Underline & Hairline Motto Ledger */}
+          <div className="lg:col-span-7 space-y-10">
+            <Reveal y={10}>
+              <div className="flex items-center gap-3 text-eyebrow font-mono uppercase tracking-[0.24em] text-gold-600 font-semibold">
+                <span>01</span>
+                <span aria-hidden="true" className="w-8 h-px bg-gold-600/50" />
                 <span>Apostolic Welcome &amp; Shepherding</span>
               </div>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <h2 className="font-serif text-h2 tracking-tight text-ink-primary">
+            <Reveal delay={0.06}>
+              <h2 className="font-serif text-h1 tracking-tight font-normal text-ink-primary">
                 &ldquo;You were never meant to remain in the outer court. God has prepared a place of{' '}
-                <span className="relative inline-block italic font-normal text-gold-600">
+                <span className="relative inline-block italic text-gold-600">
                   intimate grace
                   <svg
                     aria-hidden="true"
@@ -120,11 +129,11 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
                       strokeWidth="2"
                       strokeLinecap="round"
                       initial={{ pathLength: prefersReduced ? 1 : 0, opacity: prefersReduced ? 1 : 0 }}
-                      whileInView={{ pathLength: 1, opacity: 0.85 }}
+                      whileInView={{ pathLength: 1, opacity: 0.9 }}
                       viewport={VIEWPORT_ONCE}
                       transition={{
-                        duration: prefersReduced ? 0.1 : 0.85,
-                        delay: prefersReduced ? 0 : 0.35,
+                        duration: prefersReduced ? 0.1 : 0.9,
+                        delay: prefersReduced ? 0 : 0.3,
                         ease: CATHEDRAL_EASE,
                       }}
                     />
@@ -134,63 +143,50 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
               </h2>
             </Reveal>
 
-            <Reveal delay={0.14} className="space-y-4 text-body sm:text-base text-ink-secondary leading-relaxed">
+            <Reveal delay={0.12} className="space-y-4 text-body sm:text-base text-ink-secondary leading-relaxed max-w-prose">
               <p>
-                At Rhema Inner Court Gospel Church Worldwide, our heartbeat is simple yet eternal:{' '}
+                At Rhema Inner Court Gospel Church Worldwide, our commission endures:{' '}
                 <strong className="font-semibold text-ink-primary">
                   &ldquo;{churchInfo.vision}&rdquo;
                 </strong>
               </p>
               <p>
-                Whether you are walking through the doors of our Mallam Headquarters, worshipping by
-                the coast in Kokrobitey, gathering in Langma, or joining our global broadcast from across the nations,
-                you are stepping into a family built on the spoken Word of God (<em>Rhema</em>),
-                sacrificial worship, and the delivering power of the Holy Spirit.
+                Whether you walk through the doors of our Mallam Headquarters, worship by the coast in Kokrobitey, gather in Langma, or join our global stream across continents, you step into a consecrated family built on the spoken Word of God (<em>Rhema</em>), sacrificial praise, and the liberating power of the Holy Spirit.
               </p>
             </Reveal>
 
-            {/* The Three-Part Motto — Architectural Hairline Columns */}
-            <Stagger className="mt-8 pt-6 border-t border-sanctuary-stone grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <StaggerItem>
-                <span className="text-eyebrow font-mono uppercase tracking-widest text-gold-600 font-semibold">
-                  01 • Eph 4:12
-                </span>
-                <h3 className="mt-1 font-serif text-h3 font-bold text-ink-primary">Perfecting the Saints</h3>
-                <p className="mt-1 text-caption text-ink-secondary leading-relaxed">
-                  Equipping every believer through sound Rhema teaching for mature Kingdom service.
-                </p>
-              </StaggerItem>
-
-              <StaggerItem className="sm:border-l sm:border-sanctuary-stone sm:pl-5">
-                <span className="text-eyebrow font-mono uppercase tracking-widest text-gold-600 font-semibold">
-                  02 • Josh 1:3
-                </span>
-                <h3 className="mt-1 font-serif text-h3 font-bold text-ink-primary">Taking Territories</h3>
-                <p className="mt-1 text-caption text-ink-secondary leading-relaxed">
-                  Advancing the light of Christ across business, family, and global communities.
-                </p>
-              </StaggerItem>
-
-              <StaggerItem className="sm:border-l sm:border-sanctuary-stone sm:pl-5">
-                <span className="text-eyebrow font-mono uppercase tracking-widest text-gold-600 font-semibold">
-                  03 • Luke 1:37
-                </span>
-                <h3 className="mt-1 font-serif text-h3 font-bold text-ink-primary">Impossibility Possible</h3>
-                <p className="mt-1 text-caption text-ink-secondary leading-relaxed">
-                  An altar of prophetic breakthrough where heaven responds to the sacrifices of faith.
-                </p>
-              </StaggerItem>
-            </Stagger>
+            {/* 3-Row Architectural Hairline Motto Ledger (Zero Box Cards) */}
+            <div className="border-t border-sanctuary-stone divide-y divide-sanctuary-stone">
+              {mottoItems.map((item, idx) => (
+                <Reveal
+                  key={item.num}
+                  delay={idx * 0.06}
+                  y={12}
+                  className="py-5 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-baseline"
+                >
+                  <div className="sm:col-span-3 flex items-baseline gap-2.5 text-eyebrow font-mono uppercase tracking-[0.16em] text-gold-600 font-semibold">
+                    <span>{item.num}</span>
+                    <span className="text-ink-muted">· {item.ref}</span>
+                  </div>
+                  <h3 className="sm:col-span-4 font-serif text-2xl text-ink-primary font-normal">
+                    {item.title}
+                  </h3>
+                  <p className="sm:col-span-5 text-caption text-ink-secondary leading-relaxed">
+                    {item.copy}
+                  </p>
+                </Reveal>
+              ))}
+            </div>
 
             {/* Action Bar */}
-            <Reveal delay={0.18} className="pt-2 flex flex-wrap items-center gap-3">
+            <Reveal delay={0.16} className="pt-2 flex flex-wrap items-center gap-3.5">
               <button
                 type="button"
                 onClick={() => {
                   trackEvent('conversion', 'prayer_modal_opened', 'Welcome Overseer');
                   onOpenPrayerModal?.();
                 }}
-                className="min-h-[44px] inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink-primary text-sanctuary-alabaster text-caption uppercase tracking-wider font-semibold hover:bg-gold-600 transition-colors cursor-pointer"
+                className="min-h-[48px] inline-flex items-center gap-2.5 px-7 py-3 rounded-sm bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster text-caption uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer"
               >
                 <span>Send Personal Prayer to Overseer</span>
                 <ArrowRight className="w-4 h-4" />
@@ -200,7 +196,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
                 href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom General Overseer, I am reaching out from the RICGCW official website.')}
                 target="_blank"
                 rel="noreferrer"
-                className="min-h-[44px] inline-flex items-center gap-2 px-6 py-3 rounded-full bg-sanctuary-parchment/90 border border-sanctuary-stone hover:bg-sanctuary-stone text-ink-primary text-caption font-semibold uppercase tracking-wider transition-colors"
+                className="min-h-[48px] inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-transparent border border-sanctuary-stone-strong hover:border-ink-primary text-ink-primary text-caption font-semibold uppercase tracking-[0.14em] transition-colors"
               >
                 <MessageCircle className="w-4 h-4 text-olive-500" />
                 <span>Pastoral WhatsApp</span>
@@ -210,112 +206,121 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
         </div>
 
         {/* =====================================================================
-            COVENANT IDENTITY & TABERNACLE LEDGER (Merged & Clean)
+            CHAPTER 02: TABERNACLE PIGMENTS MONOLITHS & RHEMA LEXICON
         ===================================================================== */}
-        <div id="identity" className="pt-10 border-t border-sanctuary-stone/80 space-y-8">
+        <div id="identity" className="space-y-12">
           <SectionHeader
+            index="02"
             eyebrow="Biblical Roots & Temple Symbolism"
             title="The Covenant Identity of"
             accent="Inner Court"
-            description="Grounded in the Greek revelation of Rhema and the sacred colors of the Old & New Covenant tabernacle."
+            description="Select any of the five sacred Tabernacle pigments below to explore its scriptural theology, alongside the Greek lexicon of Rhema."
           />
 
-          {/* Interactive Ledger Grid */}
-          <div className="grid lg:grid-cols-12 gap-8 items-stretch">
-            {/* Left 6 Cols: Etymology of R-H-E-M-A */}
-            <Reveal className="lg:col-span-6 bg-sanctuary-parchment/95 rounded-3xl p-6 sm:p-8 border border-sanctuary-stone space-y-6 shadow-xs">
-              <div className="flex items-center gap-2.5 pb-4 border-b border-sanctuary-stone">
-                <Scroll className="w-5 h-5 text-gold-600" />
-                <h4 className="font-serif text-h3 font-bold text-ink-primary">
-                  Etymology of RICGCW
-                </h4>
-              </div>
+          {/* Interactive 5-Column Sacred Pigment Wall */}
+          <div className="space-y-4">
+            <div className="flex flex-col md:flex-row md:h-[380px] border border-sanctuary-stone overflow-hidden">
+              {churchColors.map((color, idx) => {
+                const isSelected = selectedColorIndex === idx;
+                const lightSurface = isLightHex(color.hex);
+                const textPrimary = lightSurface ? 'text-ink-primary' : 'text-sanctuary-alabaster';
+                const textMuted = lightSurface ? 'text-ink-muted' : 'text-gold-300/90';
+                const borderSubtle = lightSurface ? 'border-ink-primary/15' : 'border-white/20';
 
-              <div className="space-y-4">
-                {definitions.map((def, idx) => (
-                  <div key={idx} className="pb-3.5 border-b border-sanctuary-stone last:border-0 last:pb-0">
-                    <p className="text-eyebrow uppercase font-bold tracking-wider text-gold-600">
+                return (
+                  <m.button
+                    key={color.name}
+                    layout={!prefersReduced}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => setSelectedColorIndex(idx)}
+                    transition={SPRING_GENTLE}
+                    style={{ backgroundColor: color.hex }}
+                    className={`relative text-left p-5 sm:p-6 flex flex-col justify-between transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 ${textPrimary} ${
+                      idx > 0 ? `border-t md:border-t-0 md:border-l ${borderSubtle}` : ''
+                    } ${
+                      isSelected
+                        ? 'md:flex-[3.2]'
+                        : 'md:flex-[0.85] opacity-95 hover:opacity-100'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`text-[11px] font-mono uppercase tracking-[0.18em] ${textMuted}`}>
+                        0{idx + 1}
+                      </span>
+                      <span className={`text-[11px] font-mono uppercase tracking-wider ${textMuted}`}>
+                        {color.hex}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 md:mt-auto space-y-2.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <h3 className="font-serif text-2xl sm:text-3xl font-normal">
+                          {color.name}
+                        </h3>
+                        {isSelected && (
+                          <Sparkles className={`w-4 h-4 shrink-0 ${lightSurface ? 'text-gold-600' : 'text-gold-400'}`} />
+                        )}
+                      </div>
+
+                      <AnimatePresence initial={false}>
+                        {isSelected && (
+                          <m.div
+                            initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25, ease: CATHEDRAL_EASE }}
+                            className={`space-y-2 pt-3 border-t ${borderSubtle}`}
+                          >
+                            <p className={`text-eyebrow font-mono uppercase tracking-[0.18em] ${textMuted}`}>
+                              {color.biblicalReference}
+                            </p>
+                            <p className="text-body leading-relaxed max-w-md">
+                              {color.spiritualMeaning}
+                            </p>
+                          </m.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </m.button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Rhema Etymology Lexicon — 2-Column Editorial Spread */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pt-4 items-start">
+            <div className="lg:col-span-4 space-y-2">
+              <p className="font-serif italic text-6xl sm:text-7xl text-gold-600/20 leading-none select-none" aria-hidden="true">
+                ῥῆμα
+              </p>
+              <h3 className="font-serif text-h3 text-ink-primary">
+                Etymology of RICGCW
+              </h3>
+              <p className="text-caption text-ink-secondary max-w-xs leading-relaxed">
+                Every syllable in our mandate points to an immediate encounter with the spoken Word and the royal inner sanctuary.
+              </p>
+            </div>
+
+            <div className="lg:col-span-8 divide-y divide-sanctuary-stone border-t border-sanctuary-stone">
+              {definitions.map((def, idx) => (
+                <div key={idx}>
+                  <Reveal
+                    delay={idx * 0.04}
+                    y={10}
+                    className="py-5 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-6 items-baseline"
+                  >
+                    <p className="sm:col-span-4 font-serif text-xl sm:text-2xl text-gold-600">
                       {def.term}
                     </p>
-                    <p className="text-body text-ink-secondary mt-1 leading-relaxed">
+                    <p className="sm:col-span-8 text-body text-ink-secondary leading-relaxed">
                       {def.meaning}
                     </p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-
-            {/* Right 6 Cols: The 5 Sacred Tabernacle Colors */}
-            <Reveal delay={0.08} className="lg:col-span-6 bg-sanctuary-parchment/95 rounded-3xl p-6 sm:p-8 border border-sanctuary-stone flex flex-col justify-between space-y-6 shadow-xs">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2.5 pb-4 border-b border-sanctuary-stone">
-                  <Shield className="w-5 h-5 text-gold-600" />
-                  <h4 className="font-serif text-h3 font-bold text-ink-primary">
-                    The 5 Sacred Temple Pigments
-                  </h4>
+                  </Reveal>
                 </div>
-
-                {/* Color Selector Pills */}
-                <div className="grid grid-cols-5 gap-1.5 sm:gap-2 pt-2">
-                  {churchColors.map((color, idx) => {
-                    const isSelected = selectedColorIndex === idx;
-                    return (
-                      <button
-                        key={color.name}
-                        type="button"
-                        aria-pressed={isSelected}
-                        onClick={() => setSelectedColorIndex(idx)}
-                        className={`min-h-[44px] p-2 sm:p-3 rounded-2xl flex flex-col items-center gap-1.5 sm:gap-2 border transition-all cursor-pointer ${
-                          isSelected
-                            ? 'bg-white border-gold-500 shadow-sm ring-2 ring-gold-500/20'
-                            : 'bg-sanctuary-alabaster/80 border-sanctuary-stone hover:bg-white'
-                        }`}
-                      >
-                        <div
-                          className="w-6 h-6 rounded-full border border-black/15 shadow-inner"
-                          style={{ backgroundColor: color.hex }}
-                        />
-                        <span className="text-eyebrow font-bold uppercase tracking-wider text-ink-primary truncate max-w-full">
-                          {color.name.split(' ')[0]}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Dynamic Color Detail Panel */}
-              <AnimatePresence mode="wait">
-                <m.div
-                  key={selectedColor.name}
-                  initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: prefersReduced ? 0 : -8 }}
-                  transition={{ duration: prefersReduced ? 0.1 : 0.28, ease: CATHEDRAL_EASE }}
-                  style={{ borderLeftColor: selectedColor.hex }}
-                  className="bg-white/95 rounded-2xl p-6 border border-sanctuary-stone border-l-4 space-y-2.5 shadow-sm"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-eyebrow font-mono font-bold uppercase tracking-wider text-gold-600">
-                      {selectedColor.name} • {selectedColor.biblicalReference}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-caption font-mono text-ink-muted">
-                      <span
-                        className="w-2.5 h-2.5 rounded-full border border-black/15 inline-block"
-                        style={{ backgroundColor: selectedColor.hex }}
-                      />
-                      {selectedColor.hex}
-                    </span>
-                  </div>
-                  <h5 className="font-serif text-h3 font-bold text-ink-primary">
-                    {selectedColor.name}
-                  </h5>
-                  <p className="text-body text-ink-secondary leading-relaxed">
-                    {selectedColor.spiritualMeaning}
-                  </p>
-                </m.div>
-              </AnimatePresence>
-            </Reveal>
+              ))}
+              <DrawRule />
+            </div>
           </div>
         </div>
       </div>
