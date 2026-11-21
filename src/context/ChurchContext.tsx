@@ -35,6 +35,7 @@ import { trackEvent } from '../utils/analytics';
 import { db } from '../firebase';
 import { collection, onSnapshot, addDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { normalizeFirestoreEvent, toFirestoreEvent, sortEventsChronologically } from '../utils/eventAdapter';
+import { sanitizeChurchPhone } from '../utils/phoneUtils';
 
 export interface ConsecrationLiturgyData {
   consecrationTitle: string;
@@ -285,10 +286,14 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         collection(db, 'branches'),
         (snapshot) => {
           if (snapshot && !snapshot.empty) {
-            const fetched = snapshot.docs.map((docSnap) => ({
-              id: docSnap.id,
-              ...docSnap.data(),
-            })) as Branch[];
+            const fetched = snapshot.docs.map((docSnap) => {
+              const raw = docSnap.data() as Partial<Branch>;
+              return {
+                id: docSnap.id,
+                ...raw,
+                phone: sanitizeChurchPhone(raw.phone),
+              };
+            }) as Branch[];
             setBranches(fetched);
           }
         },
@@ -406,7 +411,11 @@ export const ChurchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setChurchInfo((prev) => ({
               ...prev,
               ...data,
-              contact: { ...prev.contact, ...(data.contact || {}) },
+              contact: {
+                ...prev.contact,
+                ...(data.contact || {}),
+                phone: sanitizeChurchPhone(data.contact?.phone || prev.contact.phone),
+              },
               giving: { ...prev.giving, ...(data.giving || {}) },
             }));
           }

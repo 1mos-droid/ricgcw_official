@@ -1,40 +1,88 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Heart, MapPin, Phone, Sparkles, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Heart } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useChurch } from '../context/ChurchContext';
 import { IMAGES } from '../data/churchData';
-import { YoutubeIcon, FacebookIcon } from './Icons';
 import { trackEvent } from '../utils/analytics';
-import { toTelUrl, toWhatsAppUrl, toInternationalDisplay } from '../utils/phoneUtils';
 
 interface NavbarProps {
-  onOpenBranchModal?: () => void;
+  onOpenBranchModal?: (branchId?: string) => void;
   onOpenGivingModal?: () => void;
   onOpenPrayerModal?: () => void;
 }
 
-export const Navbar = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }: NavbarProps) => {
+const SECTION_IDS = ['about', 'sanctuaries', 'ministries', 'media', 'connect'] as const;
+
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenGivingModal,
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
-  const { churchInfo, themeSettings } = useChurch();
+  const { churchInfo } = useChurch();
 
+  // Adaptive daylight surface once scrolled past hero on home, or on light sub-routes
+  const useLightHeader = !isHome || isScrolled;
+
+  // Scroll detection, reading progress, and section scroll-spy
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 36);
+
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? Math.min(1, Math.max(0, scrollY / docHeight)) : 0);
+
+      if (isHome) {
+        let current: string | null = null;
+        for (const id of SECTION_IDS) {
+          const el = document.getElementById(id);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= 160 && rect.bottom > 100) {
+              current = id;
+            }
+          }
+        }
+        setActiveSection(current);
+      } else {
+        setActiveSection(null);
+      }
+    };
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
-  const handleNavClick = (sectionId: string) => {
-    setIsMobileMenuOpen(false);
+  // Escape key to close navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
+  const handleNavClick = (sectionId?: string, route?: string) => {
+    setIsOpen(false);
+    if (route) {
+      navigate(route);
+      return;
+    }
+    if (!sectionId) return;
+
     if (!isHome) {
       navigate(`/#${sectionId}`);
       setTimeout(() => {
         const el = document.getElementById(sectionId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }, 150);
     } else {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -42,225 +90,203 @@ export const Navbar = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal
   };
 
   const navLinks = [
-    { name: 'About & Overseer', id: 'about' },
-    { name: 'Branches', id: 'branches' },
-    { name: 'Culture & Colors', id: 'identity' },
+    { name: 'About', id: 'about' },
+    { name: 'Sanctuaries', id: 'sanctuaries' },
     { name: 'Ministries', id: 'ministries' },
-    { name: 'Media & Sermons', id: 'media' },
-    { name: 'Events', id: 'events' },
-    { name: 'Partnership', route: '/sponsorship' },
+    { name: 'Media', id: 'media' },
+    { name: 'Partner', route: '/sponsorship' },
     { name: 'Connect', id: 'connect' },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-200">
-      {/* Top Banner Notice */}
-      {themeSettings.showAnnouncementBanner && (
-        <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 text-xs font-semibold py-1.5 px-4 hidden sm:block">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="bg-slate-950 text-amber-300 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
-                {themeSettings.announcementBadge}
-              </span>
-              <span className="tracking-wide">
-                <strong>{themeSettings.announcementText}</strong>
-              </span>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-8 ${
+        useLightHeader
+          ? 'bg-[#FAF8F5]/90 backdrop-blur-xl border-b border-[#E6E0D3]/90 py-3 shadow-[0_6px_28px_-10px_rgba(20,22,25,0.09)]'
+          : isOpen
+          ? 'bg-[#080B11]/95 backdrop-blur-xl border-b border-[#E6E0D3]/15 py-3 shadow-xl'
+          : 'bg-gradient-to-b from-[#080B11]/90 via-[#080B11]/55 to-transparent py-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 h-11 sm:h-12 relative overflow-hidden">
+        {/* =====================================================================
+            LEFT: BRAND (LOGO + ANIMATED NAME)
+            When open: Name smoothly leaves to the left, ONLY the Logo remains!
+        ===================================================================== */}
+        <div className="flex items-center shrink-0">
+          <Link
+            to="/"
+            onClick={() => {
+              if (isOpen) setIsOpen(false);
+            }}
+            className="flex items-center group cursor-pointer select-none"
+            aria-label="Rhema Inner Court Gospel Church Home"
+          >
+            {/* The Logo (Always stays in place) */}
+            <div
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-2xl overflow-hidden border shadow-sm transition-colors shrink-0 ${
+                useLightHeader
+                  ? 'border-[#B8860B]/35 group-hover:border-[#B8860B] bg-[#F3EFE6]'
+                  : 'border-[#B8860B]/40 group-hover:border-[#DFC57B] bg-[#0F1420]'
+              }`}
+            >
+              <img
+                src={IMAGES.logo}
+                alt="RICGCW Logo"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
-            <div className="flex items-center gap-4 text-[11px] font-bold">
-              <a
-                href={toTelUrl(churchInfo.contact.phone)}
-                onClick={() => trackEvent('conversion', 'call_hotline', 'Top Bar')}
-                className="hover:underline flex items-center gap-1 font-mono"
-              >
-                <Phone className="w-3 h-3" /> {toInternationalDisplay(churchInfo.contact.phone)}
-              </a>
-              <span>•</span>
+
+            {/* The Church Name (Smoothly leaves when navbar is opened) */}
+            <AnimatePresence initial={false}>
+              {!isOpen && (
+                <motion.div
+                  key="brand-text"
+                  initial={{ opacity: 0, x: -16, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: 'auto' }}
+                  exit={{ opacity: 0, x: -16, width: 0 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden whitespace-nowrap ml-2.5 sm:ml-3"
+                >
+                  <span
+                    className={`font-serif font-bold text-base sm:text-lg tracking-wider block leading-tight transition-colors ${
+                      useLightHeader
+                        ? 'text-[#141619] group-hover:text-[#B8860B]'
+                        : 'text-[#FAF8F5] group-hover:text-[#DFC57B]'
+                    }`}
+                  >
+                    {churchInfo.shortName}
+                  </span>
+                  <p
+                    className={`text-[10px] hidden sm:block tracking-wide font-light transition-colors ${
+                      useLightHeader ? 'text-[#4A5058]' : 'text-[#FAF8F5]/70'
+                    }`}
+                  >
+                    Rhema Inner Court Gospel Church
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Link>
+        </div>
+
+        {/* =====================================================================
+            CENTER / RIGHT: SLIDING IN-LINE NAVBAR OR CLOSED CONTROLS
+        ===================================================================== */}
+        <AnimatePresence mode="wait" initial={false}>
+          {isOpen ? (
+            /* OPENED STATE: Simplified navbar slides into the top bar from right to left */
+            <motion.nav
+              key="opened-sliding-navbar"
+              aria-label="Primary sanctuary navigation"
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="flex-1 flex items-center justify-end gap-1 sm:gap-2 overflow-x-auto no-scrollbar pl-2"
+            >
+              {/* Simplified Nav Links */}
+              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                {navLinks.map((link) => {
+                  const isActive =
+                    (link.route && location.pathname === link.route) ||
+                    (link.id && activeSection === link.id);
+                  return (
+                    <button
+                      key={link.name}
+                      onClick={() => handleNavClick(link.id, link.route)}
+                      className={`px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wider transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
+                        useLightHeader
+                          ? isActive
+                            ? 'text-[#B8860B] bg-[#B8860B]/10 font-semibold'
+                            : 'text-[#4A5058] hover:text-[#141619] hover:bg-[#E6E0D3]/50'
+                          : isActive
+                          ? 'text-[#DFC57B] bg-white/10 font-semibold'
+                          : 'text-[#FAF8F5]/85 hover:text-[#DFC57B] hover:bg-white/5'
+                      }`}
+                    >
+                      {link.name}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Giving Action Button */}
               <button
                 onClick={() => {
-                  trackEvent('conversion', 'prayer_modal_opened', 'Top Bar');
-                  onOpenPrayerModal?.();
+                  trackEvent('conversion', 'giving_modal_opened', 'Navbar');
+                  onOpenGivingModal?.();
                 }}
-                className="hover:underline text-slate-950 flex items-center gap-1 font-bold cursor-pointer"
+                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0 ml-1"
               >
-                <Sparkles className="w-3 h-3" /> Request Prayer
+                <Heart className="w-3.5 h-3.5 fill-[#FAF8F5]" />
+                <span>Give</span>
               </button>
-            </div>
-          </div>
+
+              {/* Close Button (X) */}
+              <button
+                onClick={() => setIsOpen(false)}
+                className={`p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer shrink-0 ml-1 ${
+                  useLightHeader
+                    ? 'bg-[#E6E0D3]/60 hover:bg-[#E6E0D3] text-[#141619]'
+                    : 'bg-white/10 hover:bg-white/20 text-[#FAF8F5]'
+                }`}
+                aria-label="Close navigation bar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </motion.nav>
+          ) : (
+            /* CLOSED STATE: Navbar is closed and hidden to the right. Only Menu & Give shown */
+            <motion.div
+              key="closed-controls"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.25 }}
+              className="flex items-center gap-2 sm:gap-3 shrink-0"
+            >
+              <button
+                onClick={() => {
+                  trackEvent('conversion', 'giving_modal_opened', 'Navbar');
+                  onOpenGivingModal?.();
+                }}
+                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+              >
+                <Heart className="w-3.5 h-3.5 fill-[#FAF8F5]" />
+                <span>Give</span>
+              </button>
+
+              <button
+                onClick={() => setIsOpen(true)}
+                aria-expanded={isOpen}
+                className={`px-3.5 sm:px-4 py-1.5 rounded-full border text-xs font-medium uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+                  useLightHeader
+                    ? 'bg-[#F3EFE6] hover:bg-[#E6E0D3] text-[#141619] border-[#E6E0D3]'
+                    : 'bg-white/10 hover:bg-white/15 text-[#FAF8F5] border-white/15'
+                }`}
+                aria-label="Open navigation menu"
+              >
+                <Menu className={`w-4 h-4 ${useLightHeader ? 'text-[#B8860B]' : 'text-[#DFC57B]'}`} />
+                <span>Menu</span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Continuous Reading Progress Hairline */}
+      {isScrolled && (
+        <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#B8860B]/15 pointer-events-none"
+        >
+          <div
+            className="h-full bg-gradient-to-r from-[#B8860B] via-[#DFC57B] to-[#B8860B] origin-left transition-transform duration-150 ease-out"
+            style={{ transform: `scaleX(${scrollProgress})` }}
+          />
         </div>
       )}
-
-      {/* Main Navbar */}
-      <nav
-        className={`transition-all duration-200 px-4 sm:px-6 md:px-8 ${
-          isScrolled
-            ? 'bg-slate-950 border-b border-amber-500/20 py-3 shadow-xl'
-            : 'bg-gradient-to-b from-slate-950/95 via-slate-950/80 to-transparent py-4'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo & Brand */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl overflow-hidden border border-amber-500/40 shadow-md group-hover:border-amber-400 transition-colors">
-              <img src={IMAGES.logo} alt="RICGCW Logo" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-cinzel font-bold text-lg sm:text-xl text-white tracking-wider group-hover:text-amber-300 transition-colors">
-                  {churchInfo.shortName}
-                </span>
-                <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  Global
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-300 hidden sm:block tracking-wide font-medium">
-                Rhema Inner Court Gospel Church
-              </p>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-5">
-            {navLinks.map((link) =>
-              link.route ? (
-                <Link
-                  key={link.name}
-                  to={link.route}
-                  className="text-xs uppercase font-bold tracking-wider text-slate-200 hover:text-amber-300 transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <button
-                  key={link.name}
-                  onClick={() => handleNavClick(link.id!)}
-                  className="text-xs uppercase font-bold tracking-wider text-slate-200 hover:text-amber-300 transition-colors cursor-pointer"
-                >
-                  {link.name}
-                </button>
-              )
-            )}
-          </div>
-
-          {/* Action CTAs */}
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href={`https://wa.me/${churchInfo.contact.phone.replace(/[^0-9]/g, '')}`}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Navbar')}
-              className="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors"
-            >
-              <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-              <span>WhatsApp</span>
-            </a>
-
-            <button
-              onClick={() => {
-                trackEvent('interaction', 'branch_modal_opened', 'Navbar');
-                onOpenBranchModal?.();
-              }}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-100 hover:text-white border border-white/15 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <MapPin className="w-3.5 h-3.5 text-amber-400" />
-              <span>Branches</span>
-            </button>
-
-            <button
-              onClick={() => {
-                trackEvent('conversion', 'giving_modal_opened', 'Navbar');
-                onOpenGivingModal?.();
-              }}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider shadow-md shadow-amber-500/20 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
-            >
-              <Heart className="w-3.5 h-3.5 fill-slate-950" />
-              <span>Giving</span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <button
-              onClick={() => {
-                trackEvent('conversion', 'giving_modal_opened', 'Mobile Header');
-                onOpenGivingModal?.();
-              }}
-              className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 text-[11px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm"
-            >
-              <Heart className="w-3 h-3 fill-slate-950" /> Giving
-            </button>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 transition-colors"
-              aria-label="Toggle navigation menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Drawer */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden mt-3 bg-slate-950 border border-amber-500/20 rounded-3xl p-5 shadow-2xl space-y-4">
-            <div className="grid gap-1.5">
-              {navLinks.map((link) =>
-                link.route ? (
-                  <Link
-                    key={link.name}
-                    to={link.route}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 text-slate-200 hover:text-amber-300 font-bold text-sm transition-colors block"
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <button
-                    key={link.name}
-                    onClick={() => handleNavClick(link.id!)}
-                    className="p-3 rounded-xl bg-white/5 hover:bg-amber-500/10 text-slate-200 hover:text-amber-300 font-bold text-sm text-left transition-colors cursor-pointer w-full"
-                  >
-                    {link.name}
-                  </button>
-                )
-              )}
-            </div>
-
-            <div className="pt-2 grid grid-cols-2 gap-2">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenBranchModal?.();
-                }}
-                className="py-3 px-4 rounded-xl bg-white/5 border border-white/10 text-slate-200 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5"
-              >
-                <MapPin className="w-4 h-4 text-amber-400" /> Branches
-              </button>
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenPrayerModal?.();
-                }}
-                className="py-3 px-4 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5"
-              >
-                <Sparkles className="w-4 h-4" /> Prayer
-              </button>
-            </div>
-
-            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-              <a href={toTelUrl(churchInfo.contact.phone)} className="font-mono hover:text-amber-300">
-                {toInternationalDisplay(churchInfo.contact.phone)}
-              </a>
-              <div className="flex items-center gap-3">
-                <a href={churchInfo.contact.youtube} target="_blank" rel="noreferrer" className="hover:text-red-400">
-                  <YoutubeIcon className="w-4 h-4" />
-                </a>
-                <a href={churchInfo.contact.facebook} target="_blank" rel="noreferrer" className="hover:text-blue-400">
-                  <FacebookIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
     </header>
   );
 };

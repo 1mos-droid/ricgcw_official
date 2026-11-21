@@ -90,7 +90,7 @@ describe('paystackService (TDD)', () => {
         category: 'Sanctuary Expansion & Building',
         donorName: 'Kwame Mensah',
         donorEmail: 'kwame@gmail.com',
-        donorPhone: '+233244485740',
+        donorPhone: '+233244857403',
         reference: 'RICGCW_1710000000_A1B2C3',
         subaccount: 'ACCT_cm4xpwb0z8y7xou',
       });
@@ -100,7 +100,7 @@ describe('paystackService (TDD)', () => {
       expect(record.category).toBe('Sanctuary Expansion & Building');
       expect(record.donorName).toBe('Kwame Mensah');
       expect(record.donorEmail).toBe('kwame@gmail.com');
-      expect(record.donorPhone).toBe('+233244485740');
+      expect(record.donorPhone).toBe('+233244857403');
       expect(record.paymentReference).toBe('RICGCW_1710000000_A1B2C3');
       expect(record.subaccount).toBe('ACCT_cm4xpwb0z8y7xou');
       expect(record.isDigital).toBe(true);

@@ -1,222 +1,216 @@
-import { Radio, Play, ExternalLink, Video, Sparkles, BookOpen, Volume2 } from 'lucide-react';
+import React from 'react';
+import { Play, ArrowUpRight, HeartHandshake, Sparkles, Phone } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { YoutubeIcon } from '../components/Icons';
 import { trackEvent } from '../utils/analytics';
+import { toTelUrl, toInternationalDisplay } from '../utils/phoneUtils';
 
-export const MediaHub = () => {
-  const { churchInfo, branches } = useChurch();
-  const mainBranch = branches.find((b) => b.isHeadquarters) || branches[0];
+interface MediaHubProps {
+  onOpenPrayerModal?: () => void;
+}
 
-  const featuredMessages = [
+export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
+  const { churchInfo } = useChurch();
+
+  const featuredSermon = {
+    title: '2026 Divine Manifestation Mandate',
+    preacher: churchInfo.founder?.name || 'Rev. Nicholas Dobeng',
+    theme: 'Apostolic Declaration',
+    description: 'The prophetic blueprint and covenant positioning for total supernatural breakthrough, perfection of the saints, and taking territories in 2026.',
+    scripture: 'Esther 5:1 • Isaiah 60:1-3',
+    link: churchInfo.contact.youtube,
+  };
+
+  const tracklistSermons = [
     {
-      title: '2026 Divine Manifestation Mandate',
-      speaker: churchInfo.founder?.name || 'Rev. Nicholas Dobeng',
-      theme: 'Year Theme Declaration',
-      description: 'The prophetic blueprint and covenant positioning for total supernatural breakthrough and taking territories.',
-      link: churchInfo.contact.youtube,
-    },
-    {
-      title: 'Consecration & Apostolic Order',
-      speaker: 'Rev. Nicholas Dobeng',
-      theme: 'Liturgy & Consecration',
-      description: 'Understanding divine appointment, spiritual mantle, and the order of the priesthood in the local church.',
+      title: 'Consecration & The Royal Priesthood',
+      date: 'Consecration Service',
+      scripture: 'Hebrews 5:1-10',
+      duration: '1 hr 12m',
       link: churchInfo.contact.youtube,
     },
     {
       title: 'Walking in Supernatural Authority',
-      speaker: 'Rev. Nicholas Dobeng',
-      theme: 'Sunday Worship Ministration',
-      description: 'Demolishing spiritual barriers and walking as kings and priests in accordance with Revelation 5:10.',
+      date: 'Sunday Word Feast',
+      scripture: 'Revelation 5:10',
+      duration: '58 mins',
+      link: churchInfo.contact.youtube,
+    },
+    {
+      title: 'Breaking Territorial Altars by Fire',
+      date: 'Prophetic Encounter',
+      scripture: 'Joshua 1:3 • Luke 1:37',
+      duration: '1 hr 25m',
       link: churchInfo.contact.youtube,
     },
   ];
 
   return (
-    <section id="media" className="relative py-24 px-4 sm:px-6 md:px-8 bg-white text-slate-900 border-b border-slate-200">
-      <div className="max-w-7xl mx-auto space-y-16 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-bold uppercase tracking-widest">
-            <Video className="w-3.5 h-3.5 text-amber-700" /> Broadcasts &amp; Apostolic Ministration
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-slate-950 tracking-tight">
-            Media Hub &amp; Digital Sanctuary
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
-            Access anointed teachings, Sunday worship replays, and prophetic declarations from General Overseer Rev. Nicholas Dobeng wherever you are.
-          </p>
-        </div>
+    <section id="media" className="py-12 lg:py-16 px-4 sm:px-6 md:px-8 bg-transparent text-[#141619]">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-[#080B11]/95 backdrop-blur-xl text-[#FAF8F5] rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E6E0D3]/20 ring-1 ring-[#DFC57B]/15 shadow-[0_24px_64px_-20px_rgba(8,11,17,0.42)] relative overflow-hidden space-y-8">
+          {/* Background ambient lighting */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#B8860B]/10 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* 2-Column Showcase */}
-        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Left Column: Official Broadcast & YouTube Stream */}
-          <div className="lg:col-span-7 space-y-6 flex flex-col justify-between">
-            
-            {/* Live Streaming Sanctuary Card */}
-            <div className="p-8 rounded-3xl bg-slate-950 text-white shadow-xl relative overflow-hidden space-y-6 border border-slate-800">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 px-3 py-1 bg-red-500/20 text-red-400 rounded-md border border-red-500/30">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Official Broadcast Channel</span>
-                </div>
-                <span className="text-xs text-amber-300 font-mono font-bold">Inner Court Worldwide</span>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="text-2xl sm:text-3xl font-bold font-serif text-white">
-                  Live Service &amp; Sermon Replays
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Join our weekly Sunday services and special conventions live streamed directly from {mainBranch?.name || churchInfo.name}. Full video recordings, altar calls, and worship moments are archived on our verified YouTube channel.
-                </p>
-              </div>
-
-              {/* Action Callout */}
-              <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shrink-0">
-                    <YoutubeIcon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white">RICGCW YouTube Channel</p>
-                    <p className="text-[11px] text-slate-400">@innercourtgospelchurchworl2293</p>
-                  </div>
-                </div>
-
-                <a
-                  href={churchInfo.contact.youtube}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => trackEvent('conversion', 'watch_sermon', 'Media Hub Primary')}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer"
-                >
-                  <Play className="w-4 h-4 fill-white" />
-                  <span>Watch Stream Live</span>
-                  <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
-                </a>
-              </div>
-
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 border-t border-white/10">
-                <span className="flex items-center gap-1.5 text-amber-300">
-                  <Sparkles className="w-3.5 h-3.5" /> Every Sunday from 09:00 GMT (Accra)
-                </span>
-                <a
-                  href={churchInfo.contact.youtube}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-slate-300 hover:text-white hover:underline flex items-center gap-1 font-bold"
-                >
-                  <span>Browse All Sermons &amp; Playlists</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
+          {/* Section Header */}
+          <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <span className="text-[11px] uppercase tracking-[0.22em] text-[#DFC57B] font-semibold block mb-1 font-sans">
+                The Living Word &amp; Prayer Altar
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-white">
+                Immerse in the <span className="italic font-normal text-[#DFC57B]">Living Rhema</span>
+              </h2>
             </div>
+            <a
+              href={churchInfo.contact.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('conversion', 'social_click', 'YouTube Channel')}
+              className="self-start md:self-auto inline-flex items-center gap-2 text-xs text-[#DFC57B] hover:underline tracking-wide font-sans cursor-pointer"
+            >
+              <YoutubeIcon className="w-4 h-4 text-red-500" />
+              <span>Official YouTube Archive</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
 
-            {/* Curated Key Sermons Grid */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-amber-600" />
-                Key Apostolic Ministration Series
-              </h4>
-              <div className="grid gap-3">
-                {featuredMessages.map((msg, idx) => (
-                  <a
-                    key={idx}
-                    href={msg.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackEvent('conversion', 'sermon_series_click', msg.title)}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-amber-400 hover:bg-amber-50/30 transition-all flex items-center justify-between gap-4 group cursor-pointer"
-                  >
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 px-2 py-0.5 rounded bg-amber-500/10">
-                          {msg.theme}
-                        </span>
-                        <span className="text-xs text-slate-500">• {msg.speaker}</span>
+          {/* Cinematic 12-Column Grid */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Left Column (7 Cols): Featured Sermon & Vinyl Tracklist */}
+            <div className="lg:col-span-7 space-y-6 flex flex-col justify-between">
+              {/* Featured Message Theater Card */}
+              <div className="bg-[#0F1420] rounded-2xl border border-white/10 overflow-hidden shadow-lg relative group">
+                <div className="p-6 sm:p-8 space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest font-sans">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      Featured Broadcast
+                    </div>
+                    <span className="text-xs text-[#DFC57B] font-mono tracking-wider">
+                      {featuredSermon.scripture}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-3xl sm:text-4xl text-white leading-tight">
+                    {featuredSermon.title}
+                  </h3>
+
+                  <p className="text-white/70 text-sm font-light leading-relaxed">
+                    {featuredSermon.description}
+                  </p>
+
+                  <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-white/10">
+                    <span className="text-xs text-white/50">
+                      Apostolic Ministration • {featuredSermon.preacher}
+                    </span>
+
+                    <a
+                      href={featuredSermon.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackEvent('conversion', 'watch_sermon', featuredSermon.title)}
+                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#DFC57B] hover:bg-white text-[#080B11] text-xs uppercase tracking-wider font-bold transition-all shadow-lg active:scale-95 cursor-pointer"
+                    >
+                      <Play className="w-4 h-4 fill-current ml-0.5" />
+                      <span>Watch Full Ministration</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Vinyl Tracklist: Recent Messages (Clean Horizontal Rows) */}
+              <div className="space-y-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/40 font-mono mb-4">
+                  Recent Sanctuary Ministrations
+                </p>
+
+                <div className="space-y-2">
+                  {tracklistSermons.map((sermon, idx) => (
+                    <a
+                      key={idx}
+                      href={sermon.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackEvent('conversion', 'sermon_series_click', sermon.title)}
+                      className="p-4 sm:p-5 rounded-2xl bg-[#0F1420]/65 hover:bg-[#0F1420] border border-white/5 hover:border-[#DFC57B]/40 transition-all flex items-center justify-between gap-4 group cursor-pointer"
+                    >
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2 text-xs text-[#DFC57B]">
+                          <span className="font-mono text-[10px] uppercase">{sermon.date}</span>
+                          <span>•</span>
+                          <span className="font-mono text-[10px] text-white/50">{sermon.scripture}</span>
+                        </div>
+                        <p className="font-serif text-lg text-white group-hover:text-[#DFC57B] transition-colors">
+                          {sermon.title}
+                        </p>
                       </div>
-                      <p className="text-sm font-bold text-slate-950 group-hover:text-amber-800 transition-colors">
-                        {msg.title}
-                      </p>
-                      <p className="text-xs text-slate-600 line-clamp-1">{msg.description}</p>
-                    </div>
-                    <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 group-hover:bg-amber-500 group-hover:text-slate-950 group-hover:border-amber-500 flex items-center justify-center text-slate-600 transition-all shrink-0">
-                      <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
-                    </div>
-                  </a>
-                ))}
+
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-xs text-white/40 font-mono hidden sm:inline">{sermon.duration}</span>
+                        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#DFC57B] group-hover:text-[#080B11] transition-all">
+                          <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Connect & Social Channels */}
-          <div className="lg:col-span-5">
-            <div className="h-full p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-md flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 border-b border-white/10 pb-4">
-                  <Volume2 className="w-5 h-5 text-amber-400" />
-                  <h3 className="font-serif font-bold text-lg text-white">Broadcast Channels</h3>
+            {/* Right Column (5 Cols): The Inner Court Prayer Altar */}
+            <div className="lg:col-span-5 bg-gradient-to-br from-[#141B2A] to-[#0F1420] rounded-3xl p-8 sm:p-10 border border-[#DFC57B]/30 flex flex-col justify-between space-y-8 shadow-2xl relative overflow-hidden">
+              <div className="space-y-4 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#DFC57B]/15 border border-[#DFC57B]/30 text-[#DFC57B] text-[10px] font-bold uppercase tracking-widest font-sans">
+                  <HeartHandshake className="w-3.5 h-3.5" />
+                  <span>Intercessory Altar</span>
                 </div>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Subscribe and follow RICGCW across all platforms to stay spiritually refreshed with live declarations, service reminders, and ministry updates.
+
+                <h3 className="font-serif text-3xl sm:text-4xl text-white">
+                  Place Your Petition Before the King
+                </h3>
+
+                <p className="text-white/70 text-sm font-light leading-relaxed">
+                  &ldquo;The Lord hear thee in the day of trouble; the name of the God of Jacob defend thee; send thee help from the sanctuary, and strengthen thee out of Zion.&rdquo;
+                </p>
+                <p className="text-xs font-serif italic text-[#DFC57B]">
+                  — Psalm 20:1-2
                 </p>
 
-                <div className="space-y-3 pt-2">
-                  <a
-                    href={churchInfo.contact.youtube}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackEvent('conversion', 'social_click', 'YouTube')}
-                    className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
-                  >
-                    <YoutubeIcon className="w-5 h-5 text-red-400 shrink-0" />
-                    <div>
-                      <p className="text-xs font-bold text-white">YouTube</p>
-                      <p className="text-[10px] text-slate-400">Live services &amp; sermon archives</p>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-500 ml-auto shrink-0" />
-                  </a>
-
-                  <a
-                    href={churchInfo.contact.facebook}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackEvent('conversion', 'social_click', 'Facebook')}
-                    className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
-                  >
-                    <div className="w-5 h-5 text-blue-400 font-black text-sm flex items-center justify-center shrink-0">f</div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Facebook</p>
-                      <p className="text-[10px] text-slate-400">Live streams &amp; fellowship notices</p>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-500 ml-auto shrink-0" />
-                  </a>
-
-                  <a
-                    href={churchInfo.contact.instagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackEvent('conversion', 'social_click', 'Instagram')}
-                    className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
-                  >
-                    <div className="w-5 h-5 text-pink-400 font-black text-sm flex items-center justify-center shrink-0">ig</div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Instagram</p>
-                      <p className="text-[10px] text-slate-400">Touching lives ministry moments</p>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-500 ml-auto shrink-0" />
-                  </a>
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs text-white/80">
+                  <p className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-[#DFC57B]" />
+                    Confidential Pastoral Covering
+                  </p>
+                  <p className="font-light leading-relaxed text-white/70">
+                    Every request submitted to this altar is prayed over by General Overseer Rev. Nicholas Dobeng and our intercessors. We will never disclose your details.
+                  </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 space-y-1 text-center">
-                <p className="text-xs font-bold text-amber-300">
-                  {churchInfo.name}
-                </p>
-                <p className="text-[11px] text-slate-400">
-                  Taking territories &amp; perfecting the saints worldwide
+              {/* Action CTA */}
+              <div className="pt-4 border-t border-white/10 space-y-3 relative z-10">
+                <button
+                  onClick={() => {
+                    trackEvent('conversion', 'prayer_modal_opened', 'Media Hub Altar');
+                    onOpenPrayerModal?.();
+                  }}
+                  className="w-full py-4 rounded-full bg-[#DFC57B] hover:bg-white text-[#080B11] font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95 cursor-pointer"
+                >
+                  <HeartHandshake className="w-4 h-4 fill-current" />
+                  <span>Submit Confidential Prayer Petition</span>
+                </button>
+
+                <p className="text-[11px] text-center text-white/55">
+                  Immediate prayer emergency?{' '}
+                  <a
+                    href={toTelUrl(churchInfo.contact.phone)}
+                    onClick={() => trackEvent('conversion', 'call_hotline', 'Media Hub Altar')}
+                    className="inline-flex items-center gap-1 text-[#DFC57B] hover:underline font-mono font-semibold tabular-nums"
+                  >
+                    <Phone className="w-3 h-3" />
+                    {toInternationalDisplay(churchInfo.contact.phone)}
+                  </a>
                 </p>
               </div>
             </div>

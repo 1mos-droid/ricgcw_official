@@ -188,7 +188,7 @@ export const CHURCH_INFO = {
     scripture: 'Proverbs 21:21',
   },
   contact: {
-    phone: '+233 24 448 5740',
+    phone: '+233 24 485 7403',
     email: 'innercourtch@gmail.com',
     location: 'Accra, Ghana (West Africa)',
     youtube: 'https://youtube.com/@innercourtgospelchurchworl2293',
@@ -221,7 +221,7 @@ export const BRANCHES: Branch[] = [
     location: 'Mallam, Accra, Ghana',
     address: 'Near Mallam Junction, Greater Accra Region, Ghana',
     directions: 'Located right off the Mallam-Gbawe road, easily accessible by public transit & private vehicles.',
-    phone: '+233 244 485 7403',
+    phone: '+233 24 485 7403',
     email: 'innercourtch@gmail.com',
     pastor: 'Rev. Nicholas Dobeng (General Overseer)',
     isHeadquarters: true,
@@ -260,7 +260,7 @@ export const BRANCHES: Branch[] = [
     location: 'Kokrobitey, Greater Accra',
     address: 'Kokrobitey Coastal Road, Greater Accra, Ghana',
     directions: '5 minutes from Kokrobitey town center, close to the coastal township.',
-    phone: '+233 244 485 7403',
+    phone: '+233 24 485 7403',
     email: 'innercourtch@gmail.com',
     pastor: 'Pastoral Council',
     services: [
@@ -292,7 +292,7 @@ export const BRANCHES: Branch[] = [
     location: 'Langma, Greater Accra',
     address: 'Langma Main Road, Greater Accra Region, Ghana',
     directions: 'Situated along the Langma central corridor.',
-    phone: '+233 244 485 7403',
+    phone: '+233 24 485 7403',
     email: 'innercourtch@gmail.com',
     pastor: 'Pastoral Council',
     services: [
@@ -341,31 +341,31 @@ export const LEADERSHIP: LeadershipMember[] = [
 export const CHURCH_COLORS: ChurchColor[] = [
   {
     name: 'White',
-    hex: '#FFFFFF',
+    hex: '#FAF8F5',
     spiritualMeaning: 'Light, Purity, Bride of Christ, Surrender, Joy, Angels, Holiness',
     biblicalReference: 'Revelation 19:8, Isaiah 1:18',
   },
   {
     name: 'Gold',
-    hex: '#FFD700',
+    hex: '#B8860B',
     spiritualMeaning: 'Glory of God, Divine Nature, Refining Process, Kingship, Wisdom, Truth, Anointing Oil',
     biblicalReference: '1 Peter 1:7, Revelation 3:18',
   },
   {
     name: 'Deep Orange',
-    hex: '#FF4500',
+    hex: '#C84B31',
     spiritualMeaning: 'Holy Spirit Fire, Prophetic Ministry, Harvest, Zeal, Strength, Endurance, Awakening',
     biblicalReference: 'Acts 2:3, Matthew 3:11',
   },
   {
     name: 'Lemon Green',
-    hex: '#32CD32',
+    hex: '#3B6E4C',
     spiritualMeaning: 'Prosperity, New Life, Fruitfulness, Spiritual Growth, Healing, Divine Rest, Victory',
     biblicalReference: 'Psalm 1:3, Psalm 23:2',
   },
   {
     name: 'Black',
-    hex: '#0F172A',
+    hex: '#141619',
     spiritualMeaning: 'Death to Flesh, Humility, Holy Reverence, Fear of the Lord, Total Consecration',
     biblicalReference: 'Galatians 2:20, Proverbs 9:10',
   },
@@ -458,7 +458,7 @@ export const FAQS: FAQItem[] = [
   {
     id: 'faq-2',
     q: 'How can I submit a prayer request or speak with a Pastor?',
-    a: 'You can submit your prayer request anytime via the online Prayer Request form on this website or call our pastoral hotline directly at +233 244 485 7403. Every request is kept strictly confidential.',
+    a: 'You can submit your prayer request anytime via the online Prayer Request form on this website or call our pastoral hotline directly at +233 24 485 7403 (024 485 7403). Every request is kept strictly confidential.',
   },
   {
     id: 'faq-3',

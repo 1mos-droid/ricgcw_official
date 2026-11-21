@@ -38,10 +38,10 @@ function SanctuaryLoadingFallback() {
     <div
       role="status"
       aria-live="polite"
-      className="min-h-screen bg-[#070c18] text-amber-400 flex flex-col items-center justify-center p-6 space-y-4"
+      className="min-h-screen bg-[#FAF8F5] text-[#B8860B] flex flex-col items-center justify-center p-6 space-y-4"
     >
-      <div className="w-10 h-10 border-2 border-amber-500/20 border-t-amber-400 rounded-full animate-spin" />
-      <p className="text-xs uppercase tracking-widest font-bold text-slate-300">
+      <div className="w-10 h-10 border-2 border-[#E6E0D3] border-t-[#B8860B] rounded-full animate-spin" />
+      <p className="text-xs uppercase tracking-widest font-bold text-[#4A5058]">
         Loading Sanctuary...
       </p>
     </div>

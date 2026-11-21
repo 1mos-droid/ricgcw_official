@@ -206,7 +206,7 @@ export const AdminDashboard: React.FC = () => {
 
   // Client Feedback & Notes state
   const [adminNotes, setAdminNotes] = useState(() => {
-    return 'Redesign goals: Modern hybrid editorial theme, lightning fast speeds, accurate Ghanaian phone lines (+233 244 485 7403), Paystack digital giving ready.';
+    return 'Redesign goals: Modern hybrid editorial theme, lightning fast speeds, accurate Ghanaian phone lines (+233 24 485 7403 / 0244857403), Paystack digital giving ready.';
   });
 
   const [transactions, setTransactions] = useState<TransactionRecord[]>([]);
