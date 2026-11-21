@@ -44,7 +44,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="relative isolate min-h-screen bg-[#FAF8F5] text-[#141619] selection:bg-[#B8860B] selection:text-[#FAF8F5] pb-16 md:pb-0 overflow-x-clip">
+    <div className="relative isolate min-h-screen bg-sanctuary-alabaster text-ink-primary selection:bg-gold-600 selection:text-sanctuary-alabaster pb-16 md:pb-0 overflow-x-clip">
       {/* =====================================================================
           CONSTANT ATMOSPHERIC SANCTUARY CANVAS (Fixed Background Layer)
           Anchors a continuous, tranquil sanctuary atmosphere with morning light
@@ -52,7 +52,7 @@ export const Home = () => {
       ===================================================================== */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         {/* Base Cathedral Alabaster Tint */}
-        <div className="absolute inset-0 bg-[#FAF8F5]" />
+        <div className="absolute inset-0 bg-sanctuary-alabaster" />
 
         {/* Ambient Sanctuary Worship Texture with Soft Blur */}
         <div className="absolute inset-0 opacity-[0.085] mix-blend-multiply">

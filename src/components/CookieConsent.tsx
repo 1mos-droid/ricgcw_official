@@ -64,21 +64,21 @@ export const CookieConsent: React.FC = () => {
       aria-label="Cookie and Privacy Consent"
       className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-6 md:right-auto md:max-w-xl z-50 animate-in fade-in slide-in-from-bottom-5 duration-300"
     >
-      <div className="bg-[#080B11]/95 border border-[#DFC57B]/25 text-[#FAF8F5] rounded-2xl p-5 md:p-6 shadow-2xl backdrop-blur-xl space-y-4">
+      <div className="bg-sanctuary-950/95 border border-gold-400/25 text-sanctuary-alabaster rounded-2xl p-5 md:p-6 shadow-2xl backdrop-blur-xl space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#B8860B]/20 border border-[#B8860B]/40 flex items-center justify-center text-[#DFC57B] shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 shrink-0">
               <Cookie className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-[#FAF8F5]">Cookie &amp; Privacy Notice</h3>
-              <p className="text-[11px] text-[#DFC57B] font-medium">Rhema Inner Court Gospel Church (Worldwide)</p>
+              <h3 className="font-serif font-bold text-base text-sanctuary-alabaster">Cookie &amp; Privacy Notice</h3>
+              <p className="text-[11px] text-gold-400 font-medium">Rhema Inner Court Gospel Church (Worldwide)</p>
             </div>
           </div>
           <button
             onClick={() => saveConsent(false)}
-            className="text-[#FAF8F5]/60 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
+            className="text-sanctuary-alabaster/60 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
             aria-label="Close and use essential only"
           >
             <X className="w-4 h-4" />
@@ -86,35 +86,35 @@ export const CookieConsent: React.FC = () => {
         </div>
 
         {/* Description */}
-        <p className="text-xs text-[#FAF8F5]/75 leading-relaxed font-light">
+        <p className="text-xs text-sanctuary-alabaster/75 leading-relaxed font-light">
           We use essential cookies and local storage to deliver core sanctuary services, remember branch preferences, and secure Paystack online giving. We also use anonymous analytics to understand sermon and ministry engagement.
         </p>
 
         {/* Detailed Preferences Accordion */}
         {showDetails && (
-          <div className="p-3.5 rounded-xl bg-[#0F1420] border border-white/10 space-y-3 text-xs">
+          <div className="p-3.5 rounded-xl bg-sanctuary-900 border border-white/10 space-y-3 text-xs">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <div className="space-y-0.5">
-                <p className="font-bold text-[#FAF8F5] flex items-center gap-1.5">
+                <p className="font-bold text-sanctuary-alabaster flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   Essential Operations (Required)
                 </p>
-                <p className="text-[11px] text-[#FAF8F5]/60">
+                <p className="text-[11px] text-sanctuary-alabaster/60">
                   Necessary for website navigation, branch direction lookups, and secure donations.
                 </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#3B6E4C]/30 text-emerald-300 border border-[#3B6E4C]/50">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-olive-500/30 text-emerald-300 border border-olive-500/50">
                 Always Active
               </span>
             </div>
 
             <div className="flex items-center justify-between pt-1">
               <div className="space-y-0.5 pr-3">
-                <p className="font-bold text-[#FAF8F5] flex items-center gap-1.5">
-                  <Info className="w-4 h-4 text-[#DFC57B]" />
+                <p className="font-bold text-sanctuary-alabaster flex items-center gap-1.5">
+                  <Info className="w-4 h-4 text-gold-400" />
                   Anonymous Usage Analytics
                 </p>
-                <p className="text-[11px] text-[#FAF8F5]/60">
+                <p className="text-[11px] text-sanctuary-alabaster/60">
                   Helps our media secretariat measure sermon broadcasts and visitor trends without storing personal identifiers.
                 </p>
               </div>
@@ -125,7 +125,7 @@ export const CookieConsent: React.FC = () => {
                   onChange={(e) => setAnalyticsAllowed(e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-9 h-5 bg-[#1C2436] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#E6E0D3] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#B8860B]" />
+                <div className="w-9 h-5 bg-sanctuary-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-sanctuary-stone after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold-600" />
               </label>
             </div>
           </div>
@@ -136,31 +136,31 @@ export const CookieConsent: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <button
               onClick={() => saveConsent(true)}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] font-semibold uppercase tracking-wider text-[11px] transition-all shadow-md text-center cursor-pointer"
+              className="flex-1 py-2.5 px-4 rounded-xl bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold uppercase tracking-wider text-[11px] transition-all shadow-md text-center cursor-pointer"
             >
               Accept All
             </button>
             <button
               onClick={() => saveConsent(false)}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-[#0F1420] hover:bg-[#1C2436] text-[#FAF8F5] font-semibold uppercase tracking-wider text-[11px] border border-white/15 transition-colors text-center cursor-pointer"
+              className="flex-1 py-2.5 px-4 rounded-xl bg-sanctuary-900 hover:bg-sanctuary-800 text-sanctuary-alabaster font-semibold uppercase tracking-wider text-[11px] border border-white/15 transition-colors text-center cursor-pointer"
             >
               Essential Only
             </button>
             <button
               onClick={() => setShowDetails(!showDetails)}
-              className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-[#DFC57B] font-semibold uppercase tracking-wider text-[11px] border border-white/10 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+              className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-gold-400 font-semibold uppercase tracking-wider text-[11px] border border-white/10 transition-colors flex items-center justify-center gap-1 cursor-pointer"
             >
               <Settings className="w-3.5 h-3.5" />
               <span>{showDetails ? 'Hide' : 'Preferences'}</span>
             </button>
           </div>
 
-          <div className="flex items-center justify-between text-[11px] text-[#FAF8F5]/60 pt-1">
-            <Link to="/privacy" className="hover:text-[#DFC57B] underline underline-offset-2">
+          <div className="flex items-center justify-between text-[11px] text-sanctuary-alabaster/60 pt-1">
+            <Link to="/privacy" className="hover:text-gold-400 underline underline-offset-2">
               Privacy Policy
             </Link>
             <span>•</span>
-            <Link to="/terms" className="hover:text-[#DFC57B] underline underline-offset-2">
+            <Link to="/terms" className="hover:text-gold-400 underline underline-offset-2">
               Terms of Service
             </Link>
           </div>

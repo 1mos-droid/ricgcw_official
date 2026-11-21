@@ -25,7 +25,7 @@ export const TermsOfService = () => {
   };
 
   return (
-    <div className="relative isolate min-h-screen bg-[#FAF8F5] text-[#141619] selection:bg-[#B8860B] selection:text-[#FAF8F5] pb-16 md:pb-0 overflow-x-clip">
+    <div className="relative isolate min-h-screen bg-sanctuary-alabaster text-ink-primary selection:bg-gold-600 selection:text-sanctuary-alabaster pb-16 md:pb-0 overflow-x-clip">
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 bg-subtle-pattern opacity-35" />
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[780px] h-[480px] bg-[radial-gradient(ellipse_at_center,rgba(184,134,11,0.12)_0%,transparent_70%)] blur-[90px]" />
@@ -43,35 +43,35 @@ export const TermsOfService = () => {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#4A5058] hover:text-[#B8860B] transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ink-secondary hover:text-gold-600 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Return to Homepage
             </Link>
-            <span className="text-[11px] font-mono text-[#B8860B] uppercase font-semibold">
+            <span className="text-[11px] font-mono text-gold-600 uppercase font-semibold">
               Last Updated: September 2026
             </span>
           </div>
 
           {/* Header */}
-          <div className="space-y-4 border-b border-[#E6E0D3] pb-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F3EFE6] border border-[#E6E0D3] text-[#B8860B] text-xs font-bold uppercase tracking-wider">
-              <FileCheck className="w-3.5 h-3.5 text-[#B8860B]" />
+          <div className="space-y-4 border-b border-sanctuary-stone pb-8">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sanctuary-parchment border border-sanctuary-stone text-gold-600 text-xs font-bold uppercase tracking-wider">
+              <FileCheck className="w-3.5 h-3.5 text-gold-600" />
               <span>Official Terms of Service</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-[#141619] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-ink-primary tracking-tight">
               Terms of Service &amp; Ministry Guidelines
             </h1>
-            <p className="text-sm sm:text-base text-[#4A5058] leading-relaxed max-w-2xl font-light">
+            <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-2xl font-light">
               Welcome to the official digital platform of Rhema Inner Court Gospel Church (Worldwide). By accessing our website, you agree to the following sacred and administrative terms.
             </p>
           </div>
 
           {/* Terms Container */}
-          <div className="space-y-6 text-[#4A5058] text-sm leading-relaxed">
+          <div className="space-y-6 text-ink-secondary text-sm leading-relaxed">
             {/* Section 1 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">1</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">1</span>
                 Acceptance of Terms
               </h2>
               <p>
@@ -80,56 +80,56 @@ export const TermsOfService = () => {
             </section>
 
             {/* Section 2 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">2</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">2</span>
                 Ministry Purpose &amp; Respectful Use
               </h2>
               <p>
                 This platform is dedicated to proclaiming the Gospel of Jesus Christ, shepherding believers, broadcasting apostolic teachings, publishing gathering schedules, and facilitating kingdom giving.
               </p>
-              <ul className="space-y-2 list-disc pl-5 text-[#4A5058] text-xs sm:text-sm">
+              <ul className="space-y-2 list-disc pl-5 text-ink-secondary text-xs sm:text-sm">
                 <li>Users agree to use all contact forms, prayer altars, and interactive tools in good faith and with Christian reverence.</li>
                 <li>Any abusive, profane, fraudulent, or harassing submissions sent through our portal will result in immediate disqualification and potential blocking by network administrators.</li>
               </ul>
             </section>
 
             {/* Section 3 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">3</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">3</span>
                 Online Giving, Tithes &amp; Project Sponsorship
               </h2>
               <p>
                 All financial contributions, tithes, freewill offerings, theme seeds, and mission sponsorships made via our Paystack gateway are voluntary acts of worship and partnership with God&apos;s work.
               </p>
-              <div className="p-4 rounded-xl bg-white/85 border border-[#B8860B]/30 text-xs space-y-1.5">
-                <p className="font-bold text-[#B8860B]">Contribution Policy</p>
-                <p className="text-[#4A5058]">
+              <div className="p-4 rounded-xl bg-white/85 border border-gold-500/30 text-xs space-y-1.5">
+                <p className="font-bold text-gold-600">Contribution Policy</p>
+                <p className="text-ink-secondary">
                   Because financial seeds are voluntary spiritual contributions deployed directly to church welfare, rural crusades, building projects, and ministry operations, online donations are generally non-refundable. However, if an accidental duplicate transaction occurs, please contact our secretariat within 7 days with your Paystack payment reference for prompt reconciliation.
                 </p>
               </div>
             </section>
 
             {/* Section 4 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">4</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">4</span>
                 Intellectual Property &amp; Media Rights
               </h2>
               <p>
                 All sermon audio, livestream recordings, event artwork, ministry logos, photographs of our General Overseer and pastoral council, and written publications published on this site are the intellectual property of Rhema Inner Court Gospel Church (Worldwide).
               </p>
-              <ul className="space-y-2 list-disc pl-5 text-[#4A5058] text-xs sm:text-sm">
+              <ul className="space-y-2 list-disc pl-5 text-ink-secondary text-xs sm:text-sm">
                 <li>You are encouraged to share links, sermon excerpts, and scripture devotionals for personal edification and non-commercial evangelism.</li>
                 <li>Reproduction, commercial resale, or unauthorized alteration of church media without prior written permission from the General Overseer&apos;s office is strictly prohibited.</li>
               </ul>
             </section>
 
             {/* Section 5 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">5</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">5</span>
                 External Links &amp; Third-Party Services
               </h2>
               <p>
@@ -138,9 +138,9 @@ export const TermsOfService = () => {
             </section>
 
             {/* Section 6 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">6</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">6</span>
                 Governing Law &amp; Jurisdiction
               </h2>
               <p>
@@ -149,33 +149,33 @@ export const TermsOfService = () => {
             </section>
 
             {/* Section 7 */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3] space-y-4">
-              <h2 className="text-xl font-bold font-serif text-[#141619] flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-[#B8860B]/15 text-[#B8860B] border border-[#B8860B]/25 flex items-center justify-center text-xs font-bold font-mono">7</span>
+            <section className="p-6 sm:p-8 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone space-y-4">
+              <h2 className="text-xl font-bold font-serif text-ink-primary flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-gold-500/15 text-gold-600 border border-gold-500/25 flex items-center justify-center text-xs font-bold font-mono">7</span>
                 Secretariat Inquiries
               </h2>
               <p>
                 For any formal inquiries, wedding/dedication bookings, or questions about these terms, please contact:
               </p>
               <div className="grid sm:grid-cols-3 gap-4 pt-2 text-xs">
-                <div className="p-4 rounded-xl bg-white/90 border border-[#E6E0D3] space-y-1">
-                  <Mail className="w-4 h-4 text-[#B8860B] mb-1" />
-                  <p className="font-bold text-[#141619]">Email</p>
-                  <a href={`mailto:${churchInfo.contact.email}`} className="text-[#B8860B] hover:underline font-medium">
+                <div className="p-4 rounded-xl bg-white/90 border border-sanctuary-stone space-y-1">
+                  <Mail className="w-4 h-4 text-gold-600 mb-1" />
+                  <p className="font-bold text-ink-primary">Email</p>
+                  <a href={`mailto:${churchInfo.contact.email}`} className="text-gold-600 hover:underline font-medium">
                     {churchInfo.contact.email}
                   </a>
                 </div>
-                <div className="p-4 rounded-xl bg-white/90 border border-[#E6E0D3] space-y-1">
-                  <Phone className="w-4 h-4 text-[#B8860B] mb-1" />
-                  <p className="font-bold text-[#141619]">Phone</p>
-                  <a href={toTelUrl(churchInfo.contact.phone)} className="text-[#B8860B] hover:underline font-mono tabular-nums font-medium">
+                <div className="p-4 rounded-xl bg-white/90 border border-sanctuary-stone space-y-1">
+                  <Phone className="w-4 h-4 text-gold-600 mb-1" />
+                  <p className="font-bold text-ink-primary">Phone</p>
+                  <a href={toTelUrl(churchInfo.contact.phone)} className="text-gold-600 hover:underline font-mono tabular-nums font-medium">
                     {toInternationalDisplay(churchInfo.contact.phone)}
                   </a>
                 </div>
-                <div className="p-4 rounded-xl bg-white/90 border border-[#E6E0D3] space-y-1">
-                  <MapPin className="w-4 h-4 text-[#B8860B] mb-1" />
-                  <p className="font-bold text-[#141619]">Main Cathedral</p>
-                  <p className="text-[#4A5058]">Mallam-Gbawe Road, Accra, Ghana</p>
+                <div className="p-4 rounded-xl bg-white/90 border border-sanctuary-stone space-y-1">
+                  <MapPin className="w-4 h-4 text-gold-600 mb-1" />
+                  <p className="font-bold text-ink-primary">Main Cathedral</p>
+                  <p className="text-ink-secondary">Mallam-Gbawe Road, Accra, Ghana</p>
                 </div>
               </div>
             </section>

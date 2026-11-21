@@ -97,36 +97,36 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
   ];
 
   return (
-    <section id="connect" className="relative py-12 lg:py-16 px-4 sm:px-6 md:px-8 bg-transparent text-[#141619] overflow-hidden">
+    <section id="connect" className="relative py-12 lg:py-16 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E6E0D3]/80 pb-5">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-sanctuary-stone/80 pb-5">
           <div>
-            <span className="text-[11px] uppercase tracking-[0.22em] text-[#B8860B] font-semibold block mb-1">
+            <span className="text-[11px] uppercase tracking-[0.22em] text-gold-600 font-semibold block mb-1">
               Sanctuary Welcome &amp; Fellowship
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-[#141619]">
-              Connect With Our <span className="italic font-normal text-[#B8860B]">Pastoral Family</span>
+            <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-ink-primary">
+              Connect With Our <span className="italic font-normal text-gold-600">Pastoral Family</span>
             </h2>
           </div>
-          <p className="text-xs text-[#4A5058] max-w-md font-light">
+          <p className="text-xs text-ink-secondary max-w-md font-light">
             Whether you are planning your first visit, seeking spiritual counseling, or have questions, we are honored to welcome you into the sanctuary.
           </p>
         </div>
 
         {/* First Time Visitor Guide ("Plan Your Visit") */}
-        <div className="p-5 sm:p-6 rounded-2xl bg-[#F3EFE6]/74 backdrop-blur-md border border-[#E6E0D3]/90 shadow-xs space-y-5">
-          <div className="text-center md:text-left flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#E6E0D3] pb-4">
+        <div className="p-5 sm:p-6 rounded-2xl bg-sanctuary-parchment/74 backdrop-blur-md border border-sanctuary-stone/90 shadow-xs space-y-5">
+          <div className="text-center md:text-left flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-sanctuary-stone pb-4">
             <div>
-              <h3 className="text-xl font-serif font-bold text-[#141619]">First-Time Guest Experience</h3>
-              <p className="text-xs text-[#4A5058] mt-0.5">Everything you need to know before joining us this Sunday</p>
+              <h3 className="text-xl font-serif font-bold text-ink-primary">First-Time Guest Experience</h3>
+              <p className="text-xs text-ink-secondary mt-0.5">Everything you need to know before joining us this Sunday</p>
             </div>
             <button
               onClick={() => {
                 trackEvent('interaction', 'branch_modal_opened', 'Plan Your Visit Guide');
                 onOpenBranchModal?.();
               }}
-              className="px-4 py-2 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] font-medium text-xs uppercase tracking-wider flex items-center gap-2 self-center md:self-auto transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-medium text-xs uppercase tracking-wider flex items-center gap-2 self-center md:self-auto transition-colors cursor-pointer"
             >
               <MapPin className="w-3.5 h-3.5" /> View Branch Map
             </button>
@@ -136,15 +136,15 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
             {planYourVisitSteps.map((step, idx) => {
               const Icon = step.icon;
               return (
-                <div key={idx} className="p-4 sm:p-5 rounded-xl bg-white/80 backdrop-blur-sm border border-[#E6E0D3] space-y-2.5">
+                <div key={idx} className="p-4 sm:p-5 rounded-xl bg-white/80 backdrop-blur-sm border border-sanctuary-stone space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="w-9 h-9 rounded-lg bg-[#B8860B]/10 border border-[#B8860B]/20 text-[#B8860B] flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-lg bg-gold-500/10 border border-gold-500/20 text-gold-600 flex items-center justify-center">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <span className="font-serif font-bold text-base text-[#B8860B]/40 tabular-nums">{step.step}</span>
+                    <span className="font-serif font-bold text-base text-gold-500/40 tabular-nums">{step.step}</span>
                   </div>
-                  <h4 className="font-bold text-sm text-[#141619]">{step.title}</h4>
-                  <p className="text-xs text-[#4A5058] leading-relaxed">{step.desc}</p>
+                  <h4 className="font-bold text-sm text-ink-primary">{step.title}</h4>
+                  <p className="text-xs text-ink-secondary leading-relaxed">{step.desc}</p>
                 </div>
               );
             })}
@@ -157,16 +157,16 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
           <div className="lg:col-span-5 space-y-8">
             {/* Quick Contact Cards */}
             <div className="space-y-3">
-              <div className="p-5 rounded-2xl bg-[#F3EFE6]/74 backdrop-blur-md border border-[#E6E0D3]/90 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#B8860B]/10 border border-[#B8860B]/20 text-[#B8860B] flex items-center justify-center shrink-0">
+              <div className="p-5 rounded-2xl bg-sanctuary-parchment/74 backdrop-blur-md border border-sanctuary-stone/90 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-600 flex items-center justify-center shrink-0">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-[#787F87] font-semibold uppercase tracking-wider">Main Cathedral Location</p>
-                  <p className="font-bold text-sm text-[#141619]">{churchInfo.contact.location}</p>
+                  <p className="text-[10px] text-ink-muted font-semibold uppercase tracking-wider">Main Cathedral Location</p>
+                  <p className="font-bold text-sm text-ink-primary">{churchInfo.contact.location}</p>
                   <button
                     onClick={() => onOpenBranchModal?.()}
-                    className="text-xs text-[#B8860B] font-semibold hover:underline mt-0.5 flex items-center gap-1 cursor-pointer"
+                    className="text-xs text-gold-600 font-semibold hover:underline mt-0.5 flex items-center gap-1 cursor-pointer"
                   >
                     <span>View All {branches.length} Branch Addresses</span>
                     <ChevronDown className="w-3 h-3 -rotate-90" />
@@ -174,23 +174,23 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-[#F3EFE6]/74 backdrop-blur-md border border-[#E6E0D3]/90 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#3B6E4C]/12 text-[#3B6E4C] border border-[#3B6E4C]/25 flex items-center justify-center shrink-0">
+              <div className="p-5 rounded-2xl bg-sanctuary-parchment/74 backdrop-blur-md border border-sanctuary-stone/90 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-olive-500/12 text-olive-500 border border-olive-500/25 flex items-center justify-center shrink-0">
                   <MessageCircle className="w-6 h-6" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-[#787F87] font-semibold uppercase tracking-wider">
+                  <p className="text-[10px] text-ink-muted font-semibold uppercase tracking-wider">
                     Official Helpline &amp; WhatsApp
                   </p>
                   <div className="flex flex-wrap items-baseline gap-x-2 mt-0.5">
                     <a
                       href={toTelUrl(churchInfo.contact.phone)}
                       onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section')}
-                      className="font-bold font-mono text-sm text-[#141619] hover:text-[#B8860B] tabular-nums"
+                      className="font-bold font-mono text-sm text-ink-primary hover:text-gold-600 tabular-nums"
                     >
                       {toInternationalDisplay(churchInfo.contact.phone)}
                     </a>
-                    <span className="text-xs font-mono text-[#787F87] tabular-nums">
+                    <span className="text-xs font-mono text-ink-muted tabular-nums">
                       ({toLocalMoMoDisplay(churchInfo.contact.phone)})
                     </span>
                   </div>
@@ -200,50 +200,50 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Connect Section')}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#3B6E4C]/12 hover:bg-[#3B6E4C]/20 text-[#3B6E4C] text-[11px] font-semibold transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-olive-500/12 hover:bg-olive-500/20 text-olive-500 text-[11px] font-semibold transition-colors"
                     >
                       <MessageCircle className="w-3 h-3" /> WhatsApp
                     </a>
                     <a
                       href={toTelUrl(churchInfo.contact.phone)}
                       onClick={() => trackEvent('conversion', 'call_hotline', 'Connect Section Pill')}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-[#E6E0D3] text-[#141619] text-[11px] font-semibold transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-sanctuary-stone text-ink-primary text-[11px] font-semibold transition-colors"
                     >
-                      <Phone className="w-3 h-3 text-[#B8860B]" /> Call
+                      <Phone className="w-3 h-3 text-gold-600" /> Call
                     </a>
                     <button
                       type="button"
                       onClick={handleCopyPhone}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-[#E6E0D3] text-[#4A5058] text-[11px] font-medium transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 hover:bg-white border border-sanctuary-stone text-ink-secondary text-[11px] font-medium transition-colors cursor-pointer"
                     >
-                      {copiedPhone ? <Check className="w-3 h-3 text-[#3B6E4C]" /> : <Copy className="w-3 h-3" />}
+                      {copiedPhone ? <Check className="w-3 h-3 text-olive-500" /> : <Copy className="w-3 h-3" />}
                       <span>{copiedPhone ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-[#F3EFE6]/74 backdrop-blur-md border border-[#E6E0D3]/90 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#B8860B]/10 border border-[#B8860B]/20 text-[#B8860B] flex items-center justify-center shrink-0">
+              <div className="p-5 rounded-2xl bg-sanctuary-parchment/74 backdrop-blur-md border border-sanctuary-stone/90 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-600 flex items-center justify-center shrink-0">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-[#787F87] font-semibold uppercase tracking-wider">Official Email</p>
+                  <p className="text-[10px] text-ink-muted font-semibold uppercase tracking-wider">Official Email</p>
                   <a
                     href={`mailto:${churchInfo.contact.email}`}
-                    className="font-bold font-mono text-sm text-[#141619] hover:text-[#B8860B]"
+                    className="font-bold font-mono text-sm text-ink-primary hover:text-gold-600"
                   >
                     {churchInfo.contact.email}
                   </a>
-                  <p className="text-xs text-[#4A5058] mt-0.5">For administrative letters &amp; bookings</p>
+                  <p className="text-xs text-ink-secondary mt-0.5">For administrative letters &amp; bookings</p>
                 </div>
               </div>
             </div>
 
             {/* FAQs Accordion */}
             <div className="space-y-4">
-              <h4 className="font-serif font-bold text-xl text-[#141619] flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-[#B8860B]" />
+              <h4 className="font-serif font-bold text-xl text-ink-primary flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-gold-600" />
                 Frequently Asked Questions
               </h4>
 
@@ -253,16 +253,16 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                   return (
                     <div
                       key={faq.id || idx}
-                      className="rounded-2xl bg-[#F3EFE6]/74 backdrop-blur-md border border-[#E6E0D3]/90 overflow-hidden transition-all"
+                      className="rounded-2xl bg-sanctuary-parchment/74 backdrop-blur-md border border-sanctuary-stone/90 overflow-hidden transition-all"
                     >
                       <button
                         type="button"
                         aria-expanded={isOpen}
                         onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                        className="w-full p-4 text-left font-semibold text-xs sm:text-sm text-[#141619] flex items-center justify-between gap-3 cursor-pointer hover:bg-white/40 transition-colors"
+                        className="w-full p-4 text-left font-semibold text-xs sm:text-sm text-ink-primary flex items-center justify-between gap-3 cursor-pointer hover:bg-white/40 transition-colors"
                       >
                         <span>{faq.q}</span>
-                        <ChevronDown className={`w-4 h-4 text-[#787F87] shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#B8860B]' : ''}`} />
+                        <ChevronDown className={`w-4 h-4 text-ink-muted shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-gold-600' : ''}`} />
                       </button>
                       <AnimatePresence initial={false}>
                         {isOpen && (
@@ -273,7 +273,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                             className="overflow-hidden"
                           >
-                            <div className="p-4 pt-2 text-xs sm:text-sm text-[#4A5058] leading-relaxed border-t border-[#E6E0D3]/60 font-light">
+                            <div className="p-4 pt-2 text-xs sm:text-sm text-ink-secondary leading-relaxed border-t border-sanctuary-stone/60 font-light">
                               {faq.a}
                             </div>
                           </motion.div>
@@ -288,30 +288,30 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
 
           {/* Right Column: Interactive Inquiry Form */}
           <div className="lg:col-span-7">
-            <div className="p-5 sm:p-7 rounded-2xl bg-[#F3EFE6]/78 backdrop-blur-md border border-[#E6E0D3]/90 shadow-xs space-y-4">
+            <div className="p-5 sm:p-7 rounded-2xl bg-sanctuary-parchment/78 backdrop-blur-md border border-sanctuary-stone/90 shadow-xs space-y-4">
               <div className="space-y-1.5">
-                <span className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-[#B8860B]/10 text-[#B8860B] border border-[#B8860B]/20 inline-block">
+                <span className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-gold-500/10 text-gold-600 border border-gold-500/20 inline-block">
                   Online Inquiry &amp; Counseling
                 </span>
-                <h3 className="text-xl font-bold font-serif text-[#141619]">Send a Direct Message to Pastors</h3>
-                <p className="text-xs text-[#4A5058] font-light">
+                <h3 className="text-xl font-bold font-serif text-ink-primary">Send a Direct Message to Pastors</h3>
+                <p className="text-xs text-ink-secondary font-light">
                   Fill out the form below and our secretariat will get back to you promptly.
                 </p>
               </div>
 
               {formSubmitted ? (
-                <div className="p-8 rounded-2xl bg-[#3B6E4C]/10 border border-[#3B6E4C]/25 text-center space-y-4">
-                  <CheckCircle2 className="w-10 h-10 text-[#3B6E4C] mx-auto" />
+                <div className="p-8 rounded-2xl bg-olive-500/10 border border-olive-500/25 text-center space-y-4">
+                  <CheckCircle2 className="w-10 h-10 text-olive-500 mx-auto" />
                   <div className="space-y-1.5">
-                    <h4 className="text-lg font-bold font-serif text-[#141619]">Message Received in Faith</h4>
-                    <p className="text-xs sm:text-sm text-[#4A5058]">
+                    <h4 className="text-lg font-bold font-serif text-ink-primary">Message Received in Faith</h4>
+                    <p className="text-xs sm:text-sm text-ink-secondary">
                       Thank you for reaching out. A pastoral representative will contact you shortly. God bless you!
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={handleResetForm}
-                    className="px-5 py-2 rounded-full bg-white border border-[#E6E0D3] text-xs font-semibold text-[#141619] hover:border-[#B8860B] transition-colors cursor-pointer"
+                    className="px-5 py-2 rounded-full bg-white border border-sanctuary-stone text-xs font-semibold text-ink-primary hover:border-gold-500 transition-colors cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -332,48 +332,48 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold uppercase text-[#4A5058] mb-1.5 tracking-wider">Full Name</label>
+                      <label className="block text-xs font-semibold uppercase text-ink-secondary mb-1.5 tracking-wider">Full Name</label>
                       <input
                         type="text"
                         required
                         placeholder="e.g. John Mensah"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-3.5 py-3 rounded-xl bg-[#FAF8F5]/90 border border-[#E6E0D3] text-[#141619] text-sm outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B]"
+                        className="w-full px-3.5 py-3 rounded-xl bg-sanctuary-alabaster/90 border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold uppercase text-[#4A5058] mb-1.5 tracking-wider">Phone Number</label>
+                      <label className="block text-xs font-semibold uppercase text-ink-secondary mb-1.5 tracking-wider">Phone Number</label>
                       <input
                         type="tel"
                         required
                         placeholder="+233 24 485 7403"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-3.5 py-3 rounded-xl bg-[#FAF8F5]/90 border border-[#E6E0D3] text-[#141619] text-sm tabular-nums font-mono outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B]"
+                        className="w-full px-3.5 py-3 rounded-xl bg-sanctuary-alabaster/90 border border-sanctuary-stone text-ink-primary text-sm tabular-nums font-mono outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-[#4A5058] mb-1.5 tracking-wider">Email Address</label>
+                    <label className="block text-xs font-semibold uppercase text-ink-secondary mb-1.5 tracking-wider">Email Address</label>
                     <input
                       type="email"
                       required
                       placeholder="name@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3.5 py-3 rounded-xl bg-[#FAF8F5]/90 border border-[#E6E0D3] text-[#141619] text-sm outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B]"
+                      className="w-full px-3.5 py-3 rounded-xl bg-sanctuary-alabaster/90 border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-[#4A5058] mb-1.5 tracking-wider">Subject / Purpose</label>
+                    <label className="block text-xs font-semibold uppercase text-ink-secondary mb-1.5 tracking-wider">Subject / Purpose</label>
                     <select
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full px-3.5 py-3 rounded-xl bg-[#FAF8F5]/90 border border-[#E6E0D3] text-[#141619] text-sm outline-none focus:border-[#B8860B]"
+                      className="w-full px-3.5 py-3 rounded-xl bg-sanctuary-alabaster/90 border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500"
                     >
                       <option>First-time Visitor Inquiry</option>
                       <option>Pastoral Counseling Booking</option>
@@ -384,21 +384,21 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-[#4A5058] mb-1.5 tracking-wider">Your Message</label>
+                    <label className="block text-xs font-semibold uppercase text-ink-secondary mb-1.5 tracking-wider">Your Message</label>
                     <textarea
                       rows={4}
                       required
                       placeholder="How may we serve or pray with you?"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-3.5 py-3 rounded-xl bg-[#FAF8F5]/90 border border-[#E6E0D3] text-[#141619] text-sm outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B]"
+                      className="w-full px-3.5 py-3 rounded-xl bg-sanctuary-alabaster/90 border border-sanctuary-stone text-ink-primary text-sm outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3.5 px-6 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] font-semibold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-60"
+                    className="w-full py-3.5 px-6 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-semibold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-60"
                   >
                     <Send className="w-4 h-4" />
                     <span>{isSubmitting ? 'Sending Message...' : 'Send Message to Pastoral Office'}</span>

@@ -250,9 +250,9 @@ export const ConsecrationProgram: React.FC = () => {
       : 'text-base sm:text-lg';
 
   return (
-    <div className="min-h-screen bg-[#070C18] text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950 pb-20">
+    <div className="min-h-screen bg-sanctuary-midnight text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950 pb-20">
       {/* 1. Compact Sticky Mobile Header in Original Midnight & Gold */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#070C18]/90 border-b border-slate-800/80 shadow-md shadow-black/40">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-sanctuary-midnight/90 border-b border-slate-800/80 shadow-md shadow-black/40">
         <div className="max-w-2xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
           {/* Church Circular Logo & Event Header */}
           <div className="flex items-center gap-3 min-w-0">
@@ -452,7 +452,7 @@ export const ConsecrationProgram: React.FC = () => {
 
           {filteredList.length === 0 ? (
             /* Empty Search / Filter State */
-            <div className="p-10 text-center rounded-3xl border border-slate-800 bg-[#0a1020]/90 space-y-3">
+            <div className="p-10 text-center rounded-3xl border border-slate-800 bg-sanctuary-deep/90 space-y-3">
               <div className="w-12 h-12 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                 <Search className="w-6 h-6" />
               </div>
@@ -520,8 +520,8 @@ export const ConsecrationProgram: React.FC = () => {
                         hasSubItems ? 'cursor-pointer active:scale-[0.99]' : ''
                       } ${
                         isLive
-                          ? 'bg-[#121c33] border-2 border-amber-500/80 shadow-xl shadow-amber-950/40 ring-1 ring-amber-500/30'
-                          : 'bg-[#0a1020]/90 border border-slate-800/80 hover:border-amber-500/30'
+                          ? 'bg-sanctuary-card-dark border-2 border-amber-500/80 shadow-xl shadow-amber-950/40 ring-1 ring-amber-500/30'
+                          : 'bg-sanctuary-deep/90 border border-slate-800/80 hover:border-amber-500/30'
                       }`}
                     >
                       {/* Top Meta Line: Badges & Status */}

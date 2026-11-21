@@ -102,10 +102,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-8 ${
         useLightHeader
-          ? 'bg-[#FAF8F5]/90 backdrop-blur-xl border-b border-[#E6E0D3]/90 py-3 shadow-[0_6px_28px_-10px_rgba(20,22,25,0.09)]'
+          ? 'bg-sanctuary-alabaster/90 backdrop-blur-xl border-b border-sanctuary-stone/90 py-3 shadow-[0_6px_28px_-10px_rgba(20,22,25,0.09)]'
           : isOpen
-          ? 'bg-[#080B11]/95 backdrop-blur-xl border-b border-[#E6E0D3]/15 py-3 shadow-xl'
-          : 'bg-gradient-to-b from-[#080B11]/90 via-[#080B11]/55 to-transparent py-4'
+          ? 'bg-sanctuary-950/95 backdrop-blur-xl border-b border-sanctuary-stone/15 py-3 shadow-xl'
+          : 'bg-gradient-to-b from-sanctuary-950/90 via-sanctuary-950/55 to-transparent py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 h-11 sm:h-12 relative overflow-hidden">
@@ -126,8 +126,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div
               className={`w-9 h-9 sm:w-10 sm:h-10 rounded-2xl overflow-hidden border shadow-sm transition-colors shrink-0 ${
                 useLightHeader
-                  ? 'border-[#B8860B]/35 group-hover:border-[#B8860B] bg-[#F3EFE6]'
-                  : 'border-[#B8860B]/40 group-hover:border-[#DFC57B] bg-[#0F1420]'
+                  ? 'border-gold-500/35 group-hover:border-gold-500 bg-sanctuary-parchment'
+                  : 'border-gold-500/40 group-hover:border-gold-400 bg-sanctuary-900'
               }`}
             >
               <img
@@ -151,15 +151,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span
                     className={`font-serif font-bold text-base sm:text-lg tracking-wider block leading-tight transition-colors ${
                       useLightHeader
-                        ? 'text-[#141619] group-hover:text-[#B8860B]'
-                        : 'text-[#FAF8F5] group-hover:text-[#DFC57B]'
+                        ? 'text-ink-primary group-hover:text-gold-600'
+                        : 'text-sanctuary-alabaster group-hover:text-gold-400'
                     }`}
                   >
                     {churchInfo.shortName}
                   </span>
                   <p
                     className={`text-[10px] hidden sm:block tracking-wide font-light transition-colors ${
-                      useLightHeader ? 'text-[#4A5058]' : 'text-[#FAF8F5]/70'
+                      useLightHeader ? 'text-ink-secondary' : 'text-sanctuary-alabaster/70'
                     }`}
                   >
                     Rhema Inner Court Gospel Church
@@ -198,11 +198,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className={`px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wider transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
                         useLightHeader
                           ? isActive
-                            ? 'text-[#B8860B] bg-[#B8860B]/10 font-semibold'
-                            : 'text-[#4A5058] hover:text-[#141619] hover:bg-[#E6E0D3]/50'
+                            ? 'text-gold-600 bg-gold-500/10 font-semibold'
+                            : 'text-ink-secondary hover:text-ink-primary hover:bg-sanctuary-stone/50'
                           : isActive
-                          ? 'text-[#DFC57B] bg-white/10 font-semibold'
-                          : 'text-[#FAF8F5]/85 hover:text-[#DFC57B] hover:bg-white/5'
+                          ? 'text-gold-400 bg-white/10 font-semibold'
+                          : 'text-sanctuary-alabaster/85 hover:text-gold-400 hover:bg-white/5'
                       }`}
                     >
                       {link.name}
@@ -217,9 +217,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   trackEvent('conversion', 'giving_modal_opened', 'Navbar');
                   onOpenGivingModal?.();
                 }}
-                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0 ml-1"
+                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0 ml-1"
               >
-                <Heart className="w-3.5 h-3.5 fill-[#FAF8F5]" />
+                <Heart className="w-3.5 h-3.5 fill-sanctuary-alabaster" />
                 <span>Give</span>
               </button>
 
@@ -228,8 +228,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setIsOpen(false)}
                 className={`p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer shrink-0 ml-1 ${
                   useLightHeader
-                    ? 'bg-[#E6E0D3]/60 hover:bg-[#E6E0D3] text-[#141619]'
-                    : 'bg-white/10 hover:bg-white/20 text-[#FAF8F5]'
+                    ? 'bg-sanctuary-stone/60 hover:bg-sanctuary-stone text-ink-primary'
+                    : 'bg-white/10 hover:bg-white/20 text-sanctuary-alabaster'
                 }`}
                 aria-label="Close navigation bar"
               >
@@ -251,9 +251,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   trackEvent('conversion', 'giving_modal_opened', 'Navbar');
                   onOpenGivingModal?.();
                 }}
-                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+                className="px-3.5 sm:px-4 py-1.5 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster text-xs font-semibold uppercase tracking-wider shadow-sm flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
               >
-                <Heart className="w-3.5 h-3.5 fill-[#FAF8F5]" />
+                <Heart className="w-3.5 h-3.5 fill-sanctuary-alabaster" />
                 <span>Give</span>
               </button>
 
@@ -262,12 +262,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-expanded={isOpen}
                 className={`px-3.5 sm:px-4 py-1.5 rounded-full border text-xs font-medium uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
                   useLightHeader
-                    ? 'bg-[#F3EFE6] hover:bg-[#E6E0D3] text-[#141619] border-[#E6E0D3]'
-                    : 'bg-white/10 hover:bg-white/15 text-[#FAF8F5] border-white/15'
+                    ? 'bg-sanctuary-parchment hover:bg-sanctuary-stone text-ink-primary border-sanctuary-stone'
+                    : 'bg-white/10 hover:bg-white/15 text-sanctuary-alabaster border-white/15'
                 }`}
                 aria-label="Open navigation menu"
               >
-                <Menu className={`w-4 h-4 ${useLightHeader ? 'text-[#B8860B]' : 'text-[#DFC57B]'}`} />
+                <Menu className={`w-4 h-4 ${useLightHeader ? 'text-gold-600' : 'text-gold-400'}`} />
                 <span>Menu</span>
               </button>
             </motion.div>
@@ -279,10 +279,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       {isScrolled && (
         <div
           aria-hidden="true"
-          className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#B8860B]/15 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold-500/15 pointer-events-none"
         >
           <div
-            className="h-full bg-gradient-to-r from-[#B8860B] via-[#DFC57B] to-[#B8860B] origin-left transition-transform duration-150 ease-out"
+            className="h-full bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 origin-left transition-transform duration-150 ease-out"
             style={{ transform: `scaleX(${scrollProgress})` }}
           />
         </div>

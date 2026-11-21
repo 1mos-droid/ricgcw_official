@@ -4,53 +4,74 @@
 
 @theme {
   /* 1. Primary Surfaces — Warm Cathedral Daylight (80% of site) */
-  --color-sanctuary-alabaster: #faf8f5; /* Main page background */
-  --color-sanctuary-parchment: #f3efe6; /* Secondary section / card surface */
-  --color-sanctuary-stone: #e6e0d3;     /* Subtle hairline borders */
+  --color-sanctuary-alabaster: #faf8f5;
+  --color-sanctuary-parchment: #f3efe6;
+  --color-sanctuary-stone: #e6e0d3;
+  --color-sanctuary-stone-strong: #d4cbb8;
 
-  /* 2. Deep Contrast Surfaces — Reserved for Hero Overlay & Media Theater (20% of site) */
-  --color-sanctuary-950: #080b11;       /* Deepest obsidian navy */
-  --color-sanctuary-900: #0f1420;       /* Elevated dark surface */
-  --color-sanctuary-850: #141b2a;       /* Mid dark layer */
-  --color-sanctuary-800: #1c2436;       /* Dark border / muted surface */
+  /* 2. Deep Contrast Surfaces — Reserved for Hero Overlay, Media Theater & Liturgical Mode */
+  --color-sanctuary-950: #080b11;
+  --color-sanctuary-900: #0f1420;
+  --color-sanctuary-850: #141b2a;
+  --color-sanctuary-800: #1c2436;
   --color-sanctuary-700: #25314c;
   --color-sanctuary-600: #334466;
+  --color-sanctuary-midnight: #070c18;
+  --color-sanctuary-deep: #0a1020;
+  --color-sanctuary-card-dark: #121c33;
 
-  /* 3. Typography Ink Hierarchy */
-  --color-ink-primary: #141619;         /* Warm charcoal (never pure #000000) */
-  --color-ink-secondary: #4a5058;       /* Body copy slate */
-  --color-ink-muted: #787f87;           /* Captions, scripture refs, metadata */
+  /* 3. Typography Ink Hierarchy (WCAG AA on Alabaster & Parchment) */
+  --color-ink-primary: #141619;
+  --color-ink-secondary: #4a5058;
+  --color-ink-muted: #5c636b;
 
-  /* 4. The 5 Sacred Tabernacle Colors — Refined Biblical Pigments */
-  --color-tabernacle-white: #faf8f5;    /* Purity & Light (Alabaster) */
-  --color-tabernacle-gold: #b8860b;     /* Kingship & Glory (Burnished Temple Gold) */
-  --color-tabernacle-gold-soft: #dfc57b;/* Soft champagne gold for dark-surface text */
-  --color-tabernacle-orange: #c84b31;   /* Holy Spirit Fire (Refined Terracotta Ember) */
-  --color-tabernacle-green: #3b6e4c;    /* Fruitfulness & Rest (Deep Olive / Cypress) */
-  --color-tabernacle-black: #141619;    /* Humility & Reverence (Obsidian Charcoal) */
+  /* 4. The 5 Sacred Tabernacle Colors & Gold Scale */
+  --color-tabernacle-white: #faf8f5;
+  --color-tabernacle-gold: #b8860b;
+  --color-tabernacle-gold-soft: #dfc57b;
+  --color-tabernacle-orange: #c84b31;
+  --color-tabernacle-green: #3b6e4c;
+  --color-tabernacle-black: #141619;
 
-  /* Compatible Gold & Flame accents */
   --color-gold-300: #fef3c7;
   --color-gold-400: #dfc57b;
   --color-gold-500: #b8860b;
-  --color-gold-600: #996515;
+  --color-gold-600: #8c5e0b;
   --color-gold-700: #7b4f0b;
   --color-gold-champagne: #dfc57b;
   --color-flame-500: #c84b31;
   --color-emerald-500: #3b6e4c;
+  --color-olive-500: #3b6e4c;
+  --color-olive-600: #2f593d;
 
   /* 5. Strict 2-Font Editorial System */
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --font-cinzel: "Cormorant Garamond", "Playfair Display", Georgia, serif;
 
-  /* 6. Reverent Cathedral Motion Curves */
+  /* 6. Fluid Editorial Type Scale */
+  --text-display: clamp(2.75rem, 6vw, 5rem);
+  --text-display--line-height: 1.04;
+  --text-h1: clamp(2.25rem, 4.5vw, 3.75rem);
+  --text-h1--line-height: 1.08;
+  --text-h2: clamp(1.875rem, 3.5vw, 3rem);
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.375rem, 2vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.65;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.55;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.4;
+
+  /* 7. Reverent Cathedral Motion Curves */
   --ease-cathedral: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   * {
-    border-color: #e6e0d3;
+    border-color: var(--color-sanctuary-stone);
   }
 
   html {
@@ -64,6 +85,8 @@
 
   body {
     font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     background-color: var(--color-sanctuary-alabaster);
     color: var(--color-ink-primary);
     overflow-x: hidden;
@@ -71,6 +94,17 @@
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -95,14 +129,41 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #f3efe6;
+    background: var(--color-sanctuary-parchment);
   }
   ::-webkit-scrollbar-thumb {
-    background: #d4cbb8;
+    background: var(--color-sanctuary-stone-strong);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #b8860b;
+    background: var(--color-gold-500);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: 180% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes god-ray-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -117,13 +178,13 @@
   /* Editorial & Sanctuary Surfaces */
   .card-clean {
     background-color: #ffffff;
-    border: 1px solid #e6e0d3;
+    border: 1px solid var(--color-sanctuary-stone);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.3s var(--ease-cathedral), box-shadow 0.3s var(--ease-cathedral), border-color 0.3s var(--ease-cathedral);
   }
 
   .card-clean:hover {
-    border-color: #d4cbb8;
+    border-color: var(--color-sanctuary-stone-strong);
     box-shadow: 0 10px 25px -5px rgba(20, 22, 25, 0.06);
     transform: translateY(-2px);
   }
@@ -135,33 +196,74 @@
   }
 
   .card-gold:hover {
-    border-color: #b8860b;
+    border-color: var(--color-gold-500);
     box-shadow: 0 12px 30px -5px rgba(184, 134, 11, 0.15);
     transform: translateY(-2px);
   }
 
   .card-navy {
-    background-color: #080b11;
+    background-color: var(--color-sanctuary-950);
     border: 1px solid rgba(223, 197, 123, 0.2);
-    color: #faf8f5;
+    color: var(--color-sanctuary-alabaster);
   }
 
   /* Warm Gold Shimmer Text */
   .text-gold-gradient {
-    background: linear-gradient(135deg, #7b4f0b 0%, #b8860b 50%, #996515 100%);
+    background: linear-gradient(135deg, var(--color-gold-700) 0%, var(--color-gold-500) 50%, var(--color-gold-600) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gold-light-gradient {
-    background: linear-gradient(135deg, #fef3c7 0%, #dfc57b 60%, #b8860b 100%);
+    background: linear-gradient(135deg, var(--color-gold-300) 0%, var(--color-gold-400) 60%, var(--color-gold-500) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
+  /* One-shot metallic light sweep for Hero accent phrase */
+  .animate-gold-sweep {
+    background-image: linear-gradient(
+      110deg,
+      var(--color-gold-400) 0%,
+      var(--color-gold-400) 36%,
+      #fff7d6 50%,
+      var(--color-gold-400) 64%,
+      var(--color-gold-400) 100%
+    );
+    background-size: 260% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer-sweep 2.2s var(--ease-cathedral) 0.9s 1 both;
+  }
+
+  .animate-shimmer-bar {
+    animation: shimmer-bar 1.5s var(--ease-cathedral) infinite;
+  }
+
+  .animate-god-ray {
+    animation: god-ray-spin 56s linear infinite;
+  }
+
+  .animate-god-ray-reverse {
+    animation: god-ray-spin 74s linear infinite reverse;
+  }
+
+  /* Single GPU-friendly composite daylight sanctuary canvas (0 blur filter layers) */
+  .sanctuary-composite-canvas {
+    background-color: var(--color-sanctuary-alabaster);
+    background-image:
+      radial-gradient(ellipse 68% 42% at 50% -4%, rgba(184, 134, 11, 0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 48% 40% at 8% 32%, rgba(223, 197, 123, 0.14) 0%, transparent 72%),
+      radial-gradient(ellipse 52% 44% at 92% 64%, rgba(184, 134, 11, 0.11) 0%, transparent 72%),
+      radial-gradient(ellipse 45% 36% at 32% 92%, rgba(200, 75, 49, 0.05) 0%, transparent 72%),
+      radial-gradient(circle at center, transparent 40%, rgba(230, 224, 211, 0.45) 100%);
+  }
+
   /* Background Grid Pattern */
   .bg-subtle-pattern {
-    background-image: radial-gradient(#e6e0d3 1px, transparent 1px);
+    background-image: radial-gradient(var(--color-sanctuary-stone) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
@@ -172,20 +274,20 @@
 
   /* Sanctuary Frosted Parchment & Daylight Surfaces */
   .sanctuary-card {
-    background-color: rgba(243, 239, 230, 0.76);
+    background-color: rgba(243, 239, 230, 0.78);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(230, 224, 211, 0.9);
   }
 
   .sanctuary-glass {
-    background-color: rgba(255, 255, 255, 0.78);
+    background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(230, 224, 211, 0.95);
   }
 
-  /* Hide scrollbars cleanly for horizontal nav strips */
+  /* Hide scrollbars cleanly for horizontal nav strips & mobile carousels */
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -194,4 +296,3 @@
     display: none;
   }
 }
-

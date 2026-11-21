@@ -47,7 +47,7 @@ export const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070c18] flex items-center justify-center p-4 sm:p-6 relative overflow-hidden text-slate-100">
+    <div className="min-h-screen bg-sanctuary-midnight flex items-center justify-center p-4 sm:p-6 relative overflow-hidden text-slate-100">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />

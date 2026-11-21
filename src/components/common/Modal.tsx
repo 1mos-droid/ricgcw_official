@@ -106,7 +106,7 @@ export const Modal: React.FC<ModalProps> = ({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#080B11]/75 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
+        className="fixed inset-0 bg-sanctuary-950/75 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
         onClick={closeOnBackdrop ? onClose : undefined}
         aria-hidden="true"
       />
@@ -115,27 +115,27 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         ref={modalRef}
         tabIndex={-1}
-        className={`relative w-full ${maxWidthClass} bg-[#FAF8F5] text-[#141619] border border-[#E6E0D3] rounded-3xl shadow-2xl overflow-hidden z-10 my-6 max-h-[92vh] flex flex-col focus:outline-none animate-in zoom-in-95 duration-200`}
+        className={`relative w-full ${maxWidthClass} bg-sanctuary-alabaster text-ink-primary border border-sanctuary-stone rounded-3xl shadow-2xl overflow-hidden z-10 my-6 max-h-[92vh] flex flex-col focus:outline-none animate-in zoom-in-95 duration-200`}
       >
         {/* Header */}
-        <div className="p-5 sm:p-7 bg-[#080B11] text-[#FAF8F5] flex items-center justify-between border-b border-white/10 shrink-0">
+        <div className="p-5 sm:p-7 bg-sanctuary-950 text-sanctuary-alabaster flex items-center justify-between border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
             {icon && (
-              <div className="w-11 h-11 rounded-2xl bg-[#B8860B]/20 border border-[#B8860B]/40 flex items-center justify-center text-[#DFC57B] shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400 shrink-0">
                 {icon}
               </div>
             )}
             <div>
-              <h2 id={titleId} className="text-lg sm:text-xl font-bold font-serif text-[#FAF8F5] leading-snug">
+              <h2 id={titleId} className="text-lg sm:text-xl font-bold font-serif text-sanctuary-alabaster leading-snug">
                 {title}
               </h2>
-              {subtitle && <p className="text-xs text-[#DFC57B] font-medium mt-0.5">{subtitle}</p>}
+              {subtitle && <p className="text-xs text-gold-400 font-medium mt-0.5">{subtitle}</p>}
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-[#FAF8F5]/75 hover:text-white flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DFC57B] shrink-0"
+            className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-sanctuary-alabaster/75 hover:text-white flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold-400 shrink-0"
             aria-label={closeLabel}
           >
             <X className="w-5 h-5" />

@@ -6,6 +6,14 @@ import pastorImg2 from '../assets/church/pastor/IMG-20260408-WA0062.jpg';
 import coupleImg1 from '../assets/church/pastor_and_wife/IMG-20260408-WA0060.jpg';
 import coupleImg2 from '../assets/church/pastor_and_wife/IMG-20260408-WA0063.jpg';
 
+import logoPicture from '../assets/church/logo.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import themePicture from '../assets/church/this_year_theme/IMG-20260408-WA0064.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import pastorsPicture from '../assets/church/all_church_pastors/IMG-20260301-WA0187.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import overseerPicture from '../assets/church/pastor/IMG-20260408-WA0061.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import pastor2Picture from '../assets/church/pastor/IMG-20260408-WA0062.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import couple1Picture from '../assets/church/pastor_and_wife/IMG-20260408-WA0060.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+import couple2Picture from '../assets/church/pastor_and_wife/IMG-20260408-WA0063.jpg?w=480;960;1440&format=avif;webp;jpg&as=picture';
+
 export interface ServiceSchedule {
   day: string;
   time: string;
@@ -481,3 +489,23 @@ export const IMAGES = {
   couple1: coupleImg1,
   couple2: coupleImg2,
 };
+
+export const PICTURES = {
+  logo: logoPicture,
+  theme: themePicture,
+  pastors: pastorsPicture,
+  overseer: overseerPicture,
+  pastor2: pastor2Picture,
+  couple1: couple1Picture,
+  couple2: couple2Picture,
+};
+
+export const IMAGE_DIMENSIONS = {
+  logo: { width: 1080, height: 984 },
+  theme: { width: 1080, height: 360 },
+  pastors: { width: 1280, height: 960 },
+  overseer: { width: 750, height: 1051 },
+  pastor2: { width: 771, height: 1080 },
+  couple1: { width: 1051, height: 750 },
+  couple2: { width: 914, height: 1280 },
+} as const;

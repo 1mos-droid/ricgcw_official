@@ -46,20 +46,20 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
   ];
 
   return (
-    <section id="media" className="py-12 lg:py-16 px-4 sm:px-6 md:px-8 bg-transparent text-[#141619]">
+    <section id="media" className="py-12 lg:py-16 px-4 sm:px-6 md:px-8 bg-transparent text-ink-primary">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-[#080B11]/95 backdrop-blur-xl text-[#FAF8F5] rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E6E0D3]/20 ring-1 ring-[#DFC57B]/15 shadow-[0_24px_64px_-20px_rgba(8,11,17,0.42)] relative overflow-hidden space-y-8">
+        <div className="bg-sanctuary-950/95 backdrop-blur-xl text-sanctuary-alabaster rounded-3xl p-6 sm:p-8 lg:p-10 border border-sanctuary-stone/20 ring-1 ring-gold-400/15 shadow-[0_24px_64px_-20px_rgba(8,11,17,0.42)] relative overflow-hidden space-y-8">
           {/* Background ambient lighting */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#B8860B]/10 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none" />
 
           {/* Section Header */}
           <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <span className="text-[11px] uppercase tracking-[0.22em] text-[#DFC57B] font-semibold block mb-1 font-sans">
+              <span className="text-[11px] uppercase tracking-[0.22em] text-gold-400 font-semibold block mb-1 font-sans">
                 The Living Word &amp; Prayer Altar
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl tracking-tight text-white">
-                Immerse in the <span className="italic font-normal text-[#DFC57B]">Living Rhema</span>
+                Immerse in the <span className="italic font-normal text-gold-400">Living Rhema</span>
               </h2>
             </div>
             <a
@@ -67,7 +67,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('conversion', 'social_click', 'YouTube Channel')}
-              className="self-start md:self-auto inline-flex items-center gap-2 text-xs text-[#DFC57B] hover:underline tracking-wide font-sans cursor-pointer"
+              className="self-start md:self-auto inline-flex items-center gap-2 text-xs text-gold-400 hover:underline tracking-wide font-sans cursor-pointer"
             >
               <YoutubeIcon className="w-4 h-4 text-red-500" />
               <span>Official YouTube Archive</span>
@@ -80,14 +80,14 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
             {/* Left Column (7 Cols): Featured Sermon & Vinyl Tracklist */}
             <div className="lg:col-span-7 space-y-6 flex flex-col justify-between">
               {/* Featured Message Theater Card */}
-              <div className="bg-[#0F1420] rounded-2xl border border-white/10 overflow-hidden shadow-lg relative group">
+              <div className="bg-sanctuary-900 rounded-2xl border border-white/10 overflow-hidden shadow-lg relative group">
                 <div className="p-6 sm:p-8 space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest font-sans">
                       <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                       Featured Broadcast
                     </div>
-                    <span className="text-xs text-[#DFC57B] font-mono tracking-wider">
+                    <span className="text-xs text-gold-400 font-mono tracking-wider">
                       {featuredSermon.scripture}
                     </span>
                   </div>
@@ -110,7 +110,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => trackEvent('conversion', 'watch_sermon', featuredSermon.title)}
-                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#DFC57B] hover:bg-white text-[#080B11] text-xs uppercase tracking-wider font-bold transition-all shadow-lg active:scale-95 cursor-pointer"
+                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gold-400 hover:bg-white text-sanctuary-950 text-xs uppercase tracking-wider font-bold transition-all shadow-lg active:scale-95 cursor-pointer"
                     >
                       <Play className="w-4 h-4 fill-current ml-0.5" />
                       <span>Watch Full Ministration</span>
@@ -133,22 +133,22 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => trackEvent('conversion', 'sermon_series_click', sermon.title)}
-                      className="p-4 sm:p-5 rounded-2xl bg-[#0F1420]/65 hover:bg-[#0F1420] border border-white/5 hover:border-[#DFC57B]/40 transition-all flex items-center justify-between gap-4 group cursor-pointer"
+                      className="p-4 sm:p-5 rounded-2xl bg-sanctuary-900/65 hover:bg-sanctuary-900 border border-white/5 hover:border-gold-400/40 transition-all flex items-center justify-between gap-4 group cursor-pointer"
                     >
                       <div className="space-y-0.5">
-                        <div className="flex items-center gap-2 text-xs text-[#DFC57B]">
+                        <div className="flex items-center gap-2 text-xs text-gold-400">
                           <span className="font-mono text-[10px] uppercase">{sermon.date}</span>
                           <span>•</span>
                           <span className="font-mono text-[10px] text-white/50">{sermon.scripture}</span>
                         </div>
-                        <p className="font-serif text-lg text-white group-hover:text-[#DFC57B] transition-colors">
+                        <p className="font-serif text-lg text-white group-hover:text-gold-400 transition-colors">
                           {sermon.title}
                         </p>
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
                         <span className="text-xs text-white/40 font-mono hidden sm:inline">{sermon.duration}</span>
-                        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#DFC57B] group-hover:text-[#080B11] transition-all">
+                        <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-gold-400 group-hover:text-sanctuary-950 transition-all">
                           <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                         </div>
                       </div>
@@ -159,9 +159,9 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
             </div>
 
             {/* Right Column (5 Cols): The Inner Court Prayer Altar */}
-            <div className="lg:col-span-5 bg-gradient-to-br from-[#141B2A] to-[#0F1420] rounded-3xl p-8 sm:p-10 border border-[#DFC57B]/30 flex flex-col justify-between space-y-8 shadow-2xl relative overflow-hidden">
+            <div className="lg:col-span-5 bg-gradient-to-br from-sanctuary-850 to-sanctuary-900 rounded-3xl p-8 sm:p-10 border border-gold-400/30 flex flex-col justify-between space-y-8 shadow-2xl relative overflow-hidden">
               <div className="space-y-4 relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#DFC57B]/15 border border-[#DFC57B]/30 text-[#DFC57B] text-[10px] font-bold uppercase tracking-widest font-sans">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-400/15 border border-gold-400/30 text-gold-400 text-[10px] font-bold uppercase tracking-widest font-sans">
                   <HeartHandshake className="w-3.5 h-3.5" />
                   <span>Intercessory Altar</span>
                 </div>
@@ -173,13 +173,13 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                 <p className="text-white/70 text-sm font-light leading-relaxed">
                   &ldquo;The Lord hear thee in the day of trouble; the name of the God of Jacob defend thee; send thee help from the sanctuary, and strengthen thee out of Zion.&rdquo;
                 </p>
-                <p className="text-xs font-serif italic text-[#DFC57B]">
+                <p className="text-xs font-serif italic text-gold-400">
                   — Psalm 20:1-2
                 </p>
 
                 <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs text-white/80">
                   <p className="font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-[#DFC57B]" />
+                    <Sparkles className="w-3.5 h-3.5 text-gold-400" />
                     Confidential Pastoral Covering
                   </p>
                   <p className="font-light leading-relaxed text-white/70">
@@ -195,7 +195,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                     trackEvent('conversion', 'prayer_modal_opened', 'Media Hub Altar');
                     onOpenPrayerModal?.();
                   }}
-                  className="w-full py-4 rounded-full bg-[#DFC57B] hover:bg-white text-[#080B11] font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95 cursor-pointer"
+                  className="w-full py-4 rounded-full bg-gold-400 hover:bg-white text-sanctuary-950 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95 cursor-pointer"
                 >
                   <HeartHandshake className="w-4 h-4 fill-current" />
                   <span>Submit Confidential Prayer Petition</span>
@@ -206,7 +206,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                   <a
                     href={toTelUrl(churchInfo.contact.phone)}
                     onClick={() => trackEvent('conversion', 'call_hotline', 'Media Hub Altar')}
-                    className="inline-flex items-center gap-1 text-[#DFC57B] hover:underline font-mono font-semibold tabular-nums"
+                    className="inline-flex items-center gap-1 text-gold-400 hover:underline font-mono font-semibold tabular-nums"
                   >
                     <Phone className="w-3 h-3" />
                     {toInternationalDisplay(churchInfo.contact.phone)}

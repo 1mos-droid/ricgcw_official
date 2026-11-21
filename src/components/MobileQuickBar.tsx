@@ -58,22 +58,22 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
   return (
     <aside
       aria-label="Mobile quick actions"
-      className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#080B11]/92 border-t border-[#DFC57B]/15 px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sanctuary-950/92 border-t border-gold-400/15 px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isHidden ? 'translate-y-full' : 'translate-y-0'
       }`}
     >
       <div className="grid grid-cols-4 gap-2 text-center">
         <button
           onClick={handleCall}
-          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-[#FAF8F5]/85 hover:text-white hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
+          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-sanctuary-alabaster/85 hover:text-white hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
         >
-          <Phone className="w-4 h-4 text-[#DFC57B] mb-0.5" />
+          <Phone className="w-4 h-4 text-gold-400 mb-0.5" />
           <span className="text-[10px] font-medium">Call</span>
         </button>
 
         <button
           onClick={handleWhatsApp}
-          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-[#FAF8F5]/85 hover:text-emerald-400 hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
+          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-sanctuary-alabaster/85 hover:text-emerald-400 hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
         >
           <MessageCircle className="w-4 h-4 text-emerald-400 mb-0.5" />
           <span className="text-[10px] font-medium">WhatsApp</span>
@@ -81,17 +81,17 @@ export const MobileQuickBar: React.FC<MobileQuickBarProps> = ({
 
         <button
           onClick={handleBranchClick}
-          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-[#FAF8F5]/85 hover:text-white hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
+          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl text-sanctuary-alabaster/85 hover:text-white hover:bg-white/5 active:scale-95 transition-all cursor-pointer"
         >
-          <MapPin className="w-4 h-4 text-[#DFC57B] mb-0.5" />
+          <MapPin className="w-4 h-4 text-gold-400 mb-0.5" />
           <span className="text-[10px] font-medium">Branches</span>
         </button>
 
         <button
           onClick={handleGivingClick}
-          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl bg-[#B8860B] hover:bg-[#996515] text-[#FAF8F5] active:scale-95 shadow-sm transition-all font-semibold cursor-pointer"
+          className="min-h-[44px] flex flex-col items-center justify-center p-1.5 rounded-xl bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster active:scale-95 shadow-sm transition-all font-semibold cursor-pointer"
         >
-          <Heart className="w-4 h-4 fill-[#FAF8F5] mb-0.5" />
+          <Heart className="w-4 h-4 fill-sanctuary-alabaster mb-0.5" />
           <span className="text-[10px] font-semibold">Give</span>
         </button>
       </div>
