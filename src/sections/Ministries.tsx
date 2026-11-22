@@ -29,14 +29,14 @@ export const Ministries: React.FC<MinistriesProps> = ({
     <section
       id="ministries"
       aria-labelledby="ministries-heading"
-      className="bg-public-surface text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
+      className="bg-public-muted text-public-ink py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
           headingId="ministries-heading"
           eyebrow="Get Involved"
-          title="Find your"
-          accent="community"
+          title="Life is better"
+          accent="together."
           description="Every ministry builds caring relationships, biblical maturity, and practical service across every age group."
         />
 
@@ -59,17 +59,17 @@ export const Ministries: React.FC<MinistriesProps> = ({
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20">
             {ministries.map((ministry) => (
               <article
                 key={ministry.id}
-                className="bg-public-canvas border border-public-border rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6"
+                className="border-t border-public-ink/25 py-8 sm:py-10 flex flex-col justify-between gap-6"
               >
                 <div className="space-y-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
                     {ministry.tagline}
                   </p>
-                  <h3 className="text-xl font-bold tracking-tight text-public-ink">
+                  <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-public-ink">
                     {ministry.name}
                   </h3>
                   <p className="text-sm sm:text-base text-public-ink-muted leading-relaxed">
@@ -77,7 +77,7 @@ export const Ministries: React.FC<MinistriesProps> = ({
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-public-border space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-2 text-sm text-public-ink-muted">
                     <Clock className="w-4 h-4 text-public-accent shrink-0 mt-0.5" />
                     <span>{ministry.schedule}</span>
@@ -86,7 +86,7 @@ export const Ministries: React.FC<MinistriesProps> = ({
                   <button
                     type="button"
                     onClick={() => handleJoinMinistry(ministry.name)}
-                    className="w-full min-h-[44px] px-4 py-2.5 rounded-lg border border-public-border bg-public-surface hover:border-public-ink hover:bg-public-ink hover:text-white text-public-ink text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    className="min-h-[44px] py-2 text-public-ink text-sm font-bold inline-flex items-center justify-between gap-3 underline underline-offset-4 hover:text-public-accent transition-colors cursor-pointer shrink-0"
                   >
                     <span>Connect with {ministry.name.split(' ')[0]}</span>
                     <ArrowRight className="w-4 h-4 shrink-0" />

@@ -125,14 +125,14 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
     <section
       id="connect"
       aria-labelledby="connect-heading"
-      className="bg-public-surface text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
+      className="bg-public-surface text-public-ink py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
           headingId="connect-heading"
           eyebrow="Connect & Questions"
-          title="Connect"
-          accent="with us"
+          title="Let’s take the"
+          accent="next step."
           description="Planning your first Sunday or looking to speak with our pastoral team? We are glad to help."
         />
 
@@ -140,7 +140,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
           {/* Left Column: First-Time Steps, Contact Details & FAQ */}
           <div className="lg:col-span-5 space-y-8 min-w-0">
             {/* Compact First-Time Visitor Guide */}
-            <div className="p-6 rounded-2xl bg-public-canvas border border-public-border space-y-4">
+            <div className="p-6 sm:p-8 bg-public-muted space-y-4">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
                   First-Time Visitors
@@ -150,7 +150,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
 
               <ol className="space-y-2.5 text-sm text-public-ink-muted list-decimal pl-5">
                 <li>
-                  Choose a campus ({branchListText}) and plan to arrive around 08:45 AM GMT.
+                  Choose a campus ({branchListText}), check its service time, and arrive about 15 minutes early.
                 </li>
                 <li>
                   Come as you are — ushers will help you and your family find comfortable seating.
@@ -173,7 +173,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
             <div className="space-y-3">
               <h3 className="text-base font-bold text-public-ink">Church Secretariat</h3>
 
-              <div className="p-5 rounded-2xl bg-public-canvas border border-public-border space-y-4">
+              <div className="py-5 border-y border-public-border space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 min-w-0">
                     <Phone className="w-4 h-4 text-public-accent shrink-0 mt-1" />
@@ -256,7 +256,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
             {faqs.length > 0 && (
               <div className="space-y-3">
                 <h3 className="text-base font-bold text-public-ink">Frequently Asked Questions</h3>
-                <div className="divide-y divide-public-border border border-public-border rounded-2xl bg-public-canvas overflow-hidden">
+                <div className="divide-y divide-public-border border border-public-border rounded-xl bg-public-canvas overflow-hidden">
                   {faqs.map((faq, idx) => {
                     const isOpen = openFaqIndex === idx;
                     return (
@@ -294,7 +294,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
           </div>
 
           {/* Right Column: Clean Labeled Inquiry Form */}
-          <div className="lg:col-span-7 bg-public-canvas border border-public-border rounded-2xl p-6 sm:p-8 lg:p-10">
+          <div className="lg:col-span-7 bg-public-canvas border border-public-border rounded-xl p-6 sm:p-8 lg:p-10">
             {formSubmitted ? (
               <div
                 role="status"
@@ -367,7 +367,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Your full name"
-                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-border text-base text-public-ink placeholder:text-public-ink-muted/60 focus:border-public-ink focus:outline-none"
+                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-ink-muted/75 text-base text-public-ink placeholder:text-public-ink-muted focus:border-public-ink focus:ring-2 focus:ring-public-accent"
                     />
                   </div>
 
@@ -385,7 +385,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+233 24 000 0000"
-                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-border text-base text-public-ink placeholder:text-public-ink-muted/60 focus:border-public-ink focus:outline-none"
+                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-ink-muted/75 text-base text-public-ink placeholder:text-public-ink-muted focus:border-public-ink focus:ring-2 focus:ring-public-accent"
                     />
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="you@example.com"
-                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-border text-base text-public-ink placeholder:text-public-ink-muted/60 focus:border-public-ink focus:outline-none"
+                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-ink-muted/75 text-base text-public-ink placeholder:text-public-ink-muted focus:border-public-ink focus:ring-2 focus:ring-public-accent"
                     />
                   </div>
 
@@ -420,7 +420,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                       id="connect-subject"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-border text-base text-public-ink focus:border-public-ink focus:outline-none"
+                      className="w-full min-h-[48px] px-3.5 py-2.5 rounded-lg bg-public-surface border border-public-ink-muted/75 text-base text-public-ink focus:border-public-ink focus:ring-2 focus:ring-public-accent"
                     >
                       <option value="First-time Visitor Inquiry">First-time Visitor Inquiry</option>
                       <option value="Prayer & Pastoral Counseling">Prayer &amp; Pastoral Counseling</option>
@@ -445,7 +445,7 @@ export const Connect = ({ onOpenBranchModal }: ConnectProps) => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="How can our church family welcome or pray with you?"
-                    className="w-full px-3.5 py-3 rounded-lg bg-public-surface border border-public-border text-base text-public-ink placeholder:text-public-ink-muted/60 focus:border-public-ink focus:outline-none resize-y"
+                    className="w-full px-3.5 py-3 rounded-lg bg-public-surface border border-public-ink-muted/75 text-base text-public-ink placeholder:text-public-ink-muted focus:border-public-ink focus:ring-2 focus:ring-public-accent resize-y"
                   />
                 </div>
 

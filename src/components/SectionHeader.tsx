@@ -14,10 +14,7 @@ interface SectionHeaderProps {
   className?: string;
 }
 
-/**
- * Clean editorial section header in bold Plus Jakarta Sans with restrained eyebrow label
- * and optional right-aligned callout or action slot.
- */
+/** Shared public heading hierarchy, with optional supporting copy or action. */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
   eyebrow,
   title,
@@ -34,18 +31,17 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   const titleColorClass = isDark ? 'text-white' : 'text-public-ink';
   const accentColorClass = isDark ? 'text-public-accent-light' : 'text-public-accent';
   const descColorClass = isDark ? 'text-white/75' : 'text-public-ink-muted';
-  const borderClass = isDark ? 'border-white/15' : 'border-public-border';
 
   const HeadingTag = as;
 
   return (
-    <div className={`pb-6 border-b ${borderClass} ${className}`}>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
-        <div className="space-y-2.5 min-w-0 max-w-2xl">
-          <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${eyebrowClass}`}>
+    <div className={className}>
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
+        <div className="space-y-4 min-w-0 max-w-3xl">
+          <p className={`text-xs font-bold uppercase tracking-[0.16em] ${eyebrowClass}`}>
             {eyebrow}
           </p>
-          <HeadingTag id={headingId} className={`font-sans text-h2 font-bold tracking-tight ${titleColorClass}`}>
+          <HeadingTag id={headingId} className={`font-sans text-[clamp(2.25rem,4.2vw,4rem)] leading-[1.06] font-extrabold tracking-[-0.045em] text-balance ${titleColorClass}`}>
             {title}
             {accent ? (
               <>
@@ -59,7 +55,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {rightSlot ? (
           <div className="shrink-0">{rightSlot}</div>
         ) : description ? (
-          <p className={`text-base max-w-md leading-relaxed ${descColorClass}`}>{description}</p>
+          <p className={`text-base max-w-sm leading-relaxed ${descColorClass}`}>{description}</p>
         ) : null}
       </div>
     </div>

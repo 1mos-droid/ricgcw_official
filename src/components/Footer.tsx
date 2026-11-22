@@ -31,15 +31,15 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="bg-public-ink text-white border-t border-white/10 pt-16 sm:pt-20 pb-10">
+    <footer className="bg-public-ink text-white border-t border-white/10 pt-16 sm:pt-24 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
         {/* Top Invitation Band */}
-        <div className="pb-10 border-b border-white/15 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-xl">
+        <div className="pb-12 sm:pb-16 border-b border-white/20 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-5 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-public-accent-light">
-              Sunday Service · 09:00 AM GMT
+              You are welcome here
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            <h2 className="text-[clamp(2.5rem,5vw,4.75rem)] leading-[1.04] font-extrabold tracking-[-0.045em] text-white text-balance">
               Come worship with us this Sunday.
             </h2>
           </div>
@@ -48,7 +48,7 @@ export const Footer: React.FC<FooterProps> = ({
             <button
               type="button"
               onClick={() => onOpenBranchModal?.()}
-              className="min-h-[44px] px-5 py-2.5 rounded-lg border border-white/25 hover:border-white text-white text-sm font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer"
+              className="min-h-[44px] px-5 py-2.5 rounded-full border border-white/25 hover:border-white text-white text-sm font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer"
             >
               <MapPin className="w-4 h-4 text-public-accent-light" />
               <span>Plan your visit</span>
@@ -60,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({
                 trackEvent('conversion', 'giving_modal_opened', 'Footer');
                 onOpenGivingModal?.();
               }}
-              className="min-h-[44px] px-5 py-2.5 rounded-lg bg-public-accent-light hover:bg-white text-public-ink text-sm font-semibold transition-colors cursor-pointer"
+              className="min-h-[44px] px-5 py-2.5 rounded-full bg-public-accent-light hover:bg-white text-public-ink text-sm font-semibold transition-colors cursor-pointer"
             >
               Give Online
             </button>
@@ -77,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({
                 alt="RICGCW Logo"
                 width={IMAGE_DIMENSIONS.logo.width}
                 height={IMAGE_DIMENSIONS.logo.height}
-                className="w-10 h-10 rounded-lg object-cover border border-white/20 shrink-0"
+                className="w-10 h-10 rounded-full object-cover border border-white/20 shrink-0"
               />
               <div>
                 <p className="font-sans font-extrabold text-lg text-white leading-tight">
@@ -97,7 +97,7 @@ export const Footer: React.FC<FooterProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
-                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
+                className="min-w-[44px] min-h-[44px] rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <YoutubeIcon className="w-4 h-4" />
               </a>
@@ -106,7 +106,7 @@ export const Footer: React.FC<FooterProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
+                className="min-w-[44px] min-h-[44px] rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <FacebookIcon className="w-4 h-4" />
               </a>
@@ -115,7 +115,7 @@ export const Footer: React.FC<FooterProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
+                className="min-w-[44px] min-h-[44px] rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <InstagramIcon className="w-4 h-4" />
               </a>
@@ -290,7 +290,7 @@ export const Footer: React.FC<FooterProps> = ({
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Back to top"
-            className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-lg border border-white/20 hover:border-white text-white inline-flex items-center justify-center gap-2 transition-colors cursor-pointer self-start sm:self-auto"
+            className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-full border border-white/20 hover:border-white text-white inline-flex items-center justify-center gap-2 transition-colors cursor-pointer self-start sm:self-auto"
           >
             <span>Top</span>
             <ArrowUp className="w-4 h-4" />

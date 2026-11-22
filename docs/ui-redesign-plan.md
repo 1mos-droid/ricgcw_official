@@ -1,6 +1,32 @@
 # RICGCW public website redesign plan
 
-Status: proposed implementation plan; no UI implementation has started.
+Status: a second public design direction is implemented locally following the owner's expanded reference selection. The original brief below is retained as history; the current direction is described next.
+
+## Current design direction — 2026-11-22
+
+References approved by the owner: [VOUS](https://www.vouschurch.com/), [Passion City](https://passioncitychurch.com/), [Bridgetown](https://bridgetown.church/), [Elevation](https://www.elevationchurch.org/), [Mosaic](https://www.mosaic.org/), [Church of the City](https://www.cotc.com/), and [Life.Church](https://www.life.church/). Action Chapel is excluded.
+
+The original RICGCW interpretation combines confident typography and invitations (VOUS/Mosaic), mission and leadership storytelling (Passion City), generous spacing (Bridgetown), early branch discovery (Church of the City), a deliberate media feature (Elevation), and clear visitor next steps (Life.Church). No reference branding, photography, or code was copied.
+
+- Deep forest `#182E29`, ivory `#F5F4EC`, and lime `#DAED9A` replace the terracotta public palette. Legacy admin/program color tokens remain unchanged.
+- The homepage and sponsorship page use larger type and actual church photography. The hero preserves editable headlines/subtitles and the image's natural proportions.
+- Branches highlight the main gathering, fall back to Sunday when no main marker exists, and retain the complete week in native disclosures. Branch dialogs, maps, calling, and clipboard feedback remain available.
+- Leadership, ministries, media/prayer, events, contact, navigation, and footer now use distinct compositions with fewer repeated cards. Visitor guidance directs people to branch-specific times rather than one arrival time for all locations.
+- Existing routes, context data, ministry prayer defaults, giving amounts/categories, payment handlers, and form storage behavior remain connected. No dependencies were added.
+
+Verification: the full suite passed with 107 tests across 22 suites; a subsequent focused run passed all 10 homepage/branch tests, including the additional Sunday fallback test. Production build and lint passed (13 pre-existing Fast Refresh warnings). Chromium checks passed at 360, 390, 768, 1024, and 1440px for both public pages, with no document overflow or uncaught page errors. The browser also exercised mobile menu Escape/focus return, weekly disclosure, branch selection, ministry prefill, and the sponsorship giving dialog. Primary solid text/background pairs measure at least 5.2:1 contrast.
+
+Browser verification blocks external requests and uses bundled fallback content. Live Firebase content, actual payment/delivery, and a full accessibility audit are outside this pass. Existing contact submission behavior can report success after a storage failure (`Connect.handleSubmit` catches the failure and sets `formSubmitted` in `finally`); this remains a separate backend/error-handling issue and was not changed as part of the visual redesign.
+
+Review captures are saved under `/tmp/ricgcw-new-home-{width}.png`, `/tmp/ricgcw-new-sponsorship-{width}.png`, and `/tmp/ricgcw-new-giving-390.png`.
+
+## Previous design verification — 2026-11-22
+
+- `npm test`: 21 suites, 105 tests passed.
+- `npm run build`: TypeScript and production build passed.
+- `npm run lint`: passed with no errors; 13 existing Fast Refresh export warnings in `motion.tsx` and `ChurchContext.tsx` remain.
+- Local Chromium checks of the homepage and sponsorship page at 390px, 768px, and 1440px found no horizontal document overflow. External requests were blocked, so these checks use bundled fallback content rather than live Firebase data.
+- Full keyboard/dialog walkthroughs, contrast measurement, 200% zoom, live content review, and reference-site screenshot comparisons remain unverified in this pass. No payment, form submission, production content change, or deployment was performed.
 
 ## 1. Objective and references
 

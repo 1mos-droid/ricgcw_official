@@ -3,16 +3,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Public Website Editorial Palette (Strict Warm Off-White, White, Charcoal & Restrained Terracotta) */
-  --color-public-canvas: #f4f2ed;
+  /* Public surfaces; legacy admin and program tokens remain independent. */
+  --color-public-canvas: #f5f4ec;
   --color-public-surface: #ffffff;
-  --color-public-muted: #ebe8e1;
-  --color-public-ink: #171715;
-  --color-public-ink-muted: #55554f;
-  --color-public-border: #d9d7d0;
-  --color-public-accent: #964221;
-  --color-public-accent-hover: #7c3519;
-  --color-public-accent-light: #e5b69c;
+  --color-public-muted: #e8ebdf;
+  --color-public-ink: #182e29;
+  --color-public-ink-muted: #52605a;
+  --color-public-border: #d5d9cd;
+  --color-public-accent: #386044;
+  --color-public-accent-hover: #284932;
+  --color-public-accent-light: #daed9a;
 
   /* Mapped Legacy Tokens for Sub-Pages (Privacy, Terms, Auth, NotFound) */
   --color-sanctuary-alabaster: #f4f2ed;
@@ -106,7 +106,8 @@
   [tabindex]:focus-visible,
   summary:focus-visible {
     outline: 2px solid var(--color-public-accent);
-    outline-offset: 2px;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--color-public-surface);
   }
 
   @media (prefers-reduced-motion: reduce) {

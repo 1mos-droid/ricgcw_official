@@ -38,7 +38,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="bg-public-canvas text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
+      className="bg-public-surface text-public-ink py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
@@ -51,8 +51,8 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           {/* Overseer Portrait Column */}
-          <div className="lg:col-span-5 space-y-3">
-            <div className="aspect-[3/4] w-full max-w-md mx-auto lg:max-w-none rounded-2xl overflow-hidden bg-public-surface border border-public-border">
+          <div className="lg:col-span-5 space-y-0">
+            <div className="aspect-[3/4] w-full max-w-md mx-auto lg:max-w-none overflow-hidden bg-public-muted">
               <ResponsiveImage
                 src={PICTURES.pastor2}
                 alt={`${churchInfo.founder.name} — ${churchInfo.founder.title}`}
@@ -64,19 +64,19 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
               />
             </div>
 
-            <div className="max-w-md mx-auto lg:max-w-none pt-1">
+            <div className="max-w-md mx-auto lg:max-w-none p-5 bg-public-accent-light">
               <p className="text-lg font-bold text-public-ink">{churchInfo.founder.name}</p>
               <p className="text-sm text-public-ink-muted">{churchInfo.founder.title}</p>
             </div>
           </div>
 
           {/* Vision, Mandate & Actions Column */}
-          <div className="lg:col-span-7 space-y-8 min-w-0">
-            <div className="bg-public-surface border border-public-border rounded-2xl p-6 sm:p-8 space-y-4">
+          <div className="lg:col-span-7 space-y-8 min-w-0 lg:pl-6 lg:pt-6">
+            <div className="space-y-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
                 Our Vision
               </p>
-              <blockquote className="text-xl sm:text-2xl font-bold tracking-tight text-public-ink leading-snug">
+              <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.035em] text-public-ink leading-[1.2]">
                 {churchInfo.vision}
               </blockquote>
               <p className="text-base text-public-ink-muted leading-relaxed">
@@ -93,7 +93,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
               <button
                 type="button"
                 onClick={() => onOpenPrayerModal?.()}
-                className="min-h-[48px] px-6 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-base inline-flex items-center justify-center transition-colors cursor-pointer"
+                className="min-h-[48px] px-6 py-3 rounded-full bg-public-ink hover:bg-public-accent text-white font-semibold text-base inline-flex items-center justify-center transition-colors cursor-pointer"
               >
                 Request prayer
               </button>
@@ -103,7 +103,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Welcome Overseer')}
-                className="min-h-[48px] px-6 py-3 rounded-lg border border-public-border bg-public-surface hover:border-public-ink text-public-ink font-semibold text-base inline-flex items-center justify-center gap-2 transition-colors"
+                className="min-h-[48px] px-6 py-3 rounded-full border border-public-border bg-public-surface hover:border-public-ink text-public-ink font-semibold text-base inline-flex items-center justify-center gap-2 transition-colors"
               >
                 <MessageCircle className="w-4 h-4 text-public-accent shrink-0" />
                 <span>Message on WhatsApp</span>
@@ -115,7 +115,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
               {mottoItems.map((item) => (
                 <div
                   key={item.title}
-                  className="p-5 rounded-xl bg-public-surface border border-public-border space-y-1.5"
+                  className="py-5 border-t border-public-border space-y-2"
                 >
                   <p className="text-xs font-semibold text-public-accent">{item.scripture}</p>
                   <p className="text-base font-bold text-public-ink leading-snug">{item.title}</p>
@@ -124,7 +124,7 @@ export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerMo
             </div>
 
             {/* Collapsible Identity & Church Colors Panel (Preserves #identity Anchor) */}
-            <div id="identity" className="border border-public-border rounded-2xl bg-public-surface overflow-hidden">
+            <div id="identity" className="border-y border-public-border overflow-hidden">
               <button
                 type="button"
                 aria-expanded={showIdentity}

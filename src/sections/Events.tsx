@@ -38,7 +38,7 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
     <section
       id="events"
       aria-labelledby="events-heading"
-      className="bg-public-canvas text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
+      className="bg-public-canvas text-public-ink py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
@@ -50,13 +50,13 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
         />
 
         {events.length === 0 ? (
-          <div className="rounded-2xl border border-public-border bg-public-surface p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="border-y border-public-border py-8 sm:py-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <h3 className="text-xl font-bold text-public-ink">
                 Regular Weekly Gatherings Continue
               </h3>
               <p className="text-base text-public-ink-muted leading-relaxed">
-                No special conference is listed right now. Join us every Sunday at 09:00 AM GMT across Mallam, Kokrobitey, and Langma, or contact us for upcoming seasonal announcements.
+                No special conference is listed right now. Join a regular Sunday service at Mallam, Kokrobitey, or Langma. View the service times for your branch, or contact us for upcoming announcements.
               </p>
             </div>
 
@@ -64,13 +64,13 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
               <button
                 type="button"
                 onClick={() => onOpenBranchModal?.()}
-                className="min-h-[44px] px-5 py-2.5 rounded-lg bg-public-ink hover:bg-public-accent text-white text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap"
+                className="min-h-[44px] px-5 py-2.5 rounded-full bg-public-ink hover:bg-public-accent text-white text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap"
               >
                 View service times
               </button>
               <a
                 href="#connect"
-                className="min-h-[44px] px-5 py-2.5 rounded-lg border border-public-border bg-public-canvas hover:border-public-ink text-public-ink text-sm font-semibold inline-flex items-center justify-center transition-colors whitespace-nowrap"
+                className="min-h-[44px] px-5 py-2.5 rounded-full border border-public-border bg-public-canvas hover:border-public-ink text-public-ink text-sm font-semibold inline-flex items-center justify-center transition-colors whitespace-nowrap"
               >
                 Contact the church
               </a>
@@ -83,7 +83,7 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
               return (
                 <article
                   key={ev.id}
-                  className="bg-public-surface border border-public-border rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6"
+                  className="bg-public-surface border border-public-border p-6 sm:p-7 flex flex-col justify-between gap-6"
                 >
                   <div className="space-y-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -125,7 +125,7 @@ export const Events: React.FC<EventsProps> = ({ onOpenBranchModal }) => {
                     <button
                       type="button"
                       onClick={() => handleDownloadIcs(ev)}
-                      className="w-full min-h-[44px] px-4 py-2.5 rounded-lg border border-public-border bg-public-canvas hover:border-public-ink text-public-ink text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                      className="w-full min-h-[44px] px-4 py-2.5 rounded-full border border-public-border bg-public-canvas hover:border-public-ink text-public-ink text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
                       {isSaved ? (
                         <>

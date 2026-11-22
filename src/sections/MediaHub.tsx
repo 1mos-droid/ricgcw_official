@@ -18,39 +18,39 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
     <section
       id="media"
       aria-labelledby="media-heading"
-      className="bg-public-ink text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-white/10"
+      className="bg-public-ink text-white py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 border-b border-white/10"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
           variant="dark"
           headingId="media-heading"
-          eyebrow="Messages & Prayer"
-          title="Watch"
-          accent="messages"
+          eyebrow="The Word. Wherever you are."
+          title="A message for"
+          accent="your everyday."
           description="Catch Sunday services, Bible teachings, and church updates directly on our verified online channels."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Official Messages & Channel Card */}
-          <div className="lg:col-span-7 bg-[#22221F] border border-white/15 rounded-2xl overflow-hidden grid grid-cols-1 sm:grid-cols-12">
-            <div className="sm:col-span-5 aspect-[3/4] sm:aspect-auto bg-black/30 overflow-hidden">
+          <div className="lg:col-span-8 overflow-hidden grid grid-cols-1 sm:grid-cols-2 bg-white/5">
+            <div className="aspect-[3/4] sm:aspect-auto sm:min-h-[500px] bg-black/20 overflow-hidden">
               <ResponsiveImage
                 src={PICTURES.couple2}
                 alt="Rev. Nicholas Dobeng and Lady Pastor Dobeng"
                 width={IMAGE_DIMENSIONS.couple2.width}
                 height={IMAGE_DIMENSIONS.couple2.height}
-                sizes="(min-width: 1024px) 24vw, (min-width: 640px) 40vw, 100vw"
+                sizes="(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 100vw"
                 pictureClassName="w-full h-full block"
                 className="w-full h-full object-cover object-top"
               />
             </div>
 
-            <div className="sm:col-span-7 p-6 sm:p-8 flex flex-col justify-between gap-6">
+            <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
               <div className="space-y-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent-light">
                   Official Media Channels
                 </p>
-                <h3 className="text-2xl font-bold tracking-tight text-white">
+                <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
                   Sunday Services &amp; Sermons Online
                 </h3>
                 <p className="text-base text-white/75 leading-relaxed">
@@ -64,7 +64,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackEvent('interaction', 'youtube_channel_open', 'Media Hub')}
-                  className="w-full min-h-[48px] px-5 py-3 rounded-lg bg-public-accent-light hover:bg-white text-public-ink font-semibold text-base inline-flex items-center justify-center gap-2 transition-colors"
+                  className="w-full min-h-[48px] px-5 py-3 rounded-full bg-public-accent-light hover:bg-white text-public-ink font-semibold text-base inline-flex items-center justify-center gap-2 transition-colors"
                 >
                   <Play className="w-4 h-4 shrink-0" />
                   <span>Watch on YouTube</span>
@@ -76,7 +76,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                     href={churchInfo.contact.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-[44px] px-4 py-2 rounded-lg border border-white/20 hover:border-white text-white text-sm font-medium inline-flex items-center justify-center gap-1.5 transition-colors"
+                    className="min-h-[44px] px-4 py-2 rounded-full border border-white/20 hover:border-white text-white text-sm font-medium inline-flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <span>Facebook</span>
                     <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -86,7 +86,7 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
                     href={churchInfo.contact.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-[44px] px-4 py-2 rounded-lg border border-white/20 hover:border-white text-white text-sm font-medium inline-flex items-center justify-center gap-1.5 transition-colors"
+                    className="min-h-[44px] px-4 py-2 rounded-full border border-white/20 hover:border-white text-white text-sm font-medium inline-flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <span>Instagram</span>
                     <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -97,19 +97,19 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
           </div>
 
           {/* Dedicated High-Contrast Prayer Support Card */}
-          <div className="lg:col-span-5 bg-public-surface text-public-ink rounded-2xl p-7 sm:p-8 flex flex-col justify-between gap-6">
+          <div className="lg:col-span-4 bg-public-accent-light text-public-ink p-7 sm:p-8 flex flex-col justify-between gap-6">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-public-canvas border border-public-border flex items-center justify-center text-public-accent">
+              <div className="w-12 h-12 rounded-full border border-public-ink/30 flex items-center justify-center text-public-ink">
                 <HeartHandshake className="w-5 h-5" />
               </div>
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
                 Pastoral Intercession
               </p>
-              <h3 className="text-2xl font-bold tracking-tight text-public-ink">
+              <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-public-ink">
                 Need prayer?
               </h3>
               <p className="text-base text-public-ink-muted leading-relaxed">
-                Share a prayer petition, family need, or praise report in confidence. Our pastoral leadership prays over every request received.
+                You don’t have to walk through life alone. Share a prayer petition, family need, or praise report with our pastoral team.
               </p>
             </div>
 
@@ -117,14 +117,14 @@ export const MediaHub: React.FC<MediaHubProps> = ({ onOpenPrayerModal }) => {
               <button
                 type="button"
                 onClick={() => onOpenPrayerModal?.()}
-                className="w-full min-h-[48px] px-5 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-base transition-colors cursor-pointer"
+                className="w-full min-h-[48px] px-5 py-3 rounded-full bg-public-ink hover:bg-public-accent text-white font-semibold text-base transition-colors cursor-pointer"
               >
                 Submit a prayer request
               </button>
 
               <a
                 href={toTelUrl(churchInfo.contact.phone)}
-                className="w-full min-h-[44px] px-4 py-2.5 rounded-lg border border-public-border bg-public-canvas hover:border-public-ink text-public-ink text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors tabular-nums"
+                className="w-full min-h-[44px] py-2.5 text-public-ink text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors tabular-nums flex-wrap"
               >
                 <Phone className="w-4 h-4 text-public-accent shrink-0" />
                 <span>Call pastoral line: {toInternationalDisplay(churchInfo.contact.phone)}</span>

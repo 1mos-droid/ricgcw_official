@@ -150,17 +150,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               alt=""
               width={IMAGE_DIMENSIONS.logo.width}
               height={IMAGE_DIMENSIONS.logo.height}
-              className="w-8 h-8 rounded-lg object-cover border border-public-border shrink-0"
+              className="w-10 h-10 rounded-full object-cover border border-public-border shrink-0"
             />
-            <span className="font-sans font-extrabold text-base sm:text-lg tracking-tight text-public-ink">
+            <span className="font-sans font-extrabold text-base tracking-tight text-public-ink leading-tight">
               {churchInfo.shortName}
+              <span className="hidden sm:block text-[10px] uppercase tracking-[0.12em] font-semibold mt-1">Rhema Inner Court</span>
             </span>
           </Link>
 
-          {/* Desktop & Tablet Navigation Row (768px+) */}
+          {/* Full navigation starts where the wordmark and actions fit comfortably. */}
           <nav
             aria-label="Primary navigation"
-            className="hidden md:flex items-center gap-0.5 lg:gap-1 min-w-0"
+            className="hidden lg:flex items-center gap-0.5 lg:gap-1 min-w-0"
           >
             {NAV_LINKS.map((link) => {
               const isActive = isHome && activeSection === link.id;
@@ -199,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handlePlanVisit}
-              className="hidden xl:inline-flex min-h-[44px] px-4 py-2 rounded-lg border border-public-border bg-public-surface hover:border-public-ink text-public-ink text-sm font-semibold items-center transition-colors cursor-pointer whitespace-nowrap"
+              className="hidden xl:inline-flex min-h-[44px] px-4 py-2 rounded-full border border-public-border bg-public-surface hover:border-public-ink text-public-ink text-sm font-semibold items-center transition-colors cursor-pointer whitespace-nowrap"
             >
               Plan your visit
             </button>
@@ -207,7 +208,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handleOpenGiving}
-              className="min-h-[44px] px-4 sm:px-5 py-2 rounded-lg bg-public-ink hover:bg-public-accent text-white text-sm font-semibold inline-flex items-center justify-center transition-colors cursor-pointer whitespace-nowrap"
+              className="min-h-[44px] px-4 sm:px-5 py-2 rounded-full bg-public-ink hover:bg-public-accent text-white text-sm font-semibold inline-flex items-center justify-center transition-colors cursor-pointer whitespace-nowrap"
             >
               Give
             </button>
@@ -219,7 +220,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-navigation-drawer"
-              className="md:hidden min-w-[44px] min-h-[44px] p-2 rounded-lg border border-public-border bg-public-surface text-public-ink hover:border-public-ink inline-flex items-center justify-center transition-colors cursor-pointer"
+              className="lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-full border border-public-border bg-public-surface text-public-ink hover:border-public-ink inline-flex items-center justify-center transition-colors cursor-pointer"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -240,7 +241,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: prefersReduced ? 0.1 : 0.2, ease: CATHEDRAL_EASE }}
-            className="md:hidden fixed inset-0 z-[60] bg-public-canvas text-public-ink flex flex-col justify-between px-5 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto"
+            className="lg:hidden fixed inset-0 z-[60] bg-public-canvas text-public-ink flex flex-col justify-between px-5 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto"
           >
             {/* Top Bar inside Drawer */}
             <div className="flex items-center justify-between h-14 border-b border-public-border">
@@ -250,7 +251,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   alt=""
                   width={IMAGE_DIMENSIONS.logo.width}
                   height={IMAGE_DIMENSIONS.logo.height}
-                  className="w-8 h-8 rounded-lg object-cover border border-public-border"
+                  className="w-8 h-8 rounded-full object-cover border border-public-border"
                 />
                 <span className="font-sans font-extrabold text-base tracking-tight text-public-ink">
                   {churchInfo.shortName}
@@ -261,7 +262,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close navigation menu"
-                className="min-w-[44px] min-h-[44px] p-2 rounded-lg border border-public-border bg-public-surface text-public-ink flex items-center justify-center cursor-pointer"
+                className="min-w-[44px] min-h-[44px] p-2 rounded-full border border-public-border bg-public-surface text-public-ink flex items-center justify-center cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -304,14 +305,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   type="button"
                   onClick={handlePlanVisit}
-                  className="w-full min-h-[48px] px-5 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-base transition-colors cursor-pointer"
+                  className="w-full min-h-[48px] px-5 py-3 rounded-full bg-public-ink hover:bg-public-accent text-white font-semibold text-base transition-colors cursor-pointer"
                 >
                   Plan your visit
                 </button>
                 <button
                   type="button"
                   onClick={handleOpenGiving}
-                  className="w-full min-h-[48px] px-5 py-3 rounded-lg border border-public-border bg-public-surface hover:border-public-ink text-public-ink font-semibold text-base transition-colors cursor-pointer"
+                  className="w-full min-h-[48px] px-5 py-3 rounded-full border border-public-border bg-public-surface hover:border-public-ink text-public-ink font-semibold text-base transition-colors cursor-pointer"
                 >
                   Give Online
                 </button>
@@ -332,7 +333,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="RICGCW YouTube"
-                    className="min-w-[44px] min-h-[44px] rounded-lg border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] rounded-full border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
                   >
                     <YoutubeIcon className="w-4 h-4" />
                   </a>
@@ -341,7 +342,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="RICGCW Facebook"
-                    className="min-w-[44px] min-h-[44px] rounded-lg border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] rounded-full border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
                   >
                     <FacebookIcon className="w-4 h-4" />
                   </a>
@@ -350,7 +351,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="RICGCW Instagram"
-                    className="min-w-[44px] min-h-[44px] rounded-lg border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] rounded-full border border-public-border bg-public-surface text-public-ink-muted hover:text-public-ink flex items-center justify-center"
                   >
                     <InstagramIcon className="w-4 h-4" />
                   </a>

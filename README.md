@@ -12,9 +12,9 @@ The official, modern, and spirit-filled website for **Rhema Inner Court Gospel C
   - **Mallam Branch** (Main Cathedral / Headquarters, Accra)
   - **Kokrobitey Branch** (Coastal Assembly)
   - **Langma Branch** (Revival Sanctuary)
-- **Sanctuary Design System**: Midnight Sanctuary Navy (`#070C18`), Sacred Gold (`#D4AF37`), Alabaster, and Flame Orange accents with Playfair Display, Cinzel, and Plus Jakarta Sans typography.
+- **Public Design System**: Deep forest (`#182E29`), warm ivory (`#F5F4EC`), and lime (`#DAED9A`) with bold Plus Jakarta Sans typography, authentic church photography, and responsive layouts.
 - **Kingdom Ministries**: Detailed showcases for Men of Valor, Women of Grace & Honor, Youth Alive (NextGen), Levites Worship Arts, Kids Court, and Global Outreach.
-- **Media Hub & Live Streams**: 24/7 Inner Court Global Radio stream simulator, YouTube sermons archive deep-links, and Daily Scripture of the Day widget with 1-click sharing.
+- **Media Hub & Prayer**: Links to the church's official YouTube, Facebook, and Instagram channels, with access to prayer requests and pastoral contact.
 - **Interactive Giving & Partnership Portal**: Dedicated online giving modal with Mobile Money (MTN MoMo: 024 485 7403 / Telecel Cash) and Bank wire details with 1-click copy.
 - **Prayer Request & Altar of Intercession**: Confidential prayer request submission with instant confirmation feedback.
 - **Holy Gatherings Calendar**: Flagship conferences, all-night prayer vigils, community welfare outreaches, and youth ignition summits with RSVP.
