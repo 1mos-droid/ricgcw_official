@@ -35,9 +35,7 @@ export function useActiveSection(
           }
         }
 
-        if (bestId) {
-          setActiveId(bestId);
-        }
+        setActiveId(bestId);
       },
       {
         rootMargin: '-22% 0px -50% 0px',
@@ -51,8 +49,18 @@ export function useActiveSection(
 
     elements.forEach((el) => observer.observe(el));
 
+    const handleScrollTopReset = () => {
+      if (window.scrollY < 160) {
+        setActiveId(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollTopReset, { passive: true });
+    handleScrollTopReset();
+
     return () => {
       observer.disconnect();
+      window.removeEventListener('scroll', handleScrollTopReset);
     };
   }, [sectionIds, enabled]);
 

@@ -1,12 +1,11 @@
-import { m, useScroll, useReducedMotion } from 'framer-motion';
-import { Heart, MapPin, Phone, Mail, Sparkles, ChevronRight, Church, MessageCircle, ArrowUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { ArrowUp, MapPin, Phone, Mail, HeartHandshake } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useChurch } from '../context/ChurchContext';
-import { IMAGES } from '../data/churchData';
+import { IMAGES, IMAGE_DIMENSIONS } from '../data/churchData';
 import { YoutubeIcon, FacebookIcon, InstagramIcon } from './Icons';
 import { trackEvent } from '../utils/analytics';
 import { toTelUrl, toWhatsAppUrl, toInternationalDisplay, toLocalMoMoDisplay } from '../utils/phoneUtils';
-import { Reveal, Stagger, StaggerItem, SPRING_TACTILE } from './motion';
 
 interface FooterProps {
   onOpenBranchModal?: (branchId?: string) => void;
@@ -14,307 +13,288 @@ interface FooterProps {
   onOpenPrayerModal?: () => void;
 }
 
-export const Footer = ({ onOpenBranchModal, onOpenGivingModal, onOpenPrayerModal }: FooterProps) => {
+export const Footer: React.FC<FooterProps> = ({
+  onOpenBranchModal,
+  onOpenGivingModal,
+  onOpenPrayerModal,
+}) => {
   const { churchInfo, branches } = useChurch();
-  const { scrollYProgress } = useScroll();
-  const prefersReduced = useReducedMotion();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    if (!isHome) {
+      e.preventDefault();
+      navigate(`/#${sectionId}`);
+    }
   };
 
   return (
-    <footer className="relative logo-obsidian-bg text-sanctuary-alabaster/85 border-t border-gold-400/25 pt-20 pb-12 overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 space-y-14">
-        {/* Monumental Editorial Serif Sign-Off Reveal */}
-        <Reveal className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-10 border-b border-white/15">
-          <div className="space-y-3">
-            <p className="text-eyebrow font-mono uppercase tracking-[0.26em] text-gold-400">
-              {churchInfo.themeYear} Mandate · {churchInfo.themeTitle} · Esther 5:1
+    <footer className="bg-public-ink text-white border-t border-white/10 pt-16 sm:pt-20 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+        {/* Top Invitation Band */}
+        <div className="pb-10 border-b border-white/15 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-public-accent-light">
+              Sunday Service · 09:00 AM GMT
             </p>
-            <p className="font-serif text-display italic text-sanctuary-alabaster tracking-tight">
-              Touching Lives Worldwide.
-            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              Come worship with us this Sunday.
+            </h2>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => onOpenBranchModal?.()}
+              className="min-h-[44px] px-5 py-2.5 rounded-lg border border-white/25 hover:border-white text-white text-sm font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <MapPin className="w-4 h-4 text-public-accent-light" />
+              <span>Plan your visit</span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
-                trackEvent('interaction', 'branch_modal_opened', 'Footer Banner');
-                onOpenBranchModal?.();
+                trackEvent('conversion', 'giving_modal_opened', 'Footer');
+                onOpenGivingModal?.();
               }}
-              className="min-h-[44px] px-5 py-2.5 rounded-sm bg-white/8 hover:bg-white/15 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-[0.14em] border border-white/20 transition-colors inline-flex items-center gap-2 cursor-pointer"
+              className="min-h-[44px] px-5 py-2.5 rounded-lg bg-public-accent-light hover:bg-white text-public-ink text-sm font-semibold transition-colors cursor-pointer"
             >
-              <MapPin className="w-4 h-4 text-gold-400" />
-              <span>Plan Your Visit</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                trackEvent('conversion', 'prayer_modal_opened', 'Footer Banner');
-                onOpenPrayerModal?.();
-              }}
-              className="min-h-[44px] px-5 py-2.5 rounded-sm bg-gold-500 hover:bg-gold-400 text-sanctuary-950 font-semibold text-caption uppercase tracking-[0.14em] transition-colors inline-flex items-center gap-2 cursor-pointer"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Submit Prayer</span>
+              Give Online
             </button>
           </div>
-        </Reveal>
+        </div>
 
-        {/* Staggered 4-Column Architectural Directory */}
-        <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Col 1: Church Identity */}
-          <StaggerItem className="space-y-4">
+        {/* 4-Column Directory */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+          {/* Column 1: Brand & Mission */}
+          <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full overflow-hidden border border-gold-400/50 shrink-0">
-                <img src={IMAGES.logo} alt="RICGCW Logo" width={44} height={44} loading="lazy" className="w-full h-full object-cover" />
-              </div>
+              <img
+                src={IMAGES.logo}
+                alt="RICGCW Logo"
+                width={IMAGE_DIMENSIONS.logo.width}
+                height={IMAGE_DIMENSIONS.logo.height}
+                className="w-10 h-10 rounded-lg object-cover border border-white/20 shrink-0"
+              />
               <div>
-                <h4 className="font-serif text-2xl text-sanctuary-alabaster leading-none">{churchInfo.shortName}</h4>
-                <p className="text-[10px] font-mono uppercase text-gold-400 tracking-[0.18em] mt-1">Worldwide Ministry</p>
+                <p className="font-sans font-extrabold text-lg text-white leading-tight">
+                  {churchInfo.shortName}
+                </p>
+                <p className="text-xs text-white/65">Rhema Inner Court Gospel Church (Worldwide)</p>
               </div>
             </div>
-            <p className="text-caption text-sanctuary-alabaster/75 leading-relaxed">
-              Rhema Inner Court Gospel Church (Worldwide) is a prophetic, apostolic, and evangelistic movement perfecting saints and taking territories.
+
+            <p className="text-sm text-white/75 leading-relaxed max-w-sm">
+              {churchInfo.vision}
             </p>
-            <div className="pt-1 text-caption italic font-serif text-base text-gold-400 border-l border-gold-400/40 pl-3.5">
-              &ldquo;{churchInfo.scripturalAnchor.verse}&rdquo;
-              <span className="block font-mono text-[11px] mt-1 text-sanctuary-alabaster/60 not-italic">
-                ({churchInfo.scripturalAnchor.reference})
-              </span>
-            </div>
-            <div className="flex items-center gap-2 pt-2">
+
+            <div className="flex items-center gap-2 pt-1">
               <a
                 href={churchInfo.contact.youtube}
                 target="_blank"
-                rel="noreferrer"
-                className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 hover:bg-red-600 text-sanctuary-alabaster/75 hover:text-white flex items-center justify-center transition-colors"
+                rel="noopener noreferrer"
                 aria-label="YouTube"
+                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <YoutubeIcon className="w-4 h-4" />
               </a>
               <a
                 href={churchInfo.contact.facebook}
                 target="_blank"
-                rel="noreferrer"
-                className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 hover:bg-blue-600 text-sanctuary-alabaster/75 hover:text-white flex items-center justify-center transition-colors"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
+                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <FacebookIcon className="w-4 h-4" />
               </a>
               <a
                 href={churchInfo.contact.instagram}
                 target="_blank"
-                rel="noreferrer"
-                className="min-w-[44px] min-h-[44px] rounded-sm border border-white/15 hover:bg-pink-600 text-sanctuary-alabaster/75 hover:text-white flex items-center justify-center transition-colors"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
+                className="min-w-[44px] min-h-[44px] rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white flex items-center justify-center transition-colors"
               >
                 <InstagramIcon className="w-4 h-4" />
               </a>
             </div>
-          </StaggerItem>
+          </div>
 
-          {/* Col 2: Sanctuary Locations */}
-          <StaggerItem className="space-y-4">
-            <h4 className="font-mono text-eyebrow uppercase tracking-[0.2em] text-gold-400 flex items-center gap-2">
-              <Church className="w-4 h-4" /> Sanctuary Locations
-            </h4>
-            <div className="divide-y divide-white/10 border-t border-white/10">
-              {branches.map((b) => (
-                <button
-                  key={b.id}
-                  type="button"
-                  onClick={() => {
-                    trackEvent('interaction', 'branch_modal_opened', b.name);
-                    onOpenBranchModal?.(b.id);
-                  }}
-                  className="w-full min-h-[44px] text-left py-3 hover:pl-2 transition-all cursor-pointer group"
+          {/* Column 2: Explore */}
+          <div className="lg:col-span-2 space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-public-accent-light">
+              Explore
+            </h3>
+            <ul className="space-y-2 text-sm text-white/80">
+              <li>
+                <a
+                  href="#sanctuaries"
+                  onClick={(e) => handleAnchor(e, 'sanctuaries')}
+                  className="hover:text-white transition-colors inline-block py-0.5"
                 >
-                  <p className="text-caption font-semibold text-sanctuary-alabaster group-hover:text-gold-400 transition-colors flex items-center justify-between">
-                    <span>{b.name.split('(')[0]}</span>
-                    <ChevronRight className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" />
-                  </p>
-                  <p className="text-[12px] text-sanctuary-alabaster/60">{b.location}</p>
-                  <p className="text-[11px] text-gold-400 font-mono mt-0.5 tabular-nums">
-                    Sunday: {b.services[0]?.time}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </StaggerItem>
-
-          {/* Col 3: Quick Links */}
-          <StaggerItem className="space-y-4">
-            <h4 className="font-mono text-eyebrow uppercase tracking-[0.2em] text-gold-400">
-              Explore Ministries
-            </h4>
-            <ul className="space-y-2 text-caption">
-              <li>
-                <a href="#about" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Apostolic Leadership
+                  Service Times
                 </a>
               </li>
               <li>
-                <a href="#identity" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Tabernacle &amp; Color Meanings
+                <a
+                  href="#about"
+                  onClick={(e) => handleAnchor(e, 'about')}
+                  className="hover:text-white transition-colors inline-block py-0.5"
+                >
+                  About &amp; Vision
                 </a>
               </li>
               <li>
-                <a href="#ministries" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Men of Valor &amp; Women of Grace
+                <a
+                  href="#ministries"
+                  onClick={(e) => handleAnchor(e, 'ministries')}
+                  className="hover:text-white transition-colors inline-block py-0.5"
+                >
+                  Ministries
                 </a>
               </li>
               <li>
-                <a href="#ministries" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Youth Alive &amp; Kids Court
+                <a
+                  href="#media"
+                  onClick={(e) => handleAnchor(e, 'media')}
+                  className="hover:text-white transition-colors inline-block py-0.5"
+                >
+                  Watch Messages
                 </a>
               </li>
               <li>
-                <a href="#media" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Sermons &amp; Media Altar
+                <a
+                  href="#events"
+                  onClick={(e) => handleAnchor(e, 'events')}
+                  className="hover:text-white transition-colors inline-block py-0.5"
+                >
+                  Upcoming Events
                 </a>
               </li>
               <li>
-                <Link to="/sponsorship" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors flex items-center gap-1.5 py-1">
-                  <ChevronRight className="w-3.5 h-3.5 text-gold-400" /> Mission Sponsorship Portal
+                <Link to="/sponsorship" className="hover:text-white transition-colors inline-block py-0.5">
+                  Sponsorship
                 </Link>
               </li>
-            </ul>
-          </StaggerItem>
-
-          {/* Col 4: Contact & Online Giving */}
-          <StaggerItem className="space-y-4">
-            <h4 className="font-mono text-eyebrow uppercase tracking-[0.2em] text-gold-400 flex items-center gap-2">
-              <Phone className="w-4 h-4" /> Get in Touch
-            </h4>
-            <div className="space-y-3 text-caption text-sanctuary-alabaster/80">
-              <p className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
-                <span>{churchInfo.contact.location}</span>
-              </p>
-              <div className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
-                <div>
-                  <a
-                    href={toTelUrl(churchInfo.contact.phone)}
-                    onClick={() => trackEvent('conversion', 'call_hotline', 'Footer')}
-                    className="hover:text-gold-400 font-mono font-bold tabular-nums block text-sanctuary-alabaster"
-                  >
-                    {toInternationalDisplay(churchInfo.contact.phone)}
-                  </a>
-                  <span className="text-[11px] font-mono text-sanctuary-alabaster/60 tabular-nums">
-                    Local / MoMo: {toLocalMoMoDisplay(churchInfo.contact.phone)}
-                  </span>
-                </div>
-              </div>
-              <p className="flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-                <a
-                  href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom Pastor, I am reaching out from the RICGCW website.')}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Footer')}
-                  className="hover:text-emerald-300 text-emerald-400 font-semibold"
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onOpenPrayerModal?.()}
+                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 py-0.5 cursor-pointer text-left"
                 >
-                  Chat on WhatsApp
-                </a>
+                  <HeartHandshake className="w-3.5 h-3.5 text-public-accent-light" />
+                  <span>Request Prayer</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Branches */}
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-public-accent-light">
+              Sanctuaries
+            </h3>
+            <ul className="space-y-2.5 text-sm">
+              {branches.map((branch) => (
+                <li key={branch.id}>
+                  <button
+                    type="button"
+                    onClick={() => onOpenBranchModal?.(branch.id)}
+                    className="text-left group cursor-pointer"
+                  >
+                    <span className="font-semibold text-white group-hover:text-public-accent-light transition-colors block">
+                      {branch.name}
+                    </span>
+                    <span className="text-xs text-white/65 block">{branch.location}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Secretariat & Legal */}
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-public-accent-light">
+              Contact &amp; Legal
+            </h3>
+            <div className="space-y-2.5 text-sm text-white/80">
+              <a
+                href={toTelUrl(churchInfo.contact.phone)}
+                className="flex items-center gap-2 hover:text-white transition-colors tabular-nums"
+              >
+                <Phone className="w-4 h-4 text-public-accent-light shrink-0" />
+                <span>{toInternationalDisplay(churchInfo.contact.phone)}</span>
+              </a>
+              <p className="text-xs text-white/65 tabular-nums pl-6">
+                Local / MoMo: {toLocalMoMoDisplay(churchInfo.contact.phone)}
               </p>
-              <p className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-gold-400 shrink-0" />
-                <a href={`mailto:${churchInfo.contact.email}`} className="hover:text-gold-400 font-mono">
-                  {churchInfo.contact.email}
-                </a>
-              </p>
+
+              <a
+                href={`mailto:${churchInfo.contact.email}`}
+                className="flex items-center gap-2 hover:text-white transition-colors break-all"
+              >
+                <Mail className="w-4 h-4 text-public-accent-light shrink-0" />
+                <span>{churchInfo.contact.email}</span>
+              </a>
+
+              <a
+                href={toWhatsAppUrl(churchInfo.contact.phone)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-public-accent-light hover:text-white underline underline-offset-4 text-sm pt-0.5"
+              >
+                Message on WhatsApp
+              </a>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-3 border-t border-white/15 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-white/70">
+              <Link to="/privacy" className="hover:text-white underline underline-offset-2">
+                Privacy Policy
+              </Link>
+              <Link to="/terms" className="hover:text-white underline underline-offset-2">
+                Terms of Service
+              </Link>
               <button
                 type="button"
-                onClick={() => {
-                  trackEvent('conversion', 'giving_modal_opened', 'Footer');
-                  onOpenGivingModal?.();
-                }}
-                className="w-full min-h-[44px] py-3 px-4 rounded-sm bg-gold-500/15 hover:bg-gold-500 text-gold-400 hover:text-sanctuary-950 border border-gold-400/40 text-caption font-semibold uppercase tracking-[0.14em] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                onClick={() => window.dispatchEvent(new Event('open-cookie-preferences'))}
+                className="hover:text-white underline underline-offset-2 cursor-pointer"
               >
-                <Heart className="w-4 h-4" /> Tithes &amp; MoMo Giving
+                Cookie Settings
               </button>
             </div>
-          </StaggerItem>
-        </Stagger>
+          </div>
+        </div>
 
-        {/* Bottom Copyright Bar + Circular Scroll-Progress Ring */}
-        <div className="pt-8 border-t border-white/12 flex flex-col md:flex-row items-center justify-between gap-6 text-caption text-sanctuary-alabaster/60">
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
-            <p>© {new Date().getFullYear()} Rhema Inner Court Gospel Church (Worldwide). All rights reserved.</p>
-            <span className="hidden sm:inline text-white/20">·</span>
-            <p className="text-sanctuary-alabaster/75">
-              Built by{' '}
+        {/* Bottom Copyright & Credit Row */}
+        <div className="pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-white/70">
+          <div className="space-y-1">
+            <p>
+              &copy; {new Date().getFullYear()} Rhema Inner Court Gospel Church (Worldwide). All rights reserved.
+            </p>
+            <p>
+              Crafted by{' '}
               <a
                 href="https://damise-1free.web.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gold-400 hover:text-white font-medium underline underline-offset-2 transition-colors"
+                className="text-white hover:text-public-accent-light underline underline-offset-2 font-medium"
               >
                 Kumesi Moses Mawulolo
               </a>
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-caption">
-            <Link to="/privacy" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors">
-              Privacy Policy
-            </Link>
-            <span>·</span>
-            <Link to="/terms" className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors">
-              Terms of Service
-            </Link>
-            <span>·</span>
-            <button
-              type="button"
-              onClick={() => window.dispatchEvent(new Event('open-cookie-preferences'))}
-              className="text-sanctuary-alabaster/75 hover:text-gold-400 transition-colors cursor-pointer"
-            >
-              Cookie Settings
-            </button>
-
-            <m.button
-              type="button"
-              onClick={scrollToTop}
-              whileTap={prefersReduced ? undefined : { scale: 0.92 }}
-              transition={SPRING_TACTILE}
-              aria-label="Back to top"
-              title="Back to top"
-              className="relative w-11 h-11 rounded-full bg-sanctuary-900 hover:bg-sanctuary-800 text-gold-400 flex items-center justify-center cursor-pointer ml-1 shrink-0"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 44 44"
-                className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
-              >
-                <circle
-                  cx="22"
-                  cy="22"
-                  r="19"
-                  fill="none"
-                  stroke="rgba(223,194,135,0.2)"
-                  strokeWidth="2"
-                />
-                <m.circle
-                  cx="22"
-                  cy="22"
-                  r="19"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  style={prefersReduced ? undefined : { pathLength: scrollYProgress }}
-                />
-              </svg>
-              <ArrowUp className="w-4 h-4 relative z-10" />
-            </m.button>
-          </div>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Back to top"
+            className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-lg border border-white/20 hover:border-white text-white inline-flex items-center justify-center gap-2 transition-colors cursor-pointer self-start sm:self-auto"
+          >
+            <span>Top</span>
+            <ArrowUp className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </footer>

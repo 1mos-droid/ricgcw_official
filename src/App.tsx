@@ -35,22 +35,22 @@ function ScrollToTop() {
   return null;
 }
 
-// Branded sanctuary suspense fallback with logo & gold shimmer bar
+// Clean neutral loading fallback aligned with the warm off-white editorial surface
 function SanctuaryLoadingFallback() {
   return (
     <div
       role="status"
       aria-live="polite"
-      className="min-h-screen bg-sanctuary-alabaster text-gold-600 flex flex-col items-center justify-center p-6 space-y-5"
+      className="min-h-screen bg-public-canvas text-public-ink flex flex-col items-center justify-center p-6 space-y-4"
     >
-      <div className="w-14 h-14 rounded-2xl overflow-hidden border border-gold-500/35 shadow-sm bg-sanctuary-parchment">
-        <img src={IMAGES.logo} alt="RICGCW Logo" width={56} height={56} className="w-full h-full object-cover" />
+      <div className="w-12 h-12 rounded-xl overflow-hidden border border-public-border bg-public-surface shadow-xs">
+        <img src={IMAGES.logo} alt="RICGCW Logo" width={48} height={48} className="w-full h-full object-cover" />
       </div>
-      <div className="w-40 h-1 rounded-full bg-sanctuary-stone overflow-hidden relative">
-        <div className="absolute inset-y-0 w-1/2 rounded-full bg-gradient-to-r from-transparent via-gold-500 to-transparent animate-shimmer-bar" />
+      <div className="w-36 h-1 rounded-full bg-public-border overflow-hidden relative">
+        <div className="absolute inset-y-0 w-1/2 rounded-full bg-public-accent animate-shimmer-bar" />
       </div>
-      <p className="text-eyebrow uppercase tracking-widest font-semibold text-ink-secondary">
-        Loading Sanctuary...
+      <p className="text-xs uppercase tracking-[0.14em] font-semibold text-public-ink-muted">
+        Loading...
       </p>
     </div>
   );
@@ -64,10 +64,10 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <m.div
         key={location.pathname}
-        initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: prefersReduced ? 0 : -6 }}
-        transition={{ duration: prefersReduced ? 0.12 : 0.24, ease: CATHEDRAL_EASE }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: prefersReduced ? 0.08 : 0.16, ease: CATHEDRAL_EASE }}
       >
         <Suspense fallback={<SanctuaryLoadingFallback />}>
           <Routes location={location}>
@@ -124,9 +124,9 @@ function App() {
             {/* WCAG 2.2 AA Skip to Main Content Link */}
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2.5 focus:bg-gold-600 focus:text-sanctuary-alabaster focus:font-bold focus:rounded-xl focus:shadow-2xl focus:ring-2 focus:ring-gold-400"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2.5 focus:bg-public-accent focus:text-white focus:font-semibold focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-public-ink"
             >
-              Skip to sanctuary content
+              Skip to main content
             </a>
 
             <ScrollToTop />

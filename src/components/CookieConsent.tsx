@@ -71,32 +71,32 @@ export const CookieConsent: React.FC = () => {
           transition={prefersReduced ? { duration: 0.12 } : SPRING_TACTILE}
           className="fixed bottom-16 md:bottom-5 left-3 right-3 md:left-auto md:right-5 md:max-w-md z-50"
         >
-          <div className="bg-sanctuary-950/98 border border-gold-400/35 text-sanctuary-alabaster rounded-sm p-4 sm:p-5 shadow-2xl space-y-3">
+          <div className="bg-public-surface border border-public-border text-public-ink rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             {/* Compact Header */}
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-sm bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-public-canvas border border-public-border flex items-center justify-center text-public-accent shrink-0">
                   <Cookie className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg text-sanctuary-alabaster leading-tight">
+                  <h3 className="font-sans font-bold text-base text-public-ink leading-tight">
                     Cookie &amp; Privacy Notice
                   </h3>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-gold-400">
+                  <p className="text-xs text-public-ink-muted">
                     Rhema Inner Court Gospel Church (Worldwide)
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => saveConsent(false)}
-                className="min-w-[36px] min-h-[36px] text-sanctuary-alabaster/60 hover:text-white p-1 rounded-sm flex items-center justify-center transition-colors cursor-pointer"
+                className="min-w-[40px] min-h-[40px] text-public-ink-muted hover:text-public-ink p-1 rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Close and use essential only"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-caption text-sanctuary-alabaster/80 leading-snug">
+            <p className="text-sm text-public-ink-muted leading-snug">
               Essential cookies support branch lookup &amp; Paystack giving; optional analytics help measure ministry engagement.
             </p>
 
@@ -106,32 +106,32 @@ export const CookieConsent: React.FC = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-3 rounded-sm bg-sanctuary-900 border border-white/12 space-y-2.5 text-caption">
-                    <div className="flex items-center justify-between pb-2 border-b border-white/10 gap-3">
+                  <div className="p-3 rounded-xl bg-public-canvas border border-public-border space-y-2.5 text-sm">
+                    <div className="flex items-center justify-between pb-2 border-b border-public-border gap-3">
                       <div className="space-y-0.5">
-                        <p className="font-semibold text-sanctuary-alabaster flex items-center gap-1.5 text-xs">
-                          <ShieldCheck className="w-4 h-4 text-olive-400 shrink-0" />
+                        <p className="font-semibold text-public-ink flex items-center gap-1.5 text-xs">
+                          <ShieldCheck className="w-4 h-4 text-olive-500 shrink-0" />
                           Essential Operations (Required)
                         </p>
-                        <p className="text-xs text-sanctuary-alabaster/65">
+                        <p className="text-xs text-public-ink-muted">
                           Core navigation, branch directions, and Paystack checkout.
                         </p>
                       </div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-sm bg-olive-500/30 text-olive-400 border border-olive-500/50 shrink-0">
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-olive-500/15 text-olive-600 shrink-0">
                         Active
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between gap-3">
                       <div className="space-y-0.5">
-                        <p className="font-semibold text-sanctuary-alabaster flex items-center gap-1.5 text-xs">
-                          <Info className="w-4 h-4 text-gold-400 shrink-0" />
+                        <p className="font-semibold text-public-ink flex items-center gap-1.5 text-xs">
+                          <Info className="w-4 h-4 text-public-accent shrink-0" />
                           Anonymous Usage Analytics
                         </p>
-                        <p className="text-xs text-sanctuary-alabaster/65">
+                        <p className="text-xs text-public-ink-muted">
                           Measures sermon engagement without storing personal identifiers.
                         </p>
                       </div>
@@ -142,7 +142,7 @@ export const CookieConsent: React.FC = () => {
                           onChange={(e) => setAnalyticsAllowed(e.target.checked)}
                           className="sr-only peer"
                         />
-                        <div className="w-9 h-5 bg-sanctuary-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[12px] after:left-[2px] after:bg-white after:border-sanctuary-stone after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold-500" />
+                        <div className="w-9 h-5 bg-public-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[12px] after:left-[2px] after:bg-white after:border-public-border after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-public-accent" />
                       </label>
                     </div>
                   </div>
@@ -154,31 +154,31 @@ export const CookieConsent: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={() => saveConsent(true)}
-                  className="flex-1 min-h-[40px] py-2 px-3 rounded-sm bg-gold-500 hover:bg-gold-400 text-sanctuary-950 font-semibold uppercase tracking-[0.12em] text-[11px] transition-colors text-center cursor-pointer whitespace-nowrap"
+                  className="flex-1 min-h-[40px] py-2 px-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-xs transition-colors text-center cursor-pointer whitespace-nowrap"
                 >
                   Accept All
                 </button>
                 <button
                   onClick={() => saveConsent(false)}
-                  className="flex-1 min-h-[40px] py-2 px-3 rounded-sm bg-sanctuary-900 hover:bg-sanctuary-800 text-sanctuary-alabaster font-semibold uppercase tracking-[0.12em] text-[11px] border border-white/15 transition-colors text-center cursor-pointer whitespace-nowrap"
+                  className="flex-1 min-h-[40px] py-2 px-3 rounded-lg bg-public-canvas hover:border-public-ink text-public-ink font-semibold text-xs border border-public-border transition-colors text-center cursor-pointer whitespace-nowrap"
                 >
                   Essential Only
                 </button>
                 <button
                   onClick={() => setShowDetails(!showDetails)}
-                  className="min-h-[40px] py-2 px-3 rounded-sm bg-white/5 hover:bg-white/10 text-gold-400 font-semibold uppercase tracking-[0.12em] text-[11px] border border-white/12 transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                  className="min-h-[40px] py-2 px-3 rounded-lg bg-public-surface hover:border-public-ink text-public-ink font-semibold text-xs border border-public-border transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
                 >
-                  <Settings className="w-3.5 h-3.5" />
+                  <Settings className="w-3.5 h-3.5 text-public-accent" />
                   <span>{showDetails ? 'Hide' : 'Preferences'}</span>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between text-xs text-sanctuary-alabaster/65">
-                <Link to="/privacy" className="hover:text-gold-400 underline underline-offset-2">
+              <div className="flex items-center justify-between text-xs text-public-ink-muted">
+                <Link to="/privacy" className="hover:text-public-accent underline underline-offset-2">
                   Privacy Policy
                 </Link>
                 <span>·</span>
-                <Link to="/terms" className="hover:text-gold-400 underline underline-offset-2">
+                <Link to="/terms" className="hover:text-public-accent underline underline-offset-2">
                   Terms of Service
                 </Link>
               </div>

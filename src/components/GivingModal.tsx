@@ -61,10 +61,17 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
 
   const presetAmounts = ['50', '100', '200', '500', '1000', '2000'];
 
-  const handleCopyMomo = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedMomo(true);
-    setTimeout(() => setCopiedMomo(false), 2500);
+  const handleCopyMomo = async (text: string) => {
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error('Clipboard API unavailable');
+      }
+      await navigator.clipboard.writeText(text);
+      setCopiedMomo(true);
+      setTimeout(() => setCopiedMomo(false), 2500);
+    } catch {
+      setCopiedMomo(false);
+    }
   };
 
   const handleGivingSubmit = async (e: React.FormEvent) => {
@@ -181,50 +188,50 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
     >
       {isSuccess ? (
         <div className="text-center py-6 space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-olive-500/15 text-olive-500 flex items-center justify-center mx-auto shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-olive-500/15 text-olive-600 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
 
           <div className="space-y-2">
-            <span className="px-3 py-1 rounded-full text-eyebrow font-bold uppercase tracking-wider bg-olive-500/15 text-olive-500 border border-olive-500/30">
+            <span className="px-3 py-1 rounded-md text-xs font-semibold bg-olive-500/15 text-olive-600">
               Verified Kingdom Seed
             </span>
-            <h3 className="text-2xl font-bold font-serif text-ink-primary">Thank You for Sowing into the Altar!</h3>
-            <p className="text-body text-ink-secondary max-w-md mx-auto leading-relaxed">
+            <h3 className="text-2xl font-bold text-public-ink">Thank You for Sowing into the Altar!</h3>
+            <p className="text-base text-public-ink-muted max-w-md mx-auto leading-relaxed">
               Your gift of <strong>{currency} {amount}</strong> towards <strong>{category}</strong> has been verified and received with honor and prayer.
             </p>
             {confirmedRef && (
-              <p className="text-caption font-mono text-ink-muted pt-1">
-                Reference: <strong className="text-ink-primary">{confirmedRef}</strong>
+              <p className="text-sm text-public-ink-muted pt-1">
+                Reference: <strong className="text-public-ink">{confirmedRef}</strong>
               </p>
             )}
           </div>
 
-          <div className="p-4 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone text-caption text-ink-primary max-w-md mx-auto text-left">
-            <p className="font-bold text-gold-600">Scriptural Covenant</p>
-            <p className="mt-0.5 italic text-ink-secondary">
+          <div className="p-4 rounded-xl bg-public-canvas border border-public-border text-sm text-public-ink max-w-md mx-auto text-left">
+            <p className="font-bold text-public-accent">Scriptural Covenant</p>
+            <p className="mt-0.5 text-public-ink-muted">
               &ldquo;Now may He who supplies seed to the sower, and bread for food, supply and multiply the seed you have sown and increase the fruits of your righteousness.&rdquo; (2 Corinthians 9:10)
             </p>
           </div>
 
           <button
             onClick={resetAndClose}
-            className="min-h-[44px] w-full sm:w-auto px-8 py-3 rounded-full bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster font-bold text-caption uppercase tracking-wider transition-colors cursor-pointer"
+            className="min-h-[44px] w-full sm:w-auto px-8 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm transition-colors cursor-pointer"
           >
-            Return to Sanctuary
+            Return to Homepage
           </button>
         </div>
       ) : (
         <div className="space-y-5">
           {/* Method Selector: Paystack vs Direct MoMo */}
-          <div className="grid grid-cols-2 p-1 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone">
+          <div className="grid grid-cols-2 p-1 rounded-xl bg-public-canvas border border-public-border">
             <button
               type="button"
               onClick={() => setGivingMethod('paystack')}
-              className={`min-h-[44px] py-2 px-3 rounded-xl text-caption font-bold transition-all cursor-pointer ${
+              className={`min-h-[44px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
                 givingMethod === 'paystack'
-                  ? 'bg-white text-ink-primary shadow-sm'
-                  : 'text-ink-secondary hover:text-ink-primary'
+                  ? 'bg-public-surface text-public-ink shadow-xs border border-public-border'
+                  : 'text-public-ink-muted hover:text-public-ink'
               }`}
             >
               Online Checkout (Paystack)
@@ -232,10 +239,10 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
             <button
               type="button"
               onClick={() => setGivingMethod('momo')}
-              className={`min-h-[44px] py-2 px-3 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`min-h-[44px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
                 givingMethod === 'momo'
-                  ? 'bg-gold-600 text-sanctuary-alabaster shadow-sm'
-                  : 'text-ink-secondary hover:text-ink-primary'
+                  ? 'bg-public-ink text-white shadow-xs'
+                  : 'text-public-ink-muted hover:text-public-ink'
               }`}
             >
               <Smartphone className="w-4 h-4" /> Direct MoMo (Ghana)
@@ -245,51 +252,53 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
           {givingMethod === 'momo' ? (
             /* Direct MoMo Transfer Card */
             <div className="space-y-4">
-              <div className="p-5 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone text-ink-primary space-y-4">
-                <div className="flex items-center justify-between">
+              <div className="p-5 rounded-xl bg-public-canvas border border-public-border text-public-ink space-y-4">
+                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-gold-600" />
-                    <h4 className="font-bold text-body text-ink-primary">Official MTN Mobile Money Altar</h4>
+                    <span className="w-2.5 h-2.5 rounded-full bg-public-accent" />
+                    <h4 className="font-bold text-base text-public-ink">Official MTN Mobile Money</h4>
                   </div>
-                  <span className="text-eyebrow font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold-500/15 text-gold-700 border border-gold-500/25">
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-public-surface text-public-accent border border-public-border">
                     Instant Transfer
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white border border-sanctuary-stone space-y-3">
+                <div className="p-4 rounded-xl bg-public-surface border border-public-border space-y-3">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-eyebrow font-bold uppercase tracking-wider text-ink-muted">MoMo Number</p>
-                      <p className="text-lg font-bold font-mono tabular-nums text-ink-primary">
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-public-ink-muted">
+                        MoMo Number
+                      </p>
+                      <p className="text-lg font-bold tabular-nums text-public-ink">
                         {toLocalMoMoDisplay(churchInfo.contact.phone)}
                       </p>
                     </div>
                     <m.button
                       type="button"
-                      whileTap={prefersReduced ? undefined : { scale: 0.94 }}
+                      whileTap={prefersReduced ? undefined : { scale: 0.96 }}
                       transition={SPRING_TACTILE}
                       onClick={() => handleCopyMomo(momoCopyDigits)}
-                      className="min-h-[44px] px-4 py-2 rounded-full bg-gold-600 hover:bg-gold-700 text-sanctuary-alabaster font-bold text-caption flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="min-h-[44px] px-4 py-2 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       {copiedMomo ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                       <span>{copiedMomo ? 'Copied!' : 'Copy Number'}</span>
                     </m.button>
                   </div>
 
-                  <div className="border-t border-sanctuary-stone pt-2.5 grid grid-cols-2 gap-2 text-caption">
+                  <div className="border-t border-public-border pt-2.5 grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <p className="text-eyebrow text-ink-muted font-bold uppercase">Account Name</p>
-                      <p className="font-semibold text-ink-primary">{churchInfo.name}</p>
+                      <p className="text-xs text-public-ink-muted font-semibold uppercase">Account Name</p>
+                      <p className="font-semibold text-public-ink">{churchInfo.name}</p>
                     </div>
                     <div>
-                      <p className="text-eyebrow text-ink-muted font-bold uppercase">Reference</p>
-                      <p className="font-semibold text-ink-primary">Tithe / Offering / Seed</p>
+                      <p className="text-xs text-public-ink-muted font-semibold uppercase">Reference</p>
+                      <p className="font-semibold text-public-ink">Tithe / Offering / Seed</p>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-caption text-ink-secondary leading-relaxed">
-                  After sending your seed via MTN MoMo, send a receipt or transaction ID to our Church Treasury WhatsApp so our pastors can agree with you in prayer:
+                <p className="text-sm text-public-ink-muted leading-relaxed">
+                  After sending your gift via MTN MoMo, send a receipt or transaction ID to our Church Treasury WhatsApp so our pastors can agree with you in prayer:
                 </p>
 
                 <a
@@ -298,9 +307,9 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
                     'Shalom Church Treasury, I have just transferred a kingdom seed via MTN Mobile Money.'
                   )}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Giving Modal MoMo')}
-                  className="min-h-[44px] w-full py-3 px-4 rounded-full bg-olive-500 hover:bg-olive-600 text-white font-bold text-caption uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  className="min-h-[44px] w-full py-3 px-4 rounded-lg bg-olive-500 hover:bg-olive-600 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
                   <span>Confirm MoMo Gift on WhatsApp →</span>
                 </a>
@@ -311,7 +320,7 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
             <form onSubmit={handleGivingSubmit} className="space-y-4">
               {/* Category Selector */}
               <div className="space-y-1.5">
-                <label className="text-eyebrow font-bold uppercase tracking-wider text-ink-secondary">
+                <label className="text-xs font-semibold uppercase tracking-[0.08em] text-public-ink">
                   Select Giving Fund
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -320,10 +329,10 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
                       type="button"
                       key={cat}
                       onClick={() => setCategory(cat)}
-                      className={`min-h-[38px] px-3.5 py-1.5 rounded-full text-caption font-semibold transition-all cursor-pointer border ${
+                      className={`min-h-[38px] px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer border ${
                         category === cat
-                          ? 'bg-gold-600 text-sanctuary-alabaster border-gold-500 shadow-sm'
-                          : 'bg-sanctuary-parchment hover:bg-sanctuary-stone text-ink-secondary border-sanctuary-stone'
+                          ? 'bg-public-ink text-white border-public-ink'
+                          : 'bg-public-canvas hover:border-public-ink text-public-ink-muted hover:text-public-ink border-public-border'
                       }`}
                     >
                       {cat}
@@ -335,17 +344,17 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
               {/* Amount Selection & Currency */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-eyebrow font-bold uppercase tracking-wider text-ink-secondary">
+                  <label htmlFor="giving-amount" className="text-xs font-semibold uppercase tracking-[0.08em] text-public-ink">
                     Giving Amount
                   </label>
-                  <div className="flex items-center gap-1 bg-sanctuary-parchment p-1 rounded-xl border border-sanctuary-stone">
+                  <div className="flex items-center gap-1 bg-public-canvas p-1 rounded-lg border border-public-border">
                     {['GHS', 'USD', 'GBP', 'EUR'].map((curr) => (
                       <button
                         type="button"
                         key={curr}
                         onClick={() => setCurrency(curr)}
-                        className={`min-h-[34px] px-2.5 py-0.5 rounded-lg text-eyebrow font-bold font-mono transition-all cursor-pointer ${
-                          currency === curr ? 'bg-gold-600 text-sanctuary-alabaster' : 'text-ink-secondary hover:text-ink-primary'
+                        className={`min-h-[34px] px-2.5 py-0.5 rounded-md text-xs font-bold transition-colors cursor-pointer ${
+                          currency === curr ? 'bg-public-ink text-white' : 'text-public-ink-muted hover:text-public-ink'
                         }`}
                       >
                         {curr}
@@ -361,10 +370,10 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
                       type="button"
                       key={preset}
                       onClick={() => setAmount(preset)}
-                      className={`min-h-[42px] py-2 rounded-xl font-bold font-mono tabular-nums text-caption border transition-all cursor-pointer ${
+                      className={`min-h-[42px] py-2 rounded-lg font-bold tabular-nums text-xs border transition-colors cursor-pointer ${
                         amount === preset
-                          ? 'bg-gold-500/15 border-gold-500 text-gold-700 font-black'
-                          : 'bg-sanctuary-parchment/70 border-sanctuary-stone text-ink-secondary hover:bg-white'
+                          ? 'bg-public-ink border-public-ink text-white'
+                          : 'bg-public-canvas border-public-border text-public-ink hover:border-public-ink'
                       }`}
                     >
                       {currency} {preset}
@@ -374,17 +383,18 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
 
                 {/* Custom Amount Input */}
                 <div className="relative pt-1">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold font-mono text-ink-muted text-sm">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-public-ink-muted text-sm">
                     {currency}
                   </span>
                   <input
+                    id="giving-amount"
                     type="number"
                     min="1"
                     required
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Enter custom amount"
-                    className="w-full pl-16 pr-4 py-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary font-bold font-mono tabular-nums text-base outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                    className="w-full pl-16 pr-4 py-3 rounded-lg bg-public-surface border border-public-border text-public-ink font-bold tabular-nums text-base outline-none focus:border-public-ink"
                   />
                 </div>
               </div>
@@ -392,41 +402,46 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
               {/* Donor Contact Details */}
               <div className="grid sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1">Full Name</label>
+                  <label htmlFor="giving-name" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1">
+                    Full Name
+                  </label>
                   <input
+                    id="giving-name"
                     type="text"
                     required
                     value={donorName}
                     onChange={(e) => setDonorName(e.target.value)}
                     placeholder="e.g. Kwesi Mensah"
-                    className="w-full p-2.5 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                    className="w-full p-2.5 rounded-lg bg-public-surface border border-public-border text-public-ink text-base outline-none focus:border-public-ink"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1">
+                  <label htmlFor="giving-phone" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1">
                     Phone (MoMo / WhatsApp)
                   </label>
                   <input
+                    id="giving-phone"
                     type="tel"
                     required
                     value={donorPhone}
                     onChange={(e) => setDonorPhone(e.target.value)}
                     placeholder="+233 24 485 7403"
-                    className="w-full p-2.5 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono tabular-nums outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                    className="w-full p-2.5 rounded-lg bg-public-surface border border-public-border text-public-ink text-base tabular-nums outline-none focus:border-public-ink"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1">
+                  <label htmlFor="giving-email" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1">
                     Email for Receipt (Optional)
                   </label>
                   <input
+                    id="giving-email"
                     type="email"
                     value={donorEmail}
                     onChange={(e) => setDonorEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full p-2.5 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                    className="w-full p-2.5 rounded-lg bg-public-surface border border-public-border text-public-ink text-base outline-none focus:border-public-ink"
                   />
                 </div>
               </div>
@@ -435,17 +450,17 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
               {gatewayError && (
                 <div
                   role="alert"
-                  className="p-3.5 rounded-2xl bg-flame-500/10 border border-flame-500/30 text-ink-primary text-caption space-y-2"
+                  className="p-3.5 rounded-xl bg-crimson-500/10 border border-crimson-500/30 text-public-ink text-sm space-y-2"
                 >
-                  <div className="flex items-center gap-2 font-bold text-flame-500">
+                  <div className="flex items-center gap-2 font-bold text-crimson-500">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>Payment Gateway Notice</span>
                   </div>
-                  <p className="leading-relaxed text-caption text-ink-secondary">{gatewayError}</p>
+                  <p className="leading-relaxed text-sm text-public-ink-muted">{gatewayError}</p>
                   <button
                     type="button"
                     onClick={() => setGivingMethod('momo')}
-                    className="text-caption font-bold text-gold-600 underline cursor-pointer"
+                    className="text-sm font-semibold text-public-accent underline cursor-pointer"
                   >
                     Switch to Direct Mobile Money →
                   </button>
@@ -459,23 +474,23 @@ export const GivingModal = ({ isOpen, onClose, defaultCategory, defaultAmount }:
                   disabled={isProcessing}
                   whileTap={prefersReduced ? undefined : { scale: 0.98 }}
                   transition={SPRING_TACTILE}
-                  className="min-h-[48px] w-full py-4 px-6 rounded-full bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster font-bold text-caption sm:text-sm uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="min-h-[48px] w-full py-3.5 px-6 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  <Lock className="w-4 h-4 text-gold-400" />
+                  <Lock className="w-4 h-4" />
                   <span>
                     {isProcessing
-                      ? 'Verifying Transaction with Altar...'
+                      ? 'Verifying Transaction...'
                       : `Proceed with ${currency} ${amount || '0'} via Paystack`}
                   </span>
                   <ArrowRight className="w-4 h-4" />
                 </m.button>
 
                 {/* Supported Payment Badges */}
-                <div className="p-3 rounded-xl bg-sanctuary-parchment border border-sanctuary-stone flex flex-wrap items-center justify-between gap-2 text-caption text-ink-secondary">
-                  <span className="font-bold flex items-center gap-1 text-ink-primary">
+                <div className="p-3 rounded-lg bg-public-canvas border border-public-border flex flex-wrap items-center justify-between gap-2 text-xs text-public-ink-muted">
+                  <span className="font-semibold flex items-center gap-1 text-public-ink">
                     <ShieldCheck className="w-4 h-4 text-olive-500" /> 256-Bit Encrypted &amp; Verified
                   </span>
-                  <span className="text-ink-muted font-medium">
+                  <span>
                     MTN MoMo • Telecel • AT • Visa • Mastercard
                   </span>
                 </div>

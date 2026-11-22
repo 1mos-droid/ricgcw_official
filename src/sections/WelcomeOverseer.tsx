@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
-import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, ChevronDown } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { useChurch } from '../context/ChurchContext';
 import { PICTURES, IMAGE_DIMENSIONS } from '../data/churchData';
 import { trackEvent } from '../utils/analytics';
 import { toWhatsAppUrl } from '../utils/phoneUtils';
-import {
-  CATHEDRAL_EASE,
-  SPRING_GENTLE,
-  VIEWPORT_ONCE,
-  Reveal,
-  CurtainReveal,
-  ParallaxFrame,
-  DrawRule,
-} from '../components/motion';
 import SectionHeader from '../components/SectionHeader';
 import ResponsiveImage from '../components/ResponsiveImage';
 
@@ -22,304 +13,195 @@ interface WelcomeOverseerProps {
   onOpenBranchModal?: (branchId?: string) => void;
 }
 
-function isLightHex(hex: string): boolean {
-  const clean = hex.replace('#', '');
-  if (clean.length !== 6) return false;
-  const r = parseInt(clean.slice(0, 2), 16);
-  const g = parseInt(clean.slice(2, 4), 16);
-  const b = parseInt(clean.slice(4, 6), 16);
-  // Relative luminance heuristic for crisp text contrast on pigment blocks
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.56;
-}
-
-export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({
-  onOpenPrayerModal,
-}) => {
+export const WelcomeOverseer: React.FC<WelcomeOverseerProps> = ({ onOpenPrayerModal }) => {
   const { churchInfo, churchColors } = useChurch();
-  const [selectedColorIndex, setSelectedColorIndex] = useState(1);
-  const prefersReduced = useReducedMotion();
+  const location = useLocation();
+  const [showIdentity, setShowIdentity] = useState(location.hash === '#identity');
+
+  useEffect(() => {
+    if (location.hash === '#identity') {
+      setShowIdentity(true);
+    }
+  }, [location.hash]);
 
   const definitions = churchInfo.definitions || [];
-  const mottoItems = [
-    { num: '01', ref: 'Ephesians 4:12', title: 'Perfecting the Saints', copy: 'Equipping every believer through sound Rhema teaching for mature Kingdom stewardship.' },
-    { num: '02', ref: 'Joshua 1:3', title: 'Taking Territories', copy: 'Advancing the light of Christ across families, commerce, leadership, and communities.' },
-    { num: '03', ref: 'Luke 1:37', title: 'Impossibility Possible', copy: 'A living altar of prophetic breakthrough where heaven answers sacrifices of faith.' },
-  ];
+  const mottoItems =
+    churchInfo.motto && churchInfo.motto.length > 0
+      ? churchInfo.motto
+      : [
+          { title: 'Perfecting the Saints', scripture: 'Ephesians 4:12' },
+          { title: 'Taking Territories', scripture: 'Joshua 1:3' },
+          { title: 'Where Impossibility Becomes Possible', scripture: 'Luke 1:37' },
+        ];
 
   return (
     <section
       id="about"
-      className="relative bg-sanctuary-alabaster paper-grain text-ink-primary py-20 lg:py-28 px-4 sm:px-6 lg:px-10"
+      aria-labelledby="about-heading"
+      className="bg-public-canvas text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
-      <div className="max-w-7xl mx-auto space-y-24 lg:space-y-32">
-        {/* =====================================================================
-            CHAPTER 01: STICKY MONOGRAPH SPREAD — OVERSEER WELCOME
-        ===================================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          {/* Left 5 Columns: Sticky Clean Studio Portrait of General Overseer */}
-          <div className="lg:col-span-5 lg:sticky lg:top-24">
-            <div className="relative">
-              {/* Architectural Brass Corner Framing Ticks */}
-              <div aria-hidden="true" className="hidden sm:block absolute -top-2.5 -left-2.5 w-6 h-6 border-t-2 border-l-2 border-gold-500 z-20 pointer-events-none" />
-              <div aria-hidden="true" className="hidden sm:block absolute -bottom-2.5 -right-2.5 w-6 h-6 border-b-2 border-r-2 border-gold-500 z-20 pointer-events-none" />
+      <div className="max-w-7xl mx-auto space-y-12">
+        <SectionHeader
+          headingId="about-heading"
+          eyebrow="About RICGCW"
+          title="Rooted in Scripture,"
+          accent="built for people"
+          description={churchInfo.slogan}
+        />
 
-              <CurtainReveal className="bg-sanctuary-parchment border border-sanctuary-stone shadow-lg">
-                <ParallaxFrame offsetY={24} zoomFrom={1.06} className="aspect-[3/4]">
-                  <ResponsiveImage
-                    src={PICTURES.pastor2}
-                    alt="Rev. Nicholas Dobeng — General Overseer of RICGCW"
-                    width={IMAGE_DIMENSIONS.pastor2.width}
-                    height={IMAGE_DIMENSIONS.pastor2.height}
-                    priority
-                    sizes="(min-width: 1024px) 38vw, 100vw"
-                    pictureClassName="w-full h-full block"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </ParallaxFrame>
-              </CurtainReveal>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          {/* Overseer Portrait Column */}
+          <div className="lg:col-span-5 space-y-3">
+            <div className="aspect-[3/4] w-full max-w-md mx-auto lg:max-w-none rounded-2xl overflow-hidden bg-public-surface border border-public-border">
+              <ResponsiveImage
+                src={PICTURES.pastor2}
+                alt={`${churchInfo.founder.name} — ${churchInfo.founder.title}`}
+                width={IMAGE_DIMENSIONS.pastor2.width}
+                height={IMAGE_DIMENSIONS.pastor2.height}
+                sizes="(min-width: 1024px) 38vw, 100vw"
+                pictureClassName="w-full h-full block"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
 
-            {/* Monograph Figure Caption */}
-            <m.div
-              initial={{ opacity: 0, y: prefersReduced ? 0 : 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={VIEWPORT_ONCE}
-              transition={{ duration: prefersReduced ? 0.15 : 0.65, delay: 0.2, ease: CATHEDRAL_EASE }}
-              className="mt-5 pt-4 border-t border-sanctuary-stone flex items-baseline justify-between gap-4"
-            >
-              <div>
-                <p className="font-serif text-2xl text-ink-primary">
-                  Rev. Nicholas Dobeng
-                </p>
-                <p className="text-eyebrow font-mono uppercase tracking-[0.18em] text-ink-muted mt-0.5">
-                  General Overseer &amp; Founder
-                </p>
-              </div>
-              <span className="font-serif italic text-lg text-gold-600 shrink-0">
-                Esther 5:1
-              </span>
-            </m.div>
+            <div className="max-w-md mx-auto lg:max-w-none pt-1">
+              <p className="text-lg font-bold text-public-ink">{churchInfo.founder.name}</p>
+              <p className="text-sm text-public-ink-muted">{churchInfo.founder.title}</p>
+            </div>
           </div>
 
-          {/* Right 7 Columns: Editorial Statement, Hand-Drawn Underline & Hairline Motto Ledger */}
-          <div className="lg:col-span-7 space-y-10">
-            <Reveal y={10}>
-              <div className="flex items-center gap-3 text-eyebrow font-mono uppercase tracking-[0.24em] text-gold-600 font-semibold">
-                <span>01</span>
-                <span aria-hidden="true" className="w-8 h-px bg-gold-600/50" />
-                <span>Apostolic Welcome &amp; Shepherding</span>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.06}>
-              <h2 className="font-serif text-h1 tracking-tight font-normal text-ink-primary">
-                &ldquo;You were never meant to remain in the outer court. God has prepared a place of{' '}
-                <span className="relative inline-block italic text-gold-600">
-                  intimate grace
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 220 12"
-                    fill="none"
-                    className="absolute -bottom-1.5 left-0 w-full h-3 overflow-visible pointer-events-none"
-                  >
-                    <m.path
-                      d="M 2 9 Q 110 2 218 8"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      initial={{ pathLength: prefersReduced ? 1 : 0, opacity: prefersReduced ? 1 : 0 }}
-                      whileInView={{ pathLength: 1, opacity: 0.9 }}
-                      viewport={VIEWPORT_ONCE}
-                      transition={{
-                        duration: prefersReduced ? 0.1 : 0.9,
-                        delay: prefersReduced ? 0 : 0.3,
-                        ease: CATHEDRAL_EASE,
-                      }}
-                    />
-                  </svg>
-                </span>{' '}
-                for you.&rdquo;
-              </h2>
-            </Reveal>
-
-            <Reveal delay={0.12} className="space-y-4 text-body sm:text-base text-ink-secondary leading-relaxed max-w-prose">
-              <p>
-                At Rhema Inner Court Gospel Church Worldwide, our commission endures:{' '}
-                <strong className="font-semibold text-ink-primary">
-                  &ldquo;{churchInfo.vision}&rdquo;
-                </strong>
+          {/* Vision, Mandate & Actions Column */}
+          <div className="lg:col-span-7 space-y-8 min-w-0">
+            <div className="bg-public-surface border border-public-border rounded-2xl p-6 sm:p-8 space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
+                Our Vision
               </p>
-              <p>
-                Whether you walk through the doors of our Mallam Headquarters, worship by the coast in Kokrobitey, gather in Langma, or join our global stream across continents, you step into a consecrated family built on the spoken Word of God (<em>Rhema</em>), sacrificial praise, and the liberating power of the Holy Spirit.
+              <blockquote className="text-xl sm:text-2xl font-bold tracking-tight text-public-ink leading-snug">
+                {churchInfo.vision}
+              </blockquote>
+              <p className="text-base text-public-ink-muted leading-relaxed">
+                &ldquo;{churchInfo.founder.quote}&rdquo;
               </p>
-            </Reveal>
-
-            {/* 3-Row Architectural Hairline Motto Ledger (Zero Box Cards) */}
-            <div className="border-t border-sanctuary-stone divide-y divide-sanctuary-stone">
-              {mottoItems.map((item, idx) => (
-                <Reveal
-                  key={item.num}
-                  delay={idx * 0.06}
-                  y={12}
-                  className="py-5 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-baseline"
-                >
-                  <div className="sm:col-span-3 flex items-baseline gap-2.5 text-eyebrow font-mono uppercase tracking-[0.16em] text-gold-600 font-semibold">
-                    <span>{item.num}</span>
-                    <span className="text-ink-muted">· {item.ref}</span>
-                  </div>
-                  <h3 className="sm:col-span-4 font-serif text-2xl text-ink-primary font-normal">
-                    {item.title}
-                  </h3>
-                  <p className="sm:col-span-5 text-caption text-ink-secondary leading-relaxed">
-                    {item.copy}
-                  </p>
-                </Reveal>
-              ))}
             </div>
 
-            {/* Action Bar */}
-            <Reveal delay={0.16} className="pt-2 flex flex-wrap items-center gap-3.5">
+            <p className="text-base sm:text-lg text-public-ink-muted leading-relaxed max-w-2xl">
+              At {churchInfo.name}, every gathering centers on sincere worship, clear Bible teaching, and caring for both spiritual growth and practical community needs.
+            </p>
+
+            {/* Primary Pastoral Connection Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <button
                 type="button"
-                onClick={() => {
-                  trackEvent('conversion', 'prayer_modal_opened', 'Welcome Overseer');
-                  onOpenPrayerModal?.();
-                }}
-                className="min-h-[48px] inline-flex items-center gap-2.5 px-7 py-3 rounded-sm bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster text-caption uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer"
+                onClick={() => onOpenPrayerModal?.()}
+                className="min-h-[48px] px-6 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-base inline-flex items-center justify-center transition-colors cursor-pointer"
               >
-                <span>Send Personal Prayer to Overseer</span>
-                <ArrowRight className="w-4 h-4" />
+                Request prayer
               </button>
 
               <a
-                href={toWhatsAppUrl(churchInfo.contact.phone, 'Shalom General Overseer, I am reaching out from the RICGCW official website.')}
+                href={toWhatsAppUrl(churchInfo.contact.phone)}
                 target="_blank"
-                rel="noreferrer"
-                className="min-h-[48px] inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-transparent border border-sanctuary-stone-strong hover:border-ink-primary text-ink-primary text-caption font-semibold uppercase tracking-[0.14em] transition-colors"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Welcome Overseer')}
+                className="min-h-[48px] px-6 py-3 rounded-lg border border-public-border bg-public-surface hover:border-public-ink text-public-ink font-semibold text-base inline-flex items-center justify-center gap-2 transition-colors"
               >
-                <MessageCircle className="w-4 h-4 text-olive-500" />
-                <span>Pastoral WhatsApp</span>
+                <MessageCircle className="w-4 h-4 text-public-accent shrink-0" />
+                <span>Message on WhatsApp</span>
               </a>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* =====================================================================
-            CHAPTER 02: TABERNACLE PIGMENTS MONOLITHS & RHEMA LEXICON
-        ===================================================================== */}
-        <div id="identity" className="space-y-12">
-          <SectionHeader
-            index="02"
-            eyebrow="Biblical Roots & Temple Symbolism"
-            title="The Covenant Identity of"
-            accent="Inner Court"
-            description="Select any of the five sacred Tabernacle pigments below to explore its scriptural theology, alongside the Greek lexicon of Rhema."
-          />
-
-          {/* Interactive 5-Column Sacred Pigment Wall */}
-          <div className="space-y-4">
-            <div className="flex flex-col md:flex-row md:h-[380px] border border-sanctuary-stone overflow-hidden">
-              {churchColors.map((color, idx) => {
-                const isSelected = selectedColorIndex === idx;
-                const lightSurface = isLightHex(color.hex);
-                const textPrimary = lightSurface ? 'text-ink-primary' : 'text-sanctuary-alabaster';
-                const textMuted = lightSurface ? 'text-ink-muted' : 'text-gold-300/90';
-                const borderSubtle = lightSurface ? 'border-ink-primary/15' : 'border-white/20';
-
-                return (
-                  <m.button
-                    key={color.name}
-                    layout={!prefersReduced}
-                    type="button"
-                    aria-pressed={isSelected}
-                    onClick={() => setSelectedColorIndex(idx)}
-                    transition={SPRING_GENTLE}
-                    style={{ backgroundColor: color.hex }}
-                    className={`relative text-left p-5 sm:p-6 flex flex-col justify-between transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 ${textPrimary} ${
-                      idx > 0 ? `border-t md:border-t-0 md:border-l ${borderSubtle}` : ''
-                    } ${
-                      isSelected
-                        ? 'md:flex-[3.2]'
-                        : 'md:flex-[0.85] opacity-95 hover:opacity-100'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className={`text-[11px] font-mono uppercase tracking-[0.18em] ${textMuted}`}>
-                        0{idx + 1}
-                      </span>
-                      <span className={`text-[11px] font-mono uppercase tracking-wider ${textMuted}`}>
-                        {color.hex}
-                      </span>
-                    </div>
-
-                    <div className="mt-4 md:mt-auto space-y-2.5">
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="font-serif text-2xl sm:text-3xl font-normal">
-                          {color.name}
-                        </h3>
-                        {isSelected && (
-                          <Sparkles className={`w-4 h-4 shrink-0 ${lightSurface ? 'text-gold-600' : 'text-gold-400'}`} />
-                        )}
-                      </div>
-
-                      <AnimatePresence initial={false}>
-                        {isSelected && (
-                          <m.div
-                            initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.25, ease: CATHEDRAL_EASE }}
-                            className={`space-y-2 pt-3 border-t ${borderSubtle}`}
-                          >
-                            <p className={`text-eyebrow font-mono uppercase tracking-[0.18em] ${textMuted}`}>
-                              {color.biblicalReference}
-                            </p>
-                            <p className="text-body leading-relaxed max-w-md">
-                              {color.spiritualMeaning}
-                            </p>
-                          </m.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </m.button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Rhema Etymology Lexicon — 2-Column Editorial Spread */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pt-4 items-start">
-            <div className="lg:col-span-4 space-y-2">
-              <p className="font-serif italic text-6xl sm:text-7xl text-gold-600/20 leading-none select-none" aria-hidden="true">
-                ῥῆμα
-              </p>
-              <h3 className="font-serif text-h3 text-ink-primary">
-                Etymology of RICGCW
-              </h3>
-              <p className="text-caption text-ink-secondary max-w-xs leading-relaxed">
-                Every syllable in our mandate points to an immediate encounter with the spoken Word and the royal inner sanctuary.
-              </p>
             </div>
 
-            <div className="lg:col-span-8 divide-y divide-sanctuary-stone border-t border-sanctuary-stone">
-              {definitions.map((def, idx) => (
-                <div key={idx}>
-                  <Reveal
-                    delay={idx * 0.04}
-                    y={10}
-                    className="py-5 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-6 items-baseline"
-                  >
-                    <p className="sm:col-span-4 font-serif text-xl sm:text-2xl text-gold-600">
-                      {def.term}
-                    </p>
-                    <p className="sm:col-span-8 text-body text-ink-secondary leading-relaxed">
-                      {def.meaning}
-                    </p>
-                  </Reveal>
+            {/* 3-Item Mission Strip */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              {mottoItems.map((item) => (
+                <div
+                  key={item.title}
+                  className="p-5 rounded-xl bg-public-surface border border-public-border space-y-1.5"
+                >
+                  <p className="text-xs font-semibold text-public-accent">{item.scripture}</p>
+                  <p className="text-base font-bold text-public-ink leading-snug">{item.title}</p>
                 </div>
               ))}
-              <DrawRule />
+            </div>
+
+            {/* Collapsible Identity & Church Colors Panel (Preserves #identity Anchor) */}
+            <div id="identity" className="border border-public-border rounded-2xl bg-public-surface overflow-hidden">
+              <button
+                type="button"
+                aria-expanded={showIdentity}
+                aria-controls="ricgcw-identity-panel"
+                onClick={() => setShowIdentity((prev) => !prev)}
+                className="w-full min-h-[56px] px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-public-canvas/60 transition-colors cursor-pointer"
+              >
+                <div>
+                  <span className="text-base font-bold text-public-ink block">
+                    What our name &amp; church colors mean
+                  </span>
+                  <span className="text-sm text-public-ink-muted">
+                    Explore our Rhema etymology and official emblem colors
+                  </span>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-public-ink-muted shrink-0 transition-transform ${
+                    showIdentity ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {showIdentity && (
+                <div
+                  id="ricgcw-identity-panel"
+                  className="px-6 pb-6 pt-2 border-t border-public-border space-y-6"
+                >
+                  {definitions.length > 0 && (
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                      {definitions.map((def) => (
+                        <div
+                          key={def.term}
+                          className="p-4 rounded-xl bg-public-canvas border border-public-border space-y-1"
+                        >
+                          <dt className="text-sm font-bold text-public-ink">{def.term}</dt>
+                          <dd className="text-sm text-public-ink-muted leading-relaxed">
+                            {def.meaning}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
+                  {churchColors && churchColors.length > 0 && (
+                    <div className="space-y-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-ink-muted">
+                        Official Church Colors
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {churchColors.map((clr) => (
+                          <div
+                            key={clr.name}
+                            className="p-3.5 rounded-xl bg-public-canvas border border-public-border flex items-start gap-3"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="w-7 h-7 rounded-md border border-public-border shrink-0 mt-0.5"
+                              style={{ backgroundColor: clr.hex }}
+                            />
+                            <div className="min-w-0">
+                              <p className="text-sm font-bold text-public-ink">
+                                {clr.name}{' '}
+                                <span className="text-xs font-medium text-public-ink-muted">
+                                  · {clr.biblicalReference}
+                                </span>
+                              </p>
+                              <p className="text-xs text-public-ink-muted mt-0.5 leading-relaxed">
+                                {clr.spiritualMeaning}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

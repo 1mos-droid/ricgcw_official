@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Clock } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, Clock } from 'lucide-react';
 import { useChurch } from '../context/ChurchContext';
 import { trackEvent } from '../utils/analytics';
-import { CATHEDRAL_EASE, Reveal, DrawRule } from '../components/motion';
 import SectionHeader from '../components/SectionHeader';
 
 interface MinistriesProps {
@@ -17,11 +15,9 @@ export const Ministries: React.FC<MinistriesProps> = ({
   onConnectMinistry,
 }) => {
   const { ministries } = useChurch();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const prefersReduced = useReducedMotion();
 
-  const handleConnect = (ministryName: string) => {
-    trackEvent('interaction', 'ministry_connect_clicked', ministryName);
+  const handleJoinMinistry = (ministryName: string) => {
+    trackEvent('interaction', 'ministry_connect', ministryName);
     if (onConnectMinistry) {
       onConnectMinistry(ministryName);
     } else {
@@ -32,125 +28,74 @@ export const Ministries: React.FC<MinistriesProps> = ({
   return (
     <section
       id="ministries"
-      className="bg-sanctuary-alabaster paper-grain text-ink-primary py-20 lg:py-28 px-4 sm:px-6 lg:px-10"
+      aria-labelledby="ministries-heading"
+      className="bg-public-surface text-public-ink py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-public-border"
     >
       <div className="max-w-7xl mx-auto space-y-12">
         <SectionHeader
-          index="04"
-          eyebrow="Kingdom Ministries & Fellowships"
-          title="Find Your Spiritual"
-          accent="Family"
-          description="Select any fellowship below to inspect gathering rhythms and connect directly with departmental leadership."
+          headingId="ministries-heading"
+          eyebrow="Get Involved"
+          title="Find your"
+          accent="community"
+          description="Every ministry builds caring relationships, biblical maturity, and practical service across every age group."
         />
 
-        {/* Editorial Interactive Typographic Index (Zero Bento Boxes) */}
-        <div className="border-t border-sanctuary-stone divide-y divide-sanctuary-stone">
-          {ministries.map((min, index) => {
-            const indexStr = String(index + 1).padStart(2, '0');
-            const isOpen = activeIndex === index;
-
-            return (
-              <div
-                key={min.id}
-                onMouseEnter={() => setActiveIndex(index)}
-                className="relative"
+        {ministries.length === 0 ? (
+          <div className="rounded-2xl border border-public-border bg-public-canvas p-8 sm:p-10 text-center space-y-3">
+            <h3 className="text-lg font-bold text-public-ink">
+              Ministry directory is being updated
+            </h3>
+            <p className="text-base text-public-ink-muted max-w-xl mx-auto">
+              Want to serve on a team or join a fellowship group? Send us a quick message below and a pastor will connect with you.
+            </p>
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => onOpenPrayerModal?.()}
+                className="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm transition-colors cursor-pointer"
               >
-                <div
-                  className={`transition-colors duration-300 ${
-                    isOpen
-                      ? 'bg-sanctuary-950 text-sanctuary-alabaster'
-                      : 'bg-transparent text-ink-primary hover:bg-sanctuary-parchment/70'
-                  }`}
-                >
+                Connect with leadership
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {ministries.map((ministry) => (
+              <article
+                key={ministry.id}
+                className="bg-public-canvas border border-public-border rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6"
+              >
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-public-accent">
+                    {ministry.tagline}
+                  </p>
+                  <h3 className="text-xl font-bold tracking-tight text-public-ink">
+                    {ministry.name}
+                  </h3>
+                  <p className="text-sm sm:text-base text-public-ink-muted leading-relaxed">
+                    {ministry.description}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-public-border space-y-4">
+                  <div className="flex items-start gap-2 text-sm text-public-ink-muted">
+                    <Clock className="w-4 h-4 text-public-accent shrink-0 mt-0.5" />
+                    <span>{ministry.schedule}</span>
+                  </div>
+
                   <button
                     type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => setActiveIndex(index)}
-                    className="w-full text-left px-4 sm:px-8 py-6 sm:py-7 grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-6 items-center cursor-pointer"
+                    onClick={() => handleJoinMinistry(ministry.name)}
+                    className="w-full min-h-[44px] px-4 py-2.5 rounded-lg border border-public-border bg-public-surface hover:border-public-ink hover:bg-public-ink hover:text-white text-public-ink text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   >
-                    <div className="md:col-span-1 text-caption font-mono tabular-nums text-gold-600 font-semibold">
-                      <span className={isOpen ? 'text-gold-400' : 'text-gold-600'}>
-                        {indexStr}
-                      </span>
-                    </div>
-
-                    <div className="md:col-span-6">
-                      <h3 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight">
-                        {min.name}
-                      </h3>
-                    </div>
-
-                    <div className="md:col-span-4 flex items-center gap-2 text-caption font-mono">
-                      <Clock className={`w-4 h-4 shrink-0 ${isOpen ? 'text-gold-400' : 'text-gold-600'}`} />
-                      <span className={isOpen ? 'text-sanctuary-alabaster/80' : 'text-ink-muted'}>
-                        {min.schedule}
-                      </span>
-                    </div>
-
-                    <div className="md:col-span-1 hidden md:flex justify-end">
-                      <span
-                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-transform duration-300 ${
-                          isOpen
-                            ? 'border-gold-400 bg-gold-500 text-sanctuary-950 rotate-45'
-                            : 'border-sanctuary-stone-strong text-ink-primary'
-                        }`}
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </span>
-                    </div>
+                    <span>Connect with {ministry.name.split(' ')[0]}</span>
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </button>
-
-                  {/* Smooth Accordion Drawer inside Active Emerald Curtain */}
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <m.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: prefersReduced ? 0.12 : 0.34, ease: CATHEDRAL_EASE }}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-4 sm:px-8 pb-7 pt-1 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-end">
-                          <div className="hidden md:block md:col-span-1" />
-                          <div className="md:col-span-7 space-y-2">
-                            <p className="text-eyebrow font-mono uppercase tracking-[0.2em] text-gold-400">
-                              {min.tagline}
-                            </p>
-                            <p className="text-body text-sanctuary-alabaster/80 leading-relaxed max-w-prose">
-                              {min.description}
-                            </p>
-                          </div>
-                          <div className="md:col-span-4 flex md:justify-end">
-                            <button
-                              type="button"
-                              onClick={() => handleConnect(min.name)}
-                              className="min-h-[44px] inline-flex items-center gap-2 px-6 py-2.5 rounded-sm bg-gold-500 hover:bg-gold-400 text-sanctuary-950 text-caption uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer"
-                            >
-                              <span>Connect with Department</span>
-                              <ArrowUpRight className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </m.div>
-                    )}
-                  </AnimatePresence>
                 </div>
-              </div>
-            );
-          })}
-          <DrawRule />
-        </div>
-
-        <Reveal y={10} className="flex flex-wrap items-center justify-between gap-4 pt-2 text-caption text-ink-muted">
-          <span>Every department welcomes new members after any Sunday service.</span>
-          <button
-            type="button"
-            onClick={() => onOpenPrayerModal?.()}
-            className="text-ink-primary font-semibold underline underline-offset-4 hover:text-gold-600 transition-colors cursor-pointer"
-          >
-            Not sure where to serve? Speak with our secretariat
-          </button>
-        </Reveal>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

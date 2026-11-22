@@ -5,7 +5,7 @@ import { useChurch } from '../context/ChurchContext';
 import { trackEvent } from '../utils/analytics';
 import { Modal } from './common/Modal';
 import { toWhatsAppUrl, toInternationalDisplay } from '../utils/phoneUtils';
-import { CATHEDRAL_EASE, SPRING_TACTILE } from './motion';
+import { CATHEDRAL_EASE } from './motion';
 
 interface PrayerModalProps {
   isOpen: boolean;
@@ -89,13 +89,13 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
       onClose={resetAndClose}
       title="Prayer Request & Intercession"
       subtitle='"The effective, fervent prayer of a righteous man avails much." (James 5:16)'
-      icon={<HeartHandshake className="w-6 h-6" />}
+      icon={<HeartHandshake className="w-5 h-5" />}
       maxWidthClass="max-w-2xl"
       closeLabel="Close prayer modal"
     >
       {submitted ? (
         <div className="text-center py-6 space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-olive-500/15 text-olive-500 flex items-center justify-center mx-auto shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-olive-500/15 text-olive-600 flex items-center justify-center mx-auto">
             <svg viewBox="0 0 36 36" fill="none" className="w-9 h-9" aria-hidden="true">
               <m.circle
                 cx="18"
@@ -121,17 +121,17 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold font-serif text-ink-primary">Prayer Petition Received in Faith</h3>
-            <p className="text-body text-ink-secondary max-w-md mx-auto leading-relaxed">
-              Beloved, General Overseer Rev. Nicholas Dobeng and the intercessory council have received your request. We stand in covenant agreement with you before the throne of grace.
+            <h3 className="text-2xl font-bold text-public-ink">Prayer Petition Received in Faith</h3>
+            <p className="text-base text-public-ink-muted max-w-md mx-auto leading-relaxed">
+              Beloved, General Overseer {churchInfo.founder.name} and our pastoral council have received your request. We stand with you in prayer.
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-sanctuary-parchment border border-sanctuary-stone text-caption text-ink-primary max-w-md mx-auto">
-            <p className="font-bold text-gold-600">Need Immediate Urgent Prayer or Counseling?</p>
-            <p className="mt-0.5 text-ink-secondary">
+          <div className="p-4 rounded-xl bg-public-canvas border border-public-border text-sm text-public-ink max-w-md mx-auto">
+            <p className="font-bold text-public-accent">Need Immediate Urgent Prayer or Counseling?</p>
+            <p className="mt-0.5 text-public-ink-muted">
               Call our pastoral line at{' '}
-              <strong className="font-mono tabular-nums text-ink-primary">
+              <strong className="tabular-nums text-public-ink">
                 {toInternationalDisplay(churchInfo.contact.phone)}
               </strong>
             </p>
@@ -144,9 +144,9 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
                 'Shalom Pastor, I just submitted a prayer petition on the RICGCW website.'
               )}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               onClick={() => trackEvent('conversion', 'whatsapp_chat', 'Prayer Modal Success')}
-              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-full bg-olive-500 hover:bg-olive-600 text-white font-bold text-caption uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-lg bg-olive-500 hover:bg-olive-600 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Chat on WhatsApp</span>
@@ -154,7 +154,7 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
 
             <button
               onClick={resetAndClose}
-              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-full bg-ink-primary hover:bg-gold-600 text-white font-bold text-caption uppercase tracking-wider transition-colors cursor-pointer"
+              className="min-h-[44px] w-full sm:w-auto px-6 py-3 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm transition-colors cursor-pointer"
             >
               Close Window
             </button>
@@ -175,49 +175,52 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
-                Your Name <span className="text-flame-500">*</span>
+              <label htmlFor="prayer-name" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1.5">
+                Your Name <span className="text-public-accent">*</span>
               </label>
               <input
+                id="prayer-name"
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g. Sister Mercy"
-                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                className="w-full p-3 rounded-lg bg-public-surface border border-public-border text-public-ink text-base outline-none focus:border-public-ink"
               />
             </div>
 
             <div>
-              <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
-                Phone / WhatsApp <span className="text-flame-500">*</span>
+              <label htmlFor="prayer-phone" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1.5">
+                Phone / WhatsApp <span className="text-public-accent">*</span>
               </label>
               <input
+                id="prayer-phone"
                 type="tel"
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+233 24 485 7403"
-                className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono tabular-nums outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                className="w-full p-3 rounded-lg bg-public-surface border border-public-border text-public-ink text-base tabular-nums outline-none focus:border-public-ink"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
+            <label htmlFor="prayer-email" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1.5">
               Email Address (Optional)
             </label>
             <input
+              id="prayer-email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="name@example.com"
-              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body font-mono outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+              className="w-full p-3 rounded-lg bg-public-surface border border-public-border text-public-ink text-base outline-none focus:border-public-ink"
             />
           </div>
 
           <div>
-            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
+            <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1.5">
               Prayer Need Category
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -226,10 +229,10 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
                   type="button"
                   key={cat}
                   onClick={() => setFormData({ ...formData, category: cat })}
-                  className={`min-h-[44px] p-2.5 rounded-xl text-caption font-bold text-left transition-all border cursor-pointer ${
+                  className={`min-h-[44px] p-2.5 rounded-lg text-xs font-semibold text-left transition-colors border cursor-pointer ${
                     formData.category === cat
-                      ? 'bg-gold-600 text-sanctuary-alabaster border-gold-500 shadow-sm'
-                      : 'bg-sanctuary-parchment text-ink-secondary border-sanctuary-stone hover:bg-white'
+                      ? 'bg-public-ink text-white border-public-ink'
+                      : 'bg-public-canvas text-public-ink-muted border-public-border hover:border-public-ink hover:text-public-ink'
                   }`}
                 >
                   {cat}
@@ -239,41 +242,40 @@ export const PrayerModal = ({ isOpen, onClose, defaultCategory, defaultMessage }
           </div>
 
           <div>
-            <label className="block text-eyebrow font-bold uppercase text-ink-secondary mb-1.5">
-              Your Prayer Request Details <span className="text-flame-500">*</span>
+            <label htmlFor="prayer-message" className="block text-xs font-semibold uppercase tracking-[0.08em] text-public-ink mb-1.5">
+              Your Prayer Request Details <span className="text-public-accent">*</span>
             </label>
             <textarea
+              id="prayer-message"
               rows={4}
               required
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              placeholder="Share your petition freely. The pastoral council treats every request with absolute reverence and confidentiality."
-              className="w-full p-3 rounded-xl bg-white border border-sanctuary-stone text-ink-primary text-body outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+              placeholder="Share your petition freely. Our pastoral council treats every request in confidence."
+              className="w-full p-3 rounded-lg bg-public-surface border border-public-border text-public-ink text-base outline-none focus:border-public-ink"
             />
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <label className="min-h-[44px] flex items-center gap-2 cursor-pointer text-caption text-ink-secondary select-none">
+            <label className="min-h-[44px] flex items-center gap-2 cursor-pointer text-sm text-public-ink-muted select-none">
               <input
                 type="checkbox"
                 checked={formData.isConfidential}
                 onChange={(e) => setFormData({ ...formData, isConfidential: e.target.checked })}
-                className="rounded border-sanctuary-stone text-gold-600 focus:ring-gold-500"
+                className="rounded border-public-border text-public-accent focus:ring-public-accent"
               />
               <span>Keep strictly confidential for pastoral council only</span>
             </label>
           </div>
 
           <div className="pt-2">
-            <m.button
+            <button
               type="submit"
-              whileTap={prefersReduced ? undefined : { scale: 0.98 }}
-              transition={SPRING_TACTILE}
-              className="min-h-[48px] w-full py-3.5 px-6 rounded-full bg-ink-primary hover:bg-gold-600 text-sanctuary-alabaster font-bold text-caption uppercase tracking-wider transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              className="min-h-[48px] w-full py-3.5 px-6 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Send className="w-4 h-4 text-gold-400" />
-              <span>Submit Prayer to Intercession Altar</span>
-            </m.button>
+              <Send className="w-4 h-4" />
+              <span>Submit Prayer Request</span>
+            </button>
           </div>
         </form>
       )}

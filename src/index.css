@@ -3,91 +3,77 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* 1. Crisp Pure White & Cool Pearl Surfaces (Sampled from Logo Lettering & Halo) */
-  --color-sanctuary-alabaster: #ffffff;
-  --color-sanctuary-parchment: #f3f6f9;
-  --color-sanctuary-stone: #dde3ea;
-  --color-sanctuary-stone-strong: #c2ccd6;
+  /* Public Website Editorial Palette (Strict Warm Off-White, White, Charcoal & Restrained Terracotta) */
+  --color-public-canvas: #f4f2ed;
+  --color-public-surface: #ffffff;
+  --color-public-muted: #ebe8e1;
+  --color-public-ink: #171715;
+  --color-public-ink-muted: #55554f;
+  --color-public-border: #d9d7d0;
+  --color-public-accent: #964221;
+  --color-public-accent-hover: #7c3519;
+  --color-public-accent-light: #e5b69c;
 
-  /* 2. Seal Obsidian Black Surfaces (Sampled from Logo Exterior Field #010409) */
-  --color-sanctuary-950: #07090d;
-  --color-sanctuary-900: #0f131a;
-  --color-sanctuary-850: #161b24;
-  --color-sanctuary-800: #1f2633;
-  --color-sanctuary-700: #2c3545;
-  --color-sanctuary-600: #3d485c;
+  /* Mapped Legacy Tokens for Sub-Pages (Privacy, Terms, Auth, NotFound) */
+  --color-sanctuary-alabaster: #f4f2ed;
+  --color-sanctuary-parchment: #ffffff;
+  --color-sanctuary-stone: #d9d7d0;
+  --color-sanctuary-stone-strong: #b8b5ac;
 
-  /* Warm / Theater Obsidian */
-  --color-obsidian-warm: #07090d;
-  --color-obsidian-elevated: #11151d;
+  /* Dark Surfaces & Admin/Consecration Isolation */
+  --color-sanctuary-950: #171715;
+  --color-sanctuary-900: #1f1f1c;
+  --color-sanctuary-850: #262622;
+  --color-sanctuary-800: #2e2e29;
+  --color-sanctuary-700: #3d3d37;
+  --color-sanctuary-600: #55554f;
 
-  /* Logo Globe Ocean Blues (#14B9E7 azure -> #071929 deep ocean) */
-  --color-globe-azure: #14b9e7;
-  --color-globe-royal: #0c7bb3;
-  --color-globe-deep: #071929;
-  --color-globe-mid: #0c2c47;
-
-  /* Sacred Night Mode (Reserved strictly for /consecration liturgical page) */
   --color-sanctuary-midnight: #070c18;
   --color-sanctuary-deep: #0a1020;
   --color-sanctuary-card-dark: #121c33;
 
-  /* 3. Typography Ink Hierarchy (WCAG AA+ on White & Pearl) */
-  --color-ink-primary: #0b0e14;
-  --color-ink-secondary: #3f4856;
-  --color-ink-muted: #5c6675;
+  --color-ink-primary: #171715;
+  --color-ink-secondary: #55554f;
+  --color-ink-muted: #55554f;
 
-  /* 4. Exact Sampled Metallic Seal Gold, Open Bible Flame & Globe Green */
-  --color-tabernacle-white: #ffffff;
-  --color-tabernacle-gold: #b18433;
-  --color-tabernacle-gold-soft: #e4cb6b;
-  --color-tabernacle-orange: #d97218;
-  --color-tabernacle-green: #2e7d32;
-  --color-tabernacle-black: #0b0e14;
+  --color-gold-300: #f3d7c6;
+  --color-gold-400: #e5b69c;
+  --color-gold-500: #964221;
+  --color-gold-600: #7f361a;
+  --color-gold-700: #5e2712;
+  --color-olive-400: #4c8c5b;
+  --color-olive-500: #2f6e3d;
+  --color-olive-600: #23552e;
+  --color-crimson-500: #b3261e;
 
-  --color-gold-300: #f7efa6;
-  --color-gold-400: #e4cb6b;
-  --color-gold-500: #b18433;
-  --color-gold-600: #906328;
-  --color-gold-700: #5f3a17;
-  --color-gold-champagne: #e4cb6b;
-  --color-flame-300: #f9b87a;
-  --color-flame-400: #f48b22;
-  --color-flame-500: #c86414;
-  --color-emerald-500: #2e7d32;
-  --color-olive-400: #7cba79;
-  --color-olive-500: #2e7d32;
-  --color-olive-600: #226026;
-
-  /* 5. Editorial Typography System */
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-cinzel: "Instrument Serif", Georgia, serif;
+  /* Typography System */
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-cinzel: "Cormorant Garamond", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* 6. Monumental Fluid Editorial Scale */
-  --text-display: clamp(3rem, 6.8vw, 6.25rem);
-  --text-display--line-height: 0.98;
-  --text-h1: clamp(2.5rem, 5vw, 4.5rem);
-  --text-h1--line-height: 1.02;
-  --text-h2: clamp(2rem, 3.8vw, 3.35rem);
-  --text-h2--line-height: 1.08;
-  --text-h3: clamp(1.375rem, 2.1vw, 1.85rem);
-  --text-h3--line-height: 1.2;
-  --text-body: 0.96875rem;
-  --text-body--line-height: 1.68;
+  /* Clean Fluid Hierarchy */
+  --text-display: clamp(2.5rem, 6vw, 4.75rem);
+  --text-display--line-height: 1.03;
+  --text-h1: clamp(2.25rem, 5vw, 4rem);
+  --text-h1--line-height: 1.06;
+  --text-h2: clamp(1.75rem, 3.4vw, 2.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.25rem, 1.8vw, 1.55rem);
+  --text-h3--line-height: 1.25;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
   --text-caption: 0.875rem;
-  --text-caption--line-height: 1.55;
-  --text-eyebrow: 0.6875rem;
+  --text-caption--line-height: 1.5;
+  --text-eyebrow: 0.75rem;
   --text-eyebrow--line-height: 1.4;
 
-  /* 7. Reverent Cathedral Motion Curves */
   --ease-cathedral: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   * {
-    border-color: var(--color-sanctuary-stone);
+    border-color: var(--color-public-border);
   }
 
   html {
@@ -103,8 +89,8 @@
     font-family: var(--font-sans);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
-    background-color: var(--color-sanctuary-alabaster);
-    color: var(--color-ink-primary);
+    background-color: var(--color-public-canvas);
+    color: var(--color-public-ink);
     overflow-x: clip;
     margin: 0;
     padding: 0;
@@ -119,7 +105,7 @@
   textarea:focus-visible,
   [tabindex]:focus-visible,
   summary:focus-visible {
-    outline: 2px solid var(--color-gold-500);
+    outline: 2px solid var(--color-public-accent);
     outline-offset: 2px;
   }
 
@@ -143,23 +129,14 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-sanctuary-parchment);
+    background: var(--color-public-canvas);
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-sanctuary-stone-strong);
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-gold-500);
-  }
-}
-
-@keyframes shimmer-sweep {
-  0% {
-    background-position: 180% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
+    background: var(--color-public-ink-muted);
   }
 }
 
@@ -172,15 +149,6 @@
   }
 }
 
-@keyframes god-ray-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @layer utilities {
   .font-cinzel {
     font-family: var(--font-cinzel);
@@ -189,124 +157,28 @@
     font-family: var(--font-serif);
   }
 
-  .arch-top {
-    border-radius: 999px 999px 0 0;
-  }
-
-  /* Subtle neutral paper texture (kept ultra-faint so pure white stays crisp) */
-  .paper-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
-  }
-
-  /* Logo Seal Obsidian Cosmos (#07090D with Metallic Gold #E4CB6B + Azure #14B9E7 halo) */
-  .logo-obsidian-bg {
-    background-color: #07090d;
-    background-image:
-      radial-gradient(ellipse 65% 52% at 72% 36%, rgba(228, 203, 107, 0.14) 0%, transparent 66%),
-      radial-gradient(ellipse 48% 42% at 18% 82%, rgba(20, 185, 231, 0.09) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 35% at 50% 100%, rgba(177, 132, 51, 0.1) 0%, transparent 65%);
-  }
-
-  /* Logo Globe Ocean Blue Canvas (#071929 into #07090D with #14B9E7 + #E4CB6B gleam) */
-  .logo-globe-bg {
-    background-color: #071929;
-    background-image:
-      radial-gradient(ellipse 64% 50% at 78% 24%, rgba(20, 185, 231, 0.18) 0%, transparent 65%),
-      radial-gradient(ellipse 55% 45% at 16% 78%, rgba(228, 203, 107, 0.11) 0%, transparent 70%),
-      linear-gradient(180deg, #071929 0%, #09131f 62%, #07090d 100%);
-  }
-
-  /* Metallic Seal Gold Ring Gradient (#B18433 -> #F7EFA6 -> #B18433) */
-  .logo-gold-ribbon {
-    background: linear-gradient(
-      90deg,
-      #b18433 0%,
-      #e4cb6b 28%,
-      #f7efa6 50%,
-      #e4cb6b 72%,
-      #b18433 100%
-    );
-  }
-
-  /* Media Theater Canvas (#07090D Seal Obsidian + Open Bible Flame #F48B22 + Gold #E4CB6B) */
-  .obsidian-theater-bg {
-    background-color: #07090d;
-    background-image:
-      radial-gradient(ellipse 58% 44% at 24% 22%, rgba(228, 203, 107, 0.1) 0%, transparent 68%),
-      radial-gradient(ellipse 48% 42% at 84% 78%, rgba(244, 139, 34, 0.11) 0%, transparent 68%);
-  }
-
-  /* Crisp White Sanctuary Canvas for secondary sub-pages */
+  /* Neutral surface utility kept for untouched sub-pages (Auth, Privacy, Terms, NotFound) */
   .sanctuary-composite-canvas {
-    background-color: var(--color-sanctuary-alabaster);
-    background-image:
-      radial-gradient(ellipse 68% 42% at 50% -4%, rgba(228, 203, 107, 0.14) 0%, transparent 70%),
-      radial-gradient(ellipse 48% 40% at 8% 32%, rgba(20, 185, 231, 0.06) 0%, transparent 72%);
+    background-color: var(--color-public-canvas);
+  }
+
+  .bg-subtle-pattern {
+    background-image: none;
   }
 
   .card-clean {
-    background-color: #ffffff;
-    border: 1px solid var(--color-sanctuary-stone);
-    transition: transform 0.35s var(--ease-cathedral), box-shadow 0.35s var(--ease-cathedral), border-color 0.35s var(--ease-cathedral);
+    background-color: var(--color-public-surface);
+    border: 1px solid var(--color-public-border);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .card-clean:hover {
-    border-color: var(--color-gold-500);
-    box-shadow: 0 12px 30px -12px rgba(7, 9, 13, 0.1);
-  }
-
-  .card-gold {
-    background: linear-gradient(135deg, #ffffff 0%, #f3f6f9 100%);
-    border: 1px solid rgba(177, 132, 51, 0.35);
-  }
-
-  .card-navy {
-    background-color: var(--color-sanctuary-950);
-    border: 1px solid rgba(228, 203, 107, 0.25);
-    color: var(--color-sanctuary-alabaster);
-  }
-
-  .animate-gold-sweep {
-    background-image: linear-gradient(
-      110deg,
-      var(--color-gold-400) 0%,
-      var(--color-gold-400) 36%,
-      #ffffff 50%,
-      var(--color-gold-400) 64%,
-      var(--color-gold-400) 100%
-    );
-    background-size: 260% 100%;
-    background-position: 0% 50%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer-sweep 2.2s var(--ease-cathedral) 0.9s 1 both;
+    border-color: var(--color-public-ink-muted);
+    box-shadow: 0 10px 24px -16px rgba(23, 23, 21, 0.16);
   }
 
   .animate-shimmer-bar {
     animation: shimmer-bar 1.5s var(--ease-cathedral) infinite;
-  }
-
-  .animate-god-ray {
-    animation: god-ray-spin 64s linear infinite;
-  }
-
-  .animate-god-ray-reverse {
-    animation: god-ray-spin 84s linear infinite reverse;
-  }
-
-  .bg-subtle-pattern {
-    background-image:
-      linear-gradient(to right, rgba(12, 123, 179, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(12, 123, 179, 0.04) 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
-
-  .bg-navy-pattern {
-    background-image:
-      linear-gradient(to right, rgba(228, 203, 107, 0.055) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(228, 203, 107, 0.055) 1px, transparent 1px);
-    background-size: 64px 64px;
   }
 
   .no-scrollbar {

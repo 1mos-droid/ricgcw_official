@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { m, useReducedMotion } from 'framer-motion';
 import { Heart, Globe, Users, ArrowRight, Gift, Calendar, Sparkles, ShieldCheck, Lock } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -10,7 +9,6 @@ import { MobileQuickBar } from '../components/MobileQuickBar';
 import { useChurch } from '../context/ChurchContext';
 import { trackPageView, trackEvent } from '../utils/analytics';
 import { usePageTitle } from '../utils/usePageTitle';
-import { Reveal, Stagger, StaggerItem, SPRING_TACTILE } from '../components/motion';
 import SectionHeader from '../components/SectionHeader';
 
 const ICON_MAP = {
@@ -61,7 +59,6 @@ export const Sponsorship = () => {
   const [isPrayerModalOpen, setIsPrayerModalOpen] = useState(false);
   const [selectedGivingCategory, setSelectedGivingCategory] = useState<string>('Sanctuary Expansion & Building');
   const [selectedAmount, setSelectedAmount] = useState<string>('500');
-  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
     trackPageView('Sponsorship');
@@ -92,58 +89,61 @@ export const Sponsorship = () => {
       : 'grid-cols-2 md:grid-cols-4';
 
   return (
-    <div className="relative min-h-screen bg-sanctuary-alabaster paper-grain text-ink-primary selection:bg-sanctuary-950 selection:text-gold-400 pb-16 md:pb-0 overflow-x-clip">
+    <div className="relative min-h-screen bg-public-canvas text-public-ink pb-16 md:pb-0 overflow-x-clip">
       <Navbar
         onOpenBranchModal={openBranchModal}
         onOpenGivingModal={() => handleOpenSponsor('Sanctuary Expansion & Building')}
         onOpenPrayerModal={() => setIsPrayerModalOpen(true)}
       />
 
-      <main id="main-content" className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-10">
+      <main id="main-content" className="relative pt-24 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-16">
-          {/* Editorial Monograph Header */}
-          <Reveal className="text-center space-y-4 max-w-3xl mx-auto border-b border-sanctuary-stone pb-10">
-            <div className="flex items-center justify-center gap-3 text-eyebrow font-mono uppercase tracking-[0.24em] text-gold-600">
-              <Heart className="w-3.5 h-3.5 fill-gold-600" />
+          {/* Editorial Header */}
+          <div className="text-center space-y-4 max-w-3xl mx-auto border-b border-public-border pb-10">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-public-accent">
+              <Heart className="w-3.5 h-3.5" />
               <span>{sponsorshipSettings?.badge || 'Kingdom Partnership & Sponsorship'}</span>
             </div>
-            <h1 className="text-h1 font-normal font-serif text-ink-primary tracking-tight whitespace-pre-line">
+            <h1 className="text-h1 font-extrabold font-sans text-public-ink tracking-tight whitespace-pre-line">
               {sponsorshipSettings?.headline || "Partner with God's Work to Touch Lives Worldwide."}
             </h1>
-            <p className="text-body sm:text-base text-ink-secondary leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-public-ink-muted leading-relaxed max-w-2xl mx-auto">
               {sponsorshipSettings?.subtitle ||
                 'Your financial seeds and sponsorship empower us to spread the Gospel, provide welfare to orphanages, support rural crusades, and expand church sanctuaries across Ghana and beyond.'}
             </p>
-          </Reveal>
+          </div>
 
           {/* Impact Stats Row */}
-          <Stagger className={`grid gap-6 ${statsGridClass}`}>
+          <div className={`grid gap-6 ${statsGridClass}`}>
             {(sponsorshipStats || []).map((stat) => {
               const Icon = (stat.iconName && ICON_MAP[stat.iconName as keyof typeof ICON_MAP]) || Heart;
               return (
-                <StaggerItem
+                <div
                   key={stat.id || stat.label}
-                  className="p-6 rounded-sm bg-white border border-sanctuary-stone text-center space-y-2 shadow-xs"
+                  className="p-6 rounded-2xl bg-public-surface border border-public-border text-center space-y-2"
                 >
-                  <div className="w-11 h-11 rounded-sm mx-auto flex items-center justify-center border border-gold-500/35 bg-gold-500/10 text-gold-600">
+                  <div className="w-11 h-11 rounded-xl mx-auto flex items-center justify-center border border-public-border bg-public-canvas text-public-accent">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <p className="text-4xl font-serif tabular-nums text-ink-primary">{stat.value}</p>
-                  <p className="text-eyebrow font-mono text-ink-muted uppercase tracking-[0.18em]">{stat.label}</p>
-                </StaggerItem>
+                  <p className="text-3xl sm:text-4xl font-extrabold tabular-nums text-public-ink">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs font-semibold text-public-ink-muted uppercase tracking-[0.12em]">
+                    {stat.label}
+                  </p>
+                </div>
               );
             })}
-          </Stagger>
+          </div>
 
-          {/* Covenant Partnership Tiers + LayoutId Amount Picker */}
+          {/* Covenant Partnership Tiers & Quick Amount Picker */}
           <div className="space-y-8">
             <SectionHeader
-              index="01"
-              eyebrow="Stewardship & Covenant Partnership"
+              eyebrow="Stewardship & Partnership"
               title="Choose a"
               accent="Partnership Seed"
               rightSlot={
-                <div className="flex flex-wrap items-center gap-1 bg-sanctuary-parchment p-1 rounded-sm border border-sanctuary-stone">
+                <div className="flex flex-wrap items-center gap-1 bg-public-surface p-1 rounded-xl border border-public-border">
                   {QUICK_AMOUNTS.map((amt) => {
                     const isSelected = selectedAmount === amt;
                     return (
@@ -151,18 +151,13 @@ export const Sponsorship = () => {
                         key={amt}
                         type="button"
                         onClick={() => setSelectedAmount(amt)}
-                        className={`relative min-h-[38px] px-3 py-1.5 rounded-sm font-mono text-caption font-semibold tabular-nums transition-colors cursor-pointer ${
-                          isSelected ? 'text-sanctuary-alabaster' : 'text-ink-secondary hover:text-ink-primary'
+                        className={`min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold tabular-nums transition-colors cursor-pointer ${
+                          isSelected
+                            ? 'bg-public-ink text-white'
+                            : 'text-public-ink-muted hover:text-public-ink'
                         }`}
                       >
-                        {isSelected && (
-                          <m.span
-                            layoutId="sponsorship-amount"
-                            transition={SPRING_TACTILE}
-                            className="absolute inset-0 rounded-sm bg-sanctuary-950 -z-0"
-                          />
-                        )}
-                        <span className="relative z-10">GHS {amt}</span>
+                        GHS {amt}
                       </button>
                     );
                   })}
@@ -170,98 +165,91 @@ export const Sponsorship = () => {
               }
             />
 
-            <Stagger className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               {PARTNERSHIP_TIERS.map((tier) => (
-                <StaggerItem key={tier.id}>
-                  <div
-                    className={`h-full rounded-sm p-7 flex flex-col justify-between gap-6 transition-colors ${
-                      tier.recommended
-                        ? 'logo-obsidian-bg text-sanctuary-alabaster border border-gold-400/50 shadow-xl'
-                        : 'bg-white border border-sanctuary-stone text-ink-primary'
-                    }`}
-                  >
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <span
-                          className={`text-eyebrow font-mono uppercase tracking-[0.16em] ${
-                            tier.recommended ? 'text-gold-400' : 'text-gold-600'
-                          }`}
-                        >
-                          {tier.category}
-                        </span>
-                        {tier.recommended && (
-                          <span className="px-2 py-0.5 rounded-sm bg-gold-500 text-sanctuary-950 text-[10px] font-mono font-bold uppercase tracking-wider">
-                            Recommended
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="font-serif text-3xl">{tier.name}</h3>
-                      <p className="font-mono text-2xl font-bold tabular-nums">
-                        GHS {tier.amount}
-                      </p>
-                      <p
-                        className={`text-body leading-relaxed ${
-                          tier.recommended ? 'text-sanctuary-alabaster/80' : 'text-ink-secondary'
+                <div
+                  key={tier.id}
+                  className={`h-full rounded-2xl p-7 flex flex-col justify-between gap-6 border transition-colors ${
+                    tier.recommended
+                      ? 'bg-public-ink text-white border-public-ink shadow-lg'
+                      : 'bg-public-surface border-public-border text-public-ink'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`text-xs font-semibold uppercase tracking-[0.12em] ${
+                          tier.recommended ? 'text-public-accent-light' : 'text-public-accent'
                         }`}
                       >
-                        {tier.desc}
-                      </p>
+                        {tier.category}
+                      </span>
+                      {tier.recommended && (
+                        <span className="px-2.5 py-0.5 rounded-md bg-public-accent-light text-public-ink text-xs font-semibold">
+                          Recommended
+                        </span>
+                      )}
                     </div>
-
-                    <m.button
-                      type="button"
-                      whileTap={prefersReduced ? undefined : { scale: 0.98 }}
-                      transition={SPRING_TACTILE}
-                      onClick={() => handleOpenSponsor(tier.category, tier.amount)}
-                      className={`min-h-[44px] w-full py-3 px-5 rounded-sm font-semibold text-caption uppercase tracking-[0.14em] transition-colors flex items-center justify-center gap-2 cursor-pointer ${
-                        tier.recommended
-                          ? 'bg-gold-500 hover:bg-gold-400 text-sanctuary-950'
-                          : 'bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster'
+                    <h3 className="font-bold text-2xl tracking-tight">{tier.name}</h3>
+                    <p className="text-2xl font-extrabold tabular-nums">GHS {tier.amount}</p>
+                    <p
+                      className={`text-base leading-relaxed ${
+                        tier.recommended ? 'text-white/80' : 'text-public-ink-muted'
                       }`}
                     >
-                      <span>Sow GHS {tier.amount}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </m.button>
+                      {tier.desc}
+                    </p>
                   </div>
-                </StaggerItem>
+
+                  <button
+                    type="button"
+                    onClick={() => handleOpenSponsor(tier.category, tier.amount)}
+                    className={`min-h-[44px] w-full py-3 px-5 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer ${
+                      tier.recommended
+                        ? 'bg-public-accent-light hover:bg-white text-public-ink'
+                        : 'bg-public-ink hover:bg-public-accent text-white'
+                    }`}
+                  >
+                    <span>Sow GHS {tier.amount}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
               ))}
-            </Stagger>
+            </div>
           </div>
 
           {/* Secure Online Payment Gateway Banner */}
-          <Reveal className="p-8 sm:p-12 rounded-sm logo-obsidian-bg text-sanctuary-alabaster border border-gold-400/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
-            <div className="space-y-3 text-center md:text-left relative z-10">
-              <div className="inline-flex items-center gap-2 text-gold-400 text-eyebrow font-mono uppercase tracking-[0.2em]">
-                <Lock className="w-3.5 h-3.5" /> {sponsorshipSettings?.gatewayBadge || 'Paystack Instant Gateway'}
+          <div className="p-8 sm:p-12 rounded-2xl bg-public-ink text-white border border-public-ink flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="space-y-3 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 text-public-accent-light text-xs font-semibold uppercase tracking-[0.14em]">
+                <Lock className="w-3.5 h-3.5" />{' '}
+                {sponsorshipSettings?.gatewayBadge || 'Paystack Instant Gateway'}
               </div>
-              <h2 className="text-h2 font-normal font-serif text-sanctuary-alabaster">
+              <h2 className="text-h2 font-bold text-white tracking-tight">
                 {sponsorshipSettings?.gatewayTitle || 'One-Click Online Giving & Project Sponsorship'}
               </h2>
-              <p className="text-sanctuary-alabaster/80 text-body max-w-xl leading-relaxed">
+              <p className="text-white/80 text-base max-w-xl leading-relaxed">
                 {sponsorshipSettings?.gatewaySubtitle ||
                   'Send tithes, offerings, covenant seeds, and project donations securely in seconds using MTN Mobile Money, Telecel Cash, AT Money, Visa, Mastercard, or Apple Pay.'}
               </p>
             </div>
 
-            <div className="shrink-0 relative z-10">
-              <m.button
+            <div className="shrink-0">
+              <button
                 type="button"
-                whileTap={prefersReduced ? undefined : { scale: 0.97 }}
-                transition={SPRING_TACTILE}
                 onClick={() => handleOpenSponsor('Sanctuary Expansion & Building', selectedAmount)}
-                className="min-h-[48px] px-8 py-4 rounded-sm bg-gold-500 hover:bg-gold-400 text-sanctuary-950 font-semibold text-caption uppercase tracking-[0.16em] transition-colors flex items-center gap-2.5 cursor-pointer"
+                className="min-h-[48px] px-7 py-3.5 rounded-lg bg-public-accent-light hover:bg-white text-public-ink font-semibold text-base transition-colors inline-flex items-center gap-2.5 cursor-pointer"
               >
-                <Heart className="w-4 h-4 fill-sanctuary-950" />
+                <Heart className="w-4 h-4" />
                 <span>{sponsorshipSettings?.ctaButtonText || 'Give Online Now'}</span>
                 <ArrowRight className="w-4 h-4" />
-              </m.button>
+              </button>
             </div>
-          </Reveal>
+          </div>
 
           {/* Active Sponsorship Projects Grid */}
           <div className="space-y-8">
             <SectionHeader
-              index="02"
               eyebrow="Missions & Infrastructure"
               title="Active Kingdom"
               accent="Projects"
@@ -269,58 +257,65 @@ export const Sponsorship = () => {
             />
 
             {!projects || projects.length === 0 ? (
-              <Reveal className="p-12 text-center rounded-sm bg-white border border-sanctuary-stone space-y-3">
-                <Heart className="w-9 h-9 text-gold-600/70 mx-auto" />
-                <h3 className="text-3xl font-serif font-normal text-ink-primary">No Projects Currently Active</h3>
-                <p className="text-body text-ink-secondary max-w-md mx-auto">
+              <div className="p-10 sm:p-12 text-center rounded-2xl bg-public-surface border border-public-border space-y-3">
+                <Heart className="w-8 h-8 text-public-accent mx-auto" />
+                <h3 className="text-2xl font-bold text-public-ink">No Projects Currently Active</h3>
+                <p className="text-base text-public-ink-muted max-w-md mx-auto leading-relaxed">
                   New kingdom projects will be published soon. In the meantime, you can donate directly using our online giving gateway.
                 </p>
-              </Reveal>
+              </div>
             ) : (
-              <Stagger className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-6">
                 {projects.map((proj) => (
-                  <StaggerItem key={proj.id}>
-                    <div className="h-full p-7 rounded-sm bg-white border border-sanctuary-stone hover:border-gold-500 transition-colors space-y-4 flex flex-col justify-between">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between text-eyebrow font-mono uppercase tracking-[0.16em]">
-                          <span className="text-gold-600 font-semibold">{proj.category}</span>
-                          <span className="font-bold tabular-nums text-ink-primary">{proj.percent}% Funded</span>
-                        </div>
-
-                        <h3 className="font-serif text-3xl text-ink-primary">{proj.title}</h3>
-                        <p className="text-body text-ink-secondary leading-relaxed">{proj.description}</p>
+                  <div
+                    key={proj.id}
+                    className="h-full p-7 rounded-2xl bg-public-surface border border-public-border space-y-5 flex flex-col justify-between"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.12em]">
+                        <span className="text-public-accent">{proj.category}</span>
+                        <span className="tabular-nums text-public-ink">{proj.percent}% Funded</span>
                       </div>
 
-                      <div className="space-y-3 pt-2">
-                        <div className="space-y-1.5">
-                          <div className="flex justify-between text-caption text-ink-secondary tabular-nums font-mono">
-                            <span>Raised: <strong className="text-ink-primary">{proj.raised}</strong></span>
-                            <span>Target: <strong className="text-ink-primary">{proj.target}</strong></span>
-                          </div>
-                          <div className="h-1.5 bg-sanctuary-parchment overflow-hidden">
-                            <div
-                              style={{ width: `${Math.min(100, Math.max(0, proj.percent))}%` }}
-                              className="h-full bg-gold-600 transition-all duration-500"
-                            />
-                          </div>
-                        </div>
+                      <h3 className="font-bold text-2xl text-public-ink tracking-tight">{proj.title}</h3>
+                      <p className="text-base text-public-ink-muted leading-relaxed">{proj.description}</p>
+                    </div>
 
-                        <div className="pt-3 flex items-center justify-between border-t border-sanctuary-stone gap-3">
-                          <span className="text-caption text-ink-muted truncate max-w-[180px] sm:max-w-xs">{proj.impact}</span>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenSponsor(proj.title)}
-                            className="min-h-[44px] px-5 py-2 rounded-sm bg-sanctuary-950 hover:bg-gold-600 text-sanctuary-alabaster font-semibold text-caption uppercase tracking-[0.14em] transition-colors flex items-center gap-1.5 cursor-pointer shrink-0"
-                          >
-                            <span>Sponsor</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
+                    <div className="space-y-4 pt-2">
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-sm text-public-ink-muted tabular-nums">
+                          <span>
+                            Raised: <strong className="text-public-ink">{proj.raised}</strong>
+                          </span>
+                          <span>
+                            Target: <strong className="text-public-ink">{proj.target}</strong>
+                          </span>
                         </div>
+                        <div className="h-2 rounded-full bg-public-canvas border border-public-border overflow-hidden">
+                          <div
+                            style={{ width: `${Math.min(100, Math.max(0, proj.percent))}%` }}
+                            className="h-full bg-public-accent transition-all duration-300"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="pt-3 flex items-center justify-between border-t border-public-border gap-3">
+                        <span className="text-sm text-public-ink-muted truncate max-w-[180px] sm:max-w-xs">
+                          {proj.impact}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenSponsor(proj.title)}
+                          className="min-h-[44px] px-5 py-2 rounded-lg bg-public-ink hover:bg-public-accent text-white font-semibold text-sm transition-colors inline-flex items-center gap-1.5 cursor-pointer shrink-0"
+                        >
+                          <span>Sponsor</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
-                  </StaggerItem>
+                  </div>
                 ))}
-              </Stagger>
+              </div>
             )}
           </div>
         </div>
